@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <main>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+      </main>
+      <section id="display-panel-section">
+        <section id="button-menu">
+          <button id="start" class="button button__big">Start</button>
+          <button disabled id="pause" class="button button__big">Pause</button>
+          <button id="next" class="button button__small">Next</button>
+          <button id="reset" class="button button__small">Reset</button>
+        </section>
+        <section id="iterations-display">
+          <span id="iterations">0</span>
+        </section>
+        <fieldset id="colors"></fieldset>
+      </section>
+    </div>
+    <div class="histogram-wrapper">
+      <div id="histogram" class="margin-top ct-chart ct-perfect-fourth"></div>
+    </div>
+    <div id="configs">
+      <button class="button button__small" id="hide-config">Back</button>
+
+      <fieldset>
+        <div>
+          <label for="radius">Radius</label>
+          <select name="radius" id="radius">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+        </div>
+        <div>
+          <label for="neighbours">Neighbours</label>
+          <input type="number" name="neighbours" id="neighbours" readonly />
+        </div>
+        <div>
+          <label for="advantage">Advantage</label>
+          <input type="number" name="advantage" id="advantage" min="1" />
+        </div>
+        <div>
+          <label for="availablePoints">Available points</label>
+          <input
+            type="number"
+            name="availablePoints"
+            id="availablePoints"
+            readonly
+          />
+        </div>
+        <form oninput="res.value = threshold.value">
+          <label for="threshold">Threshold</label>
+          <input type="range" name="threshold" id="threshold" />
+          <output name="res" for="threshold">5</output>
+        </form>
+
+        <div>
+          <label for="thresholdPercentage">Threshold %</label>
+          <input
+            type="number"
+            name="thresholdPercentage"
+            id="thresholdPercentage"
+            readonly
+          />
+        </div>
+      </fieldset>
+    </div>
+    <script src="utils.js"></script>
+    <script src="Logic.js"></script>
+    <script src="State.js"></script>
+    <script src="rules/RPS.js"></script>
+    <script src="rules/Majority.js"></script>
+    <script src="rules/MajorityDiaganol.js"></script>
+    <script src="rules/RPS4.js"></script>
+    <script src="rules/RPS5.js"></script>
+    <script src="rules/GeneticDrift.js"></script>
+    <script src="drawing/DrawingEngine.js"></script>
+    <script src="Game.js"></script>
+    <script src="ui/Layout.js"></script>
+
+    <script src="ui/Iteration.js"></script>
+    <script src="ui/Colors.js"></script>
+    <script src="ui/Buttons.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
