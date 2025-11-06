@@ -3,7 +3,7 @@ export class UIManager {
     this.buttons = buttons;
     this.iterations = iterations;
     this.colors = colors;
-    this.onAction = onAction; // callback to controller
+    this.onAction = onAction;
   }
 
   bindEvents() {
