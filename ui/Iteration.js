@@ -1,4 +1,4 @@
-class Iteration {
+export class Iteration {
   constructor($iteration) {
     this.$iteration = $iteration;
   }

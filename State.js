@@ -1,6 +1,6 @@
-class State {
-  constructor(game, buttons) {
-    this.game = game;
+export class State {
+  constructor(controller, buttons) {
+    this.controller = controller;
     this.buttons = buttons;
 
     this.buttons.$start.onclick = this.onStartClick.bind(this);
@@ -12,44 +12,51 @@ class State {
   dispatch(event) {
     console;
     switch (event.type) {
-      case 'START':
+      case "START":
         this.buttons.handleButtonsOnStartSimulation();
-        this.game.onStartSimulation();
+        this.controller.start();
         break;
-      case 'PAUSE':
+
+      case "PAUSE":
         this.buttons.handleButtonsOnPauseSimulation();
-        this.game.onPauseSimulation();
+        this.controller.stop();
         break;
-      case 'RESET':
+
+      case "RESET":
         this.buttons.handleButtonsOnResetSimulation();
-        this.game.onReset();
+        this.controller.reset();
         break;
-      case 'NEXT':
-        this.game.onNextStep();
+
+      case "NEXT":
+        this.controller.step();
         break;
-      case 'END':
+
+      case "END":
         this.buttons.handleButtonsOnEndSimulation();
         break;
+
+      default:
+        console.warn("Unknown event type:", event.type);
     }
   }
 
   onStartClick() {
-    this.dispatch({ type: 'START' });
+    this.dispatch({ type: "START" });
   }
 
   onPauseClick() {
-    this.dispatch({ type: 'PAUSE' });
+    this.dispatch({ type: "PAUSE" });
   }
 
   onResetClick() {
-    this.dispatch({ type: 'RESET' });
+    this.dispatch({ type: "RESET" });
   }
 
   onNextClick() {
-    this.dispatch({ type: 'NEXT' });
+    this.dispatch({ type: "NEXT" });
   }
 
   onGameEnd() {
-    this.dispatch({ type: 'END' });
+    this.dispatch({ type: "END" });
   }
 }

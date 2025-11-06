@@ -1,4 +1,4 @@
-class Buttons {
+export class Buttons {
   constructor($start, $pause, $reset, $next) {
     this.$start = $start;
     this.$pause = $pause;

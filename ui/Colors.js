@@ -1,4 +1,4 @@
-class Colors {
+export class Colors {
   getColor(val) {
     return val;
   }
@@ -7,7 +7,7 @@ class Colors {
   }
 
   displayColorTable(logic) {
-    this.$colors.innerHTML = '';
+    this.$colors.innerHTML = "";
 
     const results = logic.getColorCount();
     Object.keys(results)
@@ -30,17 +30,17 @@ class Colors {
   }
 
   createRow(color) {
-    const $col1 = document.createElement('td');
-    const $square = document.createElement('div');
-    $square.classList.add('small-square');
+    const $col1 = document.createElement("td");
+    const $square = document.createElement("div");
+    $square.classList.add("small-square");
     $square.style.color = color;
     $square.style.backgroundColor = color;
     $col1.appendChild($square);
 
-    const $col2 = document.createElement('td');
+    const $col2 = document.createElement("td");
     $col2.id = this.colorCountId(color);
 
-    const $row = document.createElement('tr');
+    const $row = document.createElement("tr");
     $row.appendChild($col1);
     $row.appendChild($col2);
 

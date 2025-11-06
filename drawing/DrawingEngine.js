@@ -1,10 +1,10 @@
-class DrawingEngine {
+export class DrawingEngine {
   BORDER_WIDTH = 0.05;
-  GET_COLOR = () => 'lightgrey';
+  GET_COLOR = () => "lightgrey";
 
   constructor({ canvas, getColor = this.GET_COLOR }) {
     this.canvas = canvas;
-    this.ctx = this.canvas.getContext('2d');
+    this.ctx = this.canvas.getContext("2d");
     this.W_100 = this.canvas.width;
     this.H_100 = this.canvas.height;
     this.getColor = getColor;
