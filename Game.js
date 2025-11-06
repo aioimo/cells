@@ -1,5 +1,5 @@
 class Game {
-  MAX_FRAME_RATE = 25;
+  MAX_FRAME_RATE = 5;
 
   constructor(canvas, logic, onChange = () => {}) {
     this.logic = logic;
@@ -42,7 +42,7 @@ class Game {
   }
 
   onReset() {
-    const newStartingState = randomMatrix(50, 50, this.logic.ordering);
+    const newStartingState = this.logic.generateStartingState();
     this.logic.initialise(newStartingState);
     this.drawingEngine.draw(this.logic.state);
     this.onChange(this.logic);

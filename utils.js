@@ -69,3 +69,16 @@ function randomMatrix(rows, cols, vals) {
   }
   return result;
 }
+
+function randomMatrixWeighted(rows, cols, vals, weights) {
+  const result = [];
+
+  for (let row = 0; row < rows; row++) {
+    const rowArray = [];
+    for (let col = 0; col < cols; col++) {
+      rowArray.push(randomWeighted(vals, weights));
+    }
+    result.push(rowArray);
+  }
+  return result;
+}

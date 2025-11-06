@@ -7,7 +7,7 @@ const $pause = document.getElementById('pause');
 const $reset = document.getElementById('reset');
 const $next = document.getElementById('next');
 
-const rules = new RPS4({});
+const rules = new ImaginaryGroupSingle({});
 
 const iterations = new Iteration($iteration);
 const colors = new Colors($colors);

@@ -1,5 +1,5 @@
 class DrawingEngine {
-  BORDER_WIDTH = 0.1;
+  BORDER_WIDTH = 0.05;
   GET_COLOR = () => 'lightgrey';
 
   constructor({ canvas, getColor = this.GET_COLOR }) {

@@ -1,6 +1,6 @@
 class GeneticDrift extends Logic {
   DEFAULT_ORDERING = ['green', 'black', 'white', 'orange', 'blue'];
-  GRID_SIZE = 25;
+  GRID_SIZE = 100;
 
   constructor(props) {
     super(props);

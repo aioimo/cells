@@ -79,7 +79,7 @@ class Logic {
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         const r = this.nextValue(row, col, prevState);
-        if (!!r) {
+        if (r != null) {
           nextState[row][col] = r;
         } else {
           nextState[row][col] = prevState[row][col];
@@ -92,5 +92,54 @@ class Logic {
 
   logCurrentState() {
     console.log(this.state);
+  }
+
+  generateStartingState() {
+    console.log('GENERATING STARTING STATE...', this.GRID_SIZE);
+    return randomMatrix(this.GRID_SIZE, this.GRID_SIZE, this.ordering);
+  }
+
+  getColorCount() {
+    const rows = this.state.length;
+    const cols = this.state[0].length;
+
+    const results = this.ordering.map(this.getColor).reduce((obj, item) => {
+      obj[item] = 0;
+      return obj;
+    }, {});
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const value = this.getColor(this.state[row][col]);
+        if (results[value]) {
+          results[value]++;
+        } else {
+          results[value] = 1;
+        }
+      }
+    }
+    return results;
+  }
+
+  getListOfNeighbourValues(row, col, matrix) {
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
+    const r = this.radius;
+    const neighbours = [];
+
+    for (let dr = -r; dr <= r; dr++) {
+      for (let dc = -r; dc <= r; dc++) {
+        // Skip the center cell itself
+        if (dr === 0 && dc === 0) continue;
+
+        // Wrap around (toroidal boundary)
+        const neighbourRow = (row + dr + numRows) % numRows;
+        const neighbourCol = (col + dc + numCols) % numCols;
+
+        neighbours.push(matrix[neighbourRow][neighbourCol]);
+      }
+    }
+
+    return neighbours;
   }
 }

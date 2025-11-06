@@ -7,10 +7,11 @@ const PERIMETER = (row, col, radius) =>
 
 class RPS extends Logic {
   defaultOrdering = ['#7880b5', '#C0A9B0', '#BCC4DB'];
-  defaultRadius = 2;
-  defaultThreshold = 12;
-  influenceAdvantage = 3;
+  defaultRadius = 4;
+  defaultThreshold = 20;
+  influenceAdvantage = 2;
   defaultFilterSchema = GRID;
+  GRID_SIZE = 200;
 
   constructor(props) {
     super(props);
@@ -21,6 +22,7 @@ class RPS extends Logic {
     this.filterSchema = this.defaultFilterSchema;
 
     this.logGameParameters({ initialState: this.state });
+    this.initialise(this.generateStartingState());
   }
 
   getNextState(prevState) {

@@ -7,21 +7,23 @@ class Colors {
   }
 
   displayColorTable(logic) {
-    const ordering = logic.ordering;
     this.$colors.innerHTML = '';
 
-    ordering.forEach((name) => {
-      const color = this.getColor(name);
-      this.createRow(color);
-    });
-  }
-
-  updateColorStatistics(logic) {
-    const results = logic.countAll();
+    const results = logic.getColorCount();
     Object.keys(results)
       .sort()
       .forEach((name) => {
-        const color = this.getColor(name);
+        const color = name;
+        this.createRow(color);
+      });
+  }
+
+  updateColorStatistics(logic) {
+    const results = logic.getColorCount();
+    Object.keys(results)
+      .sort()
+      .forEach((name) => {
+        const color = name;
         const $count = document.getElementById(this.colorCountId(color));
         $count.innerText = results[name] || 0;
       });
