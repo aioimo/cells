@@ -1,90 +1,45 @@
-class Majority extends Logic {
-  ORDERING = ['orange', 'black', 'white', 'green'];
-  RADIUS = 3;
-  THRESHOLD = 16;
-  FILTER_SCHEMA = GRID;
-  GRID_SIZE = 100;
+import { Rule } from "../core/Rule.js";
+import { randomMatrix, mod } from "../utils.js";
 
-  constructor(props) {
-    super(props);
-
-    this.radius = this.RADIUS;
-    this.threshold = this.THRESHOLD;
-    this.ordering = this.ORDERING;
-    this.filterSchema = this.FILTER_SCHEMA;
-
-    const initalState = randomMatrix(
-      this.GRID_SIZE,
-      this.GRID_SIZE,
-      this.ordering
-    );
-
-    this.initialise(initalState);
+export class Majority extends Rule {
+  constructor() {
+    super();
+    this.ordering = ["orange", "black", "white", "green"];
+    this.radius = 3;
+    this.threshold = 16;
+    this.gridSize = 100;
   }
 
-  getNextState(prevState) {
-    const rows = prevState.length;
-    const cols = prevState[0].length;
-
-    const nextState = emptyMatrix(rows, cols);
-
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const r = this.nextValue(row, col, prevState);
-        if (!!r) {
-          nextState[row][col] = r;
-        } else {
-          nextState[row][col] = prevState[row][col];
-        }
-      }
-    }
-
-    return nextState;
+  nextValue(row, col, matrix) {
+    const counts = this.countNeighbours(row, col, matrix);
+    const winners = this.most(counts);
+    return this.determine(winners);
   }
 
-  nextValue(row, col, state) {
-    return this.determine(this.most(this.neighbors(row, col, state)));
-  }
-
-  neighbors(row_0, col_0, state) {
-    const matrix = state;
+  countNeighbours(row0, col0, matrix) {
     const l = matrix.length;
-    const radius = this.radius;
     const results = {};
-
-    for (let row = -radius; row <= radius; row++) {
-      for (let col = -radius; col <= radius; col++) {
-        if (this.filterSchema(row, col, radius)) {
-          continue;
-        }
-
-        const neighbor = matrix[mod(row_0 + row, l)][mod(col_0 + col, l)];
-
-        if (results[neighbor]) {
-          results[neighbor]++;
-        } else {
-          results[neighbor] = 1;
-        }
+    for (let dr = -this.radius; dr <= this.radius; dr++) {
+      for (let dc = -this.radius; dc <= this.radius; dc++) {
+        if (dr === 0 && dc === 0) continue;
+        const val = matrix[mod(row0 + dr, l)][mod(col0 + dc, l)];
+        results[val] = (results[val] || 0) + 1;
       }
     }
-
     return results;
   }
 
-  most(results) {
-    const entries = Object.entries(results);
+  most(counts) {
     let threshold = this.threshold;
     let winners = [];
-
-    entries.forEach(([state, count]) => {
+    for (const [state, count] of Object.entries(counts)) {
       if (count > threshold) {
         threshold = count;
         winners = [state];
       } else if (count === threshold) {
         winners.push(state);
       }
-    });
-
+    }
     return winners;
   }
 
@@ -92,12 +47,7 @@ class Majority extends Logic {
     return winners.length === 1 ? winners[0] : null;
   }
 
-  logGameParameters() {
-    console.log('Radius: ', this.radius);
-    console.log('Neighbors: ', neighbours);
-    console.log('Available Points: ', availablePoints);
-    console.log('Threshold: ', this.threshold);
-    console.log('%: ', (100 * this.threshold) / availablePoints);
-    console.log('***********');
+  generateStartingState(size = this.gridSize, ordering = this.ordering) {
+    return randomMatrix(size, size, ordering);
   }
 }

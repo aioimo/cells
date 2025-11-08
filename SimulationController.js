@@ -1,8 +1,9 @@
 export class SimulationController {
-  constructor({ logic, drawingEngine, onChange }) {
-    this.logic = logic;
+  constructor({ automaton, drawingEngine, onChange, onEnd }) {
+    this.automaton = automaton;
     this.drawingEngine = drawingEngine;
     this.onChange = onChange;
+    this.onEnd = onEnd;
     this.animationFrameId = null;
     this.running = false;
 
@@ -17,8 +18,11 @@ export class SimulationController {
     const loop = (currentTime) => {
       if (!this.running) return;
 
-      if (this.logic.stable) {
+      if (this.automaton.stable) {
         this.stop();
+
+        this.onEnd?.();
+        this.onChange?.(this.automaton);
         return;
       }
 
@@ -39,14 +43,15 @@ export class SimulationController {
   }
 
   reset() {
-    this.logic.initialise(this.logic.generateStartingState());
-    this.drawingEngine.draw(this.logic.state);
-    this.onChange?.(this.logic);
+    const initial = this.automaton.rule.generateStartingState();
+    this.automaton.initialise(initial);
+    this.drawingEngine.draw(this.automaton.state);
+    this.onChange?.(this.automaton);
   }
 
   step() {
-    this.logic.onNextState();
-    this.drawingEngine.draw(this.logic.state);
-    this.onChange?.(this.logic);
+    this.automaton.step();
+    this.drawingEngine.draw(this.automaton.state);
+    this.onChange?.(this.automaton);
   }
 }

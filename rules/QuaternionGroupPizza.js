@@ -1,29 +1,31 @@
+import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+
 class QuaternionGroupPizza extends ImaginaryGroupBase {
   GRID_SIZE = 501;
 
   getColor(val) {
     switch (val) {
-      case '1':
-        return 'green';
-      case '-1':
-        return 'green';
-      case 'i':
-        return 'yellow';
-      case '-i':
-        return 'yellow';
-      case 'j':
-        return 'blue';
-      case '-j':
-        return 'blue';
-      case 'k':
-        return 'white';
-      case '-k':
-        return 'white';
+      case "1":
+        return "green";
+      case "-1":
+        return "green";
+      case "i":
+        return "yellow";
+      case "-i":
+        return "yellow";
+      case "j":
+        return "blue";
+      case "-j":
+        return "blue";
+      case "k":
+        return "white";
+      case "-k":
+        return "white";
     }
   }
   constructor(props) {
     super(props);
-    this.ordering = ['-j', 'k', '-i', '1', 'j', '-k', 'i', '-1'];
+    this.ordering = ["-j", "k", "-i", "1", "j", "-k", "i", "-1"];
     this.radius = 1;
   }
 

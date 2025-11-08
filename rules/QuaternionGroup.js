@@ -1,3 +1,5 @@
+import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+
 export class QuaternionGroup extends ImaginaryGroupBase {
   GRID_SIZE = 80;
 

@@ -1,14 +1,15 @@
+import { Logic } from "../Logic.js";
 class C3Group extends Logic {
   getColor(val) {
     switch (val) {
       case 0:
-        return 'red'; // black
+        return "red"; // black
       case 1:
-        return 'black'; // red
+        return "black"; // red
       case 2:
-        return 'white'; // green
+        return "white"; // green
       case 3:
-        return 'yellow'; // green
+        return "yellow"; // green
     }
   }
 

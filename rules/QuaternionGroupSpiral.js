@@ -1,30 +1,32 @@
-class QuaternionGroupSpiral extends ImaginaryGroupBase {
+import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+
+export class QuaternionGroupSpiral extends ImaginaryGroupBase {
   GRID_SIZE = 301;
 
   getColor(val) {
     switch (val) {
-      case '1':
-        return 'white';
-      case '-1':
-        return 'white';
-      case 'i':
-        return 'purple';
-      case '-i':
-        return 'purple';
-      case 'j':
-        return 'lightsalmon';
-      case '-j':
-        return 'lightsalmon';
-      case 'k':
-        return 'lightblue';
-      case '-k':
-        return 'lightblue';
+      case "1":
+        return "white";
+      case "-1":
+        return "white";
+      case "i":
+        return "purple";
+      case "-i":
+        return "purple";
+      case "j":
+        return "lightsalmon";
+      case "-j":
+        return "lightsalmon";
+      case "k":
+        return "lightblue";
+      case "-k":
+        return "lightblue";
     }
   }
 
   constructor(props) {
     super(props);
-    this.ordering = ['-1', 'k', '-j', '1', 'j', '-k', 'i', '-i'];
+    this.ordering = ["-1", "k", "-j", "1", "j", "-k", "i", "-i"];
     this.radius = 2;
   }
 

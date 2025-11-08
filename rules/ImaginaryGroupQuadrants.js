@@ -1,16 +1,18 @@
+import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+
 class ImaginaryGroupQuadrants extends ImaginaryGroupBase {
   GRID_SIZE = 160;
 
   getColor(val) {
     switch (val) {
-      case '1':
-        return 'white';
-      case '-1':
-        return 'orange';
-      case 'i':
-        return 'white';
-      case '-i':
-        return 'black';
+      case "1":
+        return "white";
+      case "-1":
+        return "orange";
+      case "i":
+        return "white";
+      case "-i":
+        return "black";
     }
   }
 
@@ -21,21 +23,21 @@ class ImaginaryGroupQuadrants extends ImaginaryGroupBase {
     for (let row = 0; row < m.length; row++) {
       for (let col = 0; col < m.length; col++) {
         if (row < HALF && col < HALF) {
-          m[row][col] = '-i';
+          m[row][col] = "-i";
           continue;
         }
         if (row < HALF && col >= HALF) {
-          m[row][col] = '1';
+          m[row][col] = "1";
           continue;
         }
 
         if (row >= HALF && col < HALF) {
-          m[row][col] = '-1';
+          m[row][col] = "-1";
           continue;
         }
 
         if (row >= HALF && col >= HALF) {
-          m[row][col] = 'i';
+          m[row][col] = "i";
           continue;
         }
       }

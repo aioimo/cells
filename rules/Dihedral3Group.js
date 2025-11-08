@@ -1,24 +1,26 @@
+import { Logic } from "../Logic.js";
+
 class Dihedral3Group extends Logic {
   getColor(val) {
     switch (val) {
-      case 'e':
-        return 'red'; // black
-      case 'a':
-        return 'black'; // red
-      case 'b':
-        return 'black'; // green
-      case 'c':
-        return 'black'; // blue
-      case 'd':
-        return 'red'; // yellow
-      case 'f':
-        return 'red'; // magenta
+      case "e":
+        return "red"; // black
+      case "a":
+        return "black"; // red
+      case "b":
+        return "black"; // green
+      case "c":
+        return "black"; // blue
+      case "d":
+        return "red"; // yellow
+      case "f":
+        return "red"; // magenta
       default:
-        return '#FFFFFF'; // white (default case for any unexpected value)
+        return "#FFFFFF"; // white (default case for any unexpected value)
     }
   }
 
-  ORDERING = ['b', 'e', 'a', 'f', 'c', 'd'];
+  ORDERING = ["b", "e", "a", "f", "c", "d"];
   RADIUS = 1;
   THRESHOLD = 0;
   FILTER_SCHEMA = (row, col) => row === 0 && col === 0;
@@ -42,7 +44,7 @@ class Dihedral3Group extends Logic {
 
     const product = neighbors.reduce(
       (prev, curr) => this.multiplyD3(prev, curr),
-      'e'
+      "e"
     );
 
     return product;
@@ -50,12 +52,12 @@ class Dihedral3Group extends Logic {
 
   multiplyD3(a, b) {
     const productTable = {
-      e: { e: 'e', a: 'a', b: 'b', c: 'c', d: 'd', f: 'f' },
-      a: { e: 'a', a: 'e', b: 'd', c: 'f', d: 'b', f: 'c' },
-      b: { e: 'b', a: 'f', b: 'e', c: 'd', d: 'c', f: 'a' },
-      c: { e: 'c', a: 'd', b: 'f', c: 'e', d: 'a', f: 'b' },
-      d: { e: 'd', a: 'c', b: 'a', c: 'b', d: 'f', f: 'e' },
-      f: { e: 'f', a: 'b', b: 'c', c: 'a', d: 'e', f: 'd' },
+      e: { e: "e", a: "a", b: "b", c: "c", d: "d", f: "f" },
+      a: { e: "a", a: "e", b: "d", c: "f", d: "b", f: "c" },
+      b: { e: "b", a: "f", b: "e", c: "d", d: "c", f: "a" },
+      c: { e: "c", a: "d", b: "f", c: "e", d: "a", f: "b" },
+      d: { e: "d", a: "c", b: "a", c: "b", d: "f", f: "e" },
+      f: { e: "f", a: "b", b: "c", c: "a", d: "e", f: "d" },
     };
 
     return productTable[a][b];
@@ -65,7 +67,7 @@ class Dihedral3Group extends Logic {
     const GRID_SIZE = this.GRID_SIZE;
     const D3 = this.ordering;
     const m = Array.from({ length: GRID_SIZE }, () =>
-      new Array(GRID_SIZE).fill('e')
+      new Array(GRID_SIZE).fill("e")
     );
 
     // Center of the grid

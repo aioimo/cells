@@ -1,4 +1,6 @@
-class ImaginaryGroupBase extends Logic {
+import { Logic } from "../Logic.js";
+
+export class ImaginaryGroupBase extends Logic {
   getColor(val) {
     switch (val) {
       case "1":

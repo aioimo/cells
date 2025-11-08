@@ -1,8 +1,10 @@
 // A cell turns to a color of one of its neighbours, randomly
 // with the most prominent neighbor weighted proportionally
 
+import { Logic } from "../Logic.js";
+
 class GeneticDriftGlobalBattle extends Logic {
-  DEFAULT_ORDERING = ['black', 'orange', 'white', 'blue'];
+  DEFAULT_ORDERING = ["black", "orange", "white", "blue"];
   GRID_SIZE = 25;
   RADIUS = 2;
   FILTER_SCHEMA = () => false;

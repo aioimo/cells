@@ -1,22 +1,23 @@
+import { Logic } from "../Logic.js";
 class ElementaryAbelian_2_2_2_Group extends Logic {
   getColor(val) {
     switch (val) {
       case 0:
-        return 'white';
+        return "white";
       case 1:
-        return 'black';
+        return "black";
       case 2:
-        return 'orange';
+        return "orange";
       case 3:
-        return 'yellow';
+        return "yellow";
       case 4:
-        return 'magenta';
+        return "magenta";
       case 5:
-        return 'blue';
+        return "blue";
       case 6:
-        return 'green';
+        return "green";
       case 7:
-        return 'silver';
+        return "silver";
     }
   }
 

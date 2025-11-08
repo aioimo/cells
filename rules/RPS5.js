@@ -1,12 +1,12 @@
-class RPS5 extends RPS {
+import { RPS } from "./RPS.js";
+
+export class RPS5 extends RPS {
   constructor(props) {
     super(props);
 
     this.radius = 4;
-    this.threshold = 16;
+    this.threshold = 20;
     this.influenceAdvantage = 2;
-    this.ordering = ['#7880b5', 'red', 'white', '#BCC4DB', 'black'];
-
-    // this.initialise(randomMatrix(90, 90, this.ordering));
+    this.ordering = ["#7880b5", "red", "white", "#BCC4DB", "black"];
   }
 }

@@ -1,110 +1,64 @@
+import { Rule } from "../core/Rule.js";
+import { randomMatrix, mod } from "../utils.js";
+
 const GRID = () => false;
-const X_PATTERN = (row, col) => Math.abs(row) !== Math.abs(col);
-const HOURGLASS = (row, col) => Math.abs(row) < Math.abs(col);
-const WEAVE = (row, col) => mod(row * col, 2) == 1;
-const PERIMETER = (row, col, radius) =>
-  Math.abs(row) < radius && Math.abs(col) < radius;
 
-class RPS extends Logic {
-  defaultOrdering = ['#7880b5', '#C0A9B0', '#BCC4DB'];
-  defaultRadius = 4;
-  defaultThreshold = 20;
-  influenceAdvantage = 2;
-  defaultFilterSchema = GRID;
-  GRID_SIZE = 200;
+export class RPS extends Rule {
+  constructor() {
+    super();
 
-  constructor(props) {
-    super(props);
-
-    this.radius = 2;
-    this.threshold = 16;
-    this.ordering = this.defaultOrdering;
-    this.filterSchema = this.defaultFilterSchema;
-
-    this.logGameParameters({ initialState: this.state });
-    this.initialise(this.generateStartingState());
-  }
-
-  getNextState(prevState) {
-    const rows = prevState.length;
-    const cols = prevState[0].length;
-
-    const nextState = emptyMatrix(rows, cols);
-
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const r = this.nextValue(row, col, prevState);
-        if (!!r) {
-          nextState[row][col] = r;
-        } else {
-          nextState[row][col] = prevState[row][col];
-        }
-      }
-    }
-
-    return nextState;
+    this.ordering = ["#7880b5", "#C0A9B0", "#BCC4DB"];
+    this.radius = 4;
+    this.threshold = 20;
+    this.influenceAdvantage = 2;
+    this.filterSchema = GRID;
+    this.gridSize = 200;
   }
 
   nextValue(row, col, state) {
     return this.determine(this.most(this.neighbors(row, col, state)));
   }
 
-  neighbors(row_0, col_0, state) {
-    const matrix = state;
-    const l = matrix.length;
+  neighbors(row0, col0, state) {
+    const l = state.length;
     const radius = this.radius;
     const results = {};
+    const current = state[row0][col0];
 
-    const currentCell = matrix[row_0][col_0];
+    for (let dr = -radius; dr <= radius; dr++) {
+      for (let dc = -radius; dc <= radius; dc++) {
+        if (dr === 0 && dc === 0) continue;
+        if (this.filterSchema(dr, dc, radius)) continue;
 
-    for (let row = -radius; row <= radius; row++) {
-      for (let col = -radius; col <= radius; col++) {
-        if (this.filterSchema(row, col, radius)) {
-          continue;
-        }
-
-        const neighbor = matrix[mod(row_0 + row, l)][mod(col_0 + col, l)];
-        const influence = this.influence(currentCell, neighbor);
-
-        if (results[neighbor]) {
-          results[neighbor] += influence;
-        } else {
-          results[neighbor] = influence;
-        }
+        const neighbor = state[mod(row0 + dr, l)][mod(col0 + dc, l)];
+        const influence = this.influence(current, neighbor);
+        results[neighbor] = (results[neighbor] || 0) + influence;
       }
     }
-
     return results;
   }
 
   influence(current, neighbor) {
-    const ordering = this.ordering;
-    const LENGTH = ordering.length;
+    const i = this.ordering.indexOf(current);
+    const j = this.ordering.indexOf(neighbor);
+    const len = this.ordering.length;
 
-    if (
-      (ordering.indexOf(current) + 1) % LENGTH ===
-      ordering.indexOf(neighbor)
-    ) {
-      return this.influenceAdvantage;
-    }
-
+    // neighbor beats current in cyclic order
+    if ((i + 1) % len === j) return this.influenceAdvantage;
     return 1;
   }
 
   most(results) {
-    const entries = Object.entries(results);
     let threshold = this.threshold;
     let winners = [];
-
-    entries.forEach(([state, count]) => {
+    for (const [state, count] of Object.entries(results)) {
       if (count > threshold) {
         threshold = count;
         winners = [state];
       } else if (count === threshold) {
         winners.push(state);
       }
-    });
-
+    }
     return winners;
   }
 
@@ -112,13 +66,7 @@ class RPS extends Logic {
     return winners.length === 1 ? winners[0] : null;
   }
 
-  logGameParameters() {
-    console.log('Radius: ', this.radius);
-    console.log('influenceAdvantage', this.influenceAdvantage);
-    console.log('Neighbors: ', neighbours);
-    console.log('Available Points: ', availablePoints);
-    console.log('Threshold: ', this.threshold);
-    console.log('%: ', (100 * this.threshold) / availablePoints);
-    console.log('***********');
+  generateStartingState(size = this.gridSize, ordering = this.ordering) {
+    return randomMatrix(size, size, ordering);
   }
 }

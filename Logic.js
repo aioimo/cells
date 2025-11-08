@@ -1,4 +1,10 @@
-class Logic {
+import { areMatricesEqual, emptyMatrix, randomMatrix } from "./utils.js";
+
+export class Logic {
+  constructor(rule) {
+    this.rule = rule;
+  }
+
   getColor(val) {
     return val;
   }
@@ -10,23 +16,16 @@ class Logic {
     this.history = [this.state];
   }
 
-  getColor(val) {
-    return val;
-  }
-
   getNextState(state) {
     return state;
   }
 
   onNextState() {
-    const nextState = this.getNextState(this.state);
+    const nextState = this.rule.getNextState
+      ? this.rule.getNextState(this.state)
+      : this.getNextState(this.state);
 
     if (this.isStateFoundInHistory(nextState)) {
-      const index = this.history.findIndex((prevState) =>
-        areMatricesEqual(prevState, nextState)
-      );
-      console.log(`Loop detected ${this.history.length - index} steps ago`);
-
       this.stable = true;
       return this.state;
     }
@@ -78,7 +77,8 @@ class Logic {
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        const r = this.nextValue(row, col, prevState);
+        const r = this.rule.nextValue(row, col, prevState);
+
         if (r != null) {
           nextState[row][col] = r;
         } else {
@@ -95,7 +95,15 @@ class Logic {
   }
 
   generateStartingState() {
-    console.log('GENERATING STARTING STATE...', this.GRID_SIZE);
+    if (this.rule && this.rule.generateStartingState) {
+      // Use the rule’s method if available
+      return this.rule.generateStartingState(
+        this.rule.gridSize,
+        this.rule.ordering
+      );
+    }
+
+    // Fallback: old behavior
     return randomMatrix(this.GRID_SIZE, this.GRID_SIZE, this.ordering);
   }
 
@@ -103,7 +111,10 @@ class Logic {
     const rows = this.state.length;
     const cols = this.state[0].length;
 
-    const results = this.ordering.map(this.getColor).reduce((obj, item) => {
+    const ordering = this.rule?.ordering || [];
+    const getColor = this.rule?.getColor?.bind(this.rule) || ((v) => v);
+
+    const results = ordering.map(getColor).reduce((obj, item) => {
       obj[item] = 0;
       return obj;
     }, {});

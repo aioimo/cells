@@ -1,16 +1,17 @@
+import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
 class ImaginaryGroupSingle extends ImaginaryGroupBase {
   GRID_SIZE = 199;
 
   getColor(val) {
     switch (val) {
-      case '1':
-        return 'black';
-      case '-1':
-        return 'white';
-      case 'i':
-        return 'orange';
-      case '-i':
-        return 'purple';
+      case "1":
+        return "black";
+      case "-1":
+        return "white";
+      case "i":
+        return "orange";
+      case "-i":
+        return "purple";
     }
   }
 
@@ -22,10 +23,10 @@ class ImaginaryGroupSingle extends ImaginaryGroupBase {
       [0.4, 0, 0.4, 0.2]
     );
 
-    m[Math.floor(this.GRID_SIZE / 3)][Math.floor(this.GRID_SIZE / 3)] = 'i';
+    m[Math.floor(this.GRID_SIZE / 3)][Math.floor(this.GRID_SIZE / 3)] = "i";
     m[Math.floor((2 * this.GRID_SIZE) / 3)][
       Math.floor((2 * this.GRID_SIZE) / 3)
-    ] = '1';
+    ] = "1";
 
     return m;
   }
