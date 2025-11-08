@@ -1,118 +1,87 @@
-// A cell turns to a color of one of its neighbours, randomly
-// with the most prominent neighbor weighted proportionally
+import { Rule } from "../core/Rule.js";
+import { mod, randomWeighted } from "../utils.js";
 
-import { Logic } from "../Logic.js";
+export class GeneticDriftGlobalBattle extends Rule {
+  constructor() {
+    super();
+    this.ordering = ["black", "orange", "white", "blue"];
+    this.gridSize = 500;
+    this.radius = 2;
+    this.filterSchema = () => false;
 
-class GeneticDriftGlobalBattle extends Logic {
-  DEFAULT_ORDERING = ["black", "orange", "white", "blue"];
-  GRID_SIZE = 25;
-  RADIUS = 2;
-  FILTER_SCHEMA = () => false;
-
-  constructor(props) {
-    super(props);
-
-    this.radius = this.RADIUS;
-    this.ordering = this.DEFAULT_ORDERING;
-    this.filterSchema = this.FILTER_SCHEMA;
-
-    const initalState = randomMatrix(
-      this.GRID_SIZE,
-      this.GRID_SIZE,
-      this.ordering
-    );
-
-    this.initialise(initalState);
+    this._globalCache = null; // { stateRef, counts }
   }
 
-  getNextState(prevState) {
-    const rows = prevState.length;
-    const cols = prevState[0].length;
+  nextValue(row, col, state) {
+    const globalCounts = this.getGlobalCounts(state); // cached
+    const localCounts = this.neighbors(row, col, state);
 
-    const nextState = emptyMatrix(rows, cols);
-    const count = this.countAll();
+    const weighted = this.weightedValues(localCounts, globalCounts);
+    const total = Object.values(weighted).reduce((sum, v) => sum + v, 0);
 
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const val = this.nextValue(row, col, prevState, count);
-        if (!!val) {
-          nextState[row][col] = val;
-        } else {
-          nextState[row][col] = prevState[row][col];
-        }
-      }
-    }
+    if (total === 0) return null;
 
-    return nextState;
-  }
-
-  nextValue(row, col, state, count) {
-    const neighbours = this.neighbors(row, col, state);
-
-    const weightedNeighbours = this.weightedValues(neighbours, count);
-
-    const total = Object.values(weightedNeighbours).reduce(
-      (prev, curr) => prev + curr,
-      0
+    const weights = this.ordering.map(
+      (color) => (weighted[color] || 0) / total
     );
-
-    const asPercentage = (key) => {
-      return (weightedNeighbours[key] || 0) / total;
-    };
-
-    const weights = this.ordering.map(asPercentage);
 
     return randomWeighted(this.ordering, weights);
   }
 
-  neighbors(row_0, col_0, state) {
-    const matrix = state;
-    const l = matrix.length;
+  // --- cache global counts once per step ---
+  getGlobalCounts(state) {
+    if (this._globalCache && this._globalCache.state === state) {
+      return this._globalCache.counts;
+    }
+    const counts = this.countAll(state);
+    this._globalCache = { state, counts };
+    return counts;
+  }
+
+  countAll(state) {
+    const counts = {};
+    const rows = state.length;
+    const cols = state[0].length;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const val = state[r][c];
+        counts[val] = (counts[val] || 0) + 1;
+      }
+    }
+    return counts;
+  }
+
+  neighbors(row0, col0, state) {
+    const l = state.length;
     const radius = this.radius;
     const results = {};
 
-    for (let row = -radius; row <= radius; row++) {
-      for (let col = -radius; col <= radius; col++) {
-        if (this.filterSchema(row, col, radius)) {
-          continue;
-        }
+    for (let dr = -radius; dr <= radius; dr++) {
+      for (let dc = -radius; dc <= radius; dc++) {
+        if (dr === 0 && dc === 0) continue;
+        if (this.filterSchema(dr, dc, radius)) continue;
 
-        const neighbor = matrix[mod(row_0 + row, l)][mod(col_0 + col, l)];
-
-        if (results[neighbor]) {
-          results[neighbor]++;
-        } else {
-          results[neighbor] = 1;
-        }
+        const val = state[mod(row0 + dr, l)][mod(col0 + dc, l)];
+        results[val] = (results[val] || 0) + 1;
       }
     }
 
     return results;
   }
 
-  weightedValues(input1, input2) {
-    let totalSum = Object.values(input2).reduce((sum, value) => sum + value, 0);
-    let weightedResult = {};
+  weightedValues(localCounts, globalCounts) {
+    const totalGlobal = Object.values(globalCounts).reduce(
+      (sum, v) => sum + v,
+      0
+    );
+    if (totalGlobal === 0) return localCounts;
 
-    if (totalSum === 0) {
-      // If totalSum is 0, avoid division by zero by returning all keys with value 0
-      Object.keys(input1).forEach((key) => {
-        weightedResult[key] = 0;
-      });
-      return weightedResult;
+    const result = {};
+    for (const [color, local] of Object.entries(localCounts)) {
+      const global = globalCounts[color] || 0;
+      const proportion = global / totalGlobal;
+      result[color] = local * proportion;
     }
-
-    Object.keys(input1).forEach((key) => {
-      if (input2.hasOwnProperty(key)) {
-        let proportion = input2[key] / totalSum;
-        weightedResult[key] = input1[key] * proportion;
-      }
-    });
-
-    return weightedResult;
-  }
-
-  determine(winners) {
-    return winners.length === 1 ? winners[0] : null;
+    return result;
   }
 }

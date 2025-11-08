@@ -34,7 +34,7 @@ export function random(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function randomWeighted(arr, weights) {
+export function randomWeighted(arr, weights) {
   if (arr.length !== weights.length) {
     throw new Error("Array and weights must be of the same length");
   }

@@ -87,7 +87,21 @@ export class Automaton {
   }
 
   getColorCount() {
-    if (!this.state) return {};
+    if (!this.state) {
+      console.error(
+        `[Automaton] getColorCount() called before state was set!`,
+        this
+      );
+      throw new Error(
+        `[Automaton] state is undefined (no starting state initialised)`
+      );
+    }
+
+    if (!Array.isArray(this.state) || !this.state.length) {
+      console.error(`[Automaton] Invalid state value:`, this.state);
+      throw new Error(`[Automaton] state is not a valid matrix`);
+    }
+
     const rows = this.state.length;
     const cols = this.state[0].length;
 

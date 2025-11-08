@@ -1,51 +1,48 @@
-import { Logic } from "../Logic.js";
-class GeneticDrift extends Logic {
-  DEFAULT_ORDERING = ["green", "black", "white", "orange", "blue"];
-  GRID_SIZE = 100;
+// GeneticDrift.js
+// Pure global drift:
+// Each cell chooses a new color based on global frequencies (well-mixed).
 
-  constructor(props) {
-    super(props);
+import { Rule } from "../core/Rule.js";
+import { randomWeighted } from "../utils.js";
 
-    this.ordering = this.DEFAULT_ORDERING;
+export class GeneticDrift extends Rule {
+  constructor() {
+    super();
+    this.ordering = ["green", "black", "white", "orange", "blue"];
+    this.gridSize = 100;
 
-    const initalState = randomMatrix(
-      this.GRID_SIZE,
-      this.GRID_SIZE,
-      this.ordering
-    );
-    this.initialise(initalState);
+    this._globalCache = null; // { state, counts }
   }
 
-  getNextState(prevState) {
-    const rows = prevState.length;
-    const cols = prevState[0].length;
+  // Called once per cell by Automaton
+  nextValue(_row, _col, state) {
+    const counts = this.getGlobalCounts(state);
+    const total = Object.values(counts).reduce((sum, v) => sum + v, 0);
+    if (total === 0) return null;
 
-    const nextState = emptyMatrix(rows, cols);
-    const count = this.countAll();
+    const weights = this.ordering.map((color) => (counts[color] || 0) / total);
 
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const val = this.nextValue(row, col, prevState, count);
-        if (!!val) {
-          nextState[row][col] = val;
-        } else {
-          nextState[row][col] = prevState[row][col];
-        }
+    return randomWeighted(this.ordering, weights);
+  }
+
+  // --- cache global counts once per generation ---
+  getGlobalCounts(state) {
+    if (this._globalCache && this._globalCache.state === state) {
+      return this._globalCache.counts;
+    }
+
+    const counts = {};
+    const rows = state.length;
+    const cols = state[0].length;
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const val = state[r][c];
+        counts[val] = (counts[val] || 0) + 1;
       }
     }
 
-    return nextState;
-  }
-
-  nextValue(_row, _col, _state, count) {
-    const asPercentage = (key) => {
-      const total = Object.values(count).reduce((prev, curr) => prev + curr, 0);
-
-      return (count[key] || 0) / total;
-    };
-
-    const weights = this.ordering.map(asPercentage);
-
-    return randomWeighted(this.ordering, weights);
+    this._globalCache = { state, counts };
+    return counts;
   }
 }

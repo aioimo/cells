@@ -6,18 +6,24 @@ export class Rule {
     Object.assign(this, config);
   }
 
-  // --- to be overridden ---
-  nextValue(row, col, state) {
-    throw new Error("nextValue() must be implemented by subclass");
-  }
-
   // --- optional overrides ---
   getColor(val) {
     return val;
   }
 
-  generateStartingState(gridSize, ordering) {
-    return randomMatrix(gridSize, gridSize, ordering);
+  // --- abstract methods (must be implemented) ---
+  nextValue(_row, _col, _state) {
+    throw new Error("nextValue() must be implemented by subclass");
+  }
+
+  generateStartingState() {
+    if (typeof this.gridSize !== "number" || this.gridSize <= 0) {
+      throw new Error(`[Rule] ${this.constructor.name} missing valid gridSize`);
+    }
+    if (!Array.isArray(this.ordering) || !this.ordering.length) {
+      throw new Error(`[Rule] ${this.constructor.name} missing valid ordering`);
+    }
+    return randomMatrix(this.gridSize, this.gridSize, this.ordering);
   }
 
   shouldIncludeOffset(_dr, _dc) {

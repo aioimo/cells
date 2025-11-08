@@ -1,111 +1,54 @@
-// A cell turns to a color of one of its neighbours, randomly
-// with the most prominent neighbor weighted proportionally
+// GeneticDriftLocalBattle.js
+// A cell turns into a neighbour's color, chosen randomly
+// with probability proportional to local neighbour counts.
 
-import { Logic } from "../Logic.js";
+import { Rule } from "../core/Rule.js";
+import { mod, randomWeighted } from "../utils.js";
 
-class GeneticDriftLocalBattle extends Logic {
-  DEFAULT_ORDERING = ["black", "orange", "white", "blue"];
-  GRID_SIZE = 25;
-  RADIUS = 2;
-  FILTER_SCHEMA = () => false;
-
-  constructor(props) {
-    super(props);
-
-    this.radius = this.RADIUS;
-    this.ordering = this.DEFAULT_ORDERING;
-    this.filterSchema = this.FILTER_SCHEMA;
-
-    const initalState = randomMatrix(
-      this.GRID_SIZE,
-      this.GRID_SIZE,
-      this.ordering
-    );
-
-    this.initialise(initalState);
+export class GeneticDriftLocalBattle extends Rule {
+  constructor() {
+    super();
+    this.ordering = ["black", "orange", "white", "blue"];
+    this.gridSize = 50;
+    this.radius = 2;
+    this.filterSchema = () => false;
   }
 
-  getNextState(prevState) {
-    const rows = prevState.length;
-    const cols = prevState[0].length;
+  // Called once per cell by Automaton
+  nextValue(row, col, state) {
+    const localCounts = this.neighbors(row, col, state);
 
-    const nextState = emptyMatrix(rows, cols);
-    const count = this.countAll();
-
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const val = this.nextValue(row, col, prevState, count);
-        if (!!val) {
-          nextState[row][col] = val;
-        } else {
-          nextState[row][col] = prevState[row][col];
-        }
-      }
+    const total = Object.values(localCounts).reduce((sum, v) => sum + v, 0);
+    if (total === 0) {
+      return null; // no change; fallback to current cell
     }
 
-    return nextState;
-  }
-
-  nextValue(row, col, state, count) {
-    const neighbours = this.neighbors(row, col, state);
-
-    const total = Object.values(neighbours).reduce(
-      (prev, curr) => prev + curr,
-      0
+    const weights = this.ordering.map(
+      (color) => (localCounts[color] || 0) / total
     );
-
-    const asPercentage = (key) => {
-      return (neighbours[key] || 0) / total;
-    };
-
-    const weights = this.ordering.map(asPercentage);
 
     return randomWeighted(this.ordering, weights);
   }
 
-  neighbors(row_0, col_0, state) {
-    const matrix = state;
-    const l = matrix.length;
-    const radius = this.radius;
+  // Count neighbours by color in radius
+  neighbors(row0, col0, state) {
+    const size = state.length;
+    const r = this.radius;
     const results = {};
 
-    for (let row = -radius; row <= radius; row++) {
-      for (let col = -radius; col <= radius; col++) {
-        if (this.filterSchema(row, col, radius)) {
-          continue;
-        }
+    for (let dr = -r; dr <= r; dr++) {
+      for (let dc = -r; dc <= r; dc++) {
+        if (dr === 0 && dc === 0) continue;
+        if (this.filterSchema(dr, dc, r)) continue;
 
-        const neighbor = matrix[mod(row_0 + row, l)][mod(col_0 + col, l)];
+        const rr = mod(row0 + dr, size);
+        const cc = mod(col0 + dc, size);
+        const val = state[rr][cc];
 
-        if (results[neighbor]) {
-          results[neighbor]++;
-        } else {
-          results[neighbor] = 1;
-        }
+        results[val] = (results[val] || 0) + 1;
       }
     }
 
     return results;
-  }
-
-  most(results) {
-    const entries = Object.entries(results);
-    let threshold = this.threshold;
-    let winners = [];
-
-    entries.forEach(([state, count]) => {
-      if (count > threshold) {
-        threshold = count;
-        winners = [state];
-      } else if (count === threshold) {
-        winners.push(state);
-      }
-    });
-
-    return winners;
-  }
-
-  determine(winners) {
-    return winners.length === 1 ? winners[0] : null;
   }
 }
