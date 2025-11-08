@@ -5,7 +5,7 @@ import { UIManager } from "./ui/UIManager.js";
 import { Buttons } from "./ui/Buttons.js";
 import { DrawingEngine } from "./drawing/DrawingEngine.js";
 import { Automaton } from "./core/Automaton.js";
-import { MajorityDiagonal } from "./rules/MajorityDiagonal.js";
+import { ImaginaryGroupSingle } from "./rules/ImaginaryGroupSingle.js";
 import { Colors } from "./ui/Colors.js";
 import { Iteration } from "./ui/Iteration.js";
 
@@ -24,7 +24,7 @@ const $next = document.getElementById("next");
 // ----------------------------
 // CORE SIMULATION SETUP
 // ----------------------------
-const rule = new MajorityDiagonal();
+const rule = new ImaginaryGroupSingle();
 const automaton = new Automaton({ rule });
 
 const drawingEngine = new DrawingEngine({

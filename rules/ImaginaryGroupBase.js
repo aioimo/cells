@@ -1,6 +1,7 @@
-import { Logic } from "../Logic.js";
+import { Rule } from "../core/Rule.js";
+import { mod, emptyMatrix } from "../utils.js";
 
-export class ImaginaryGroupBase extends Logic {
+export class ImaginaryGroupBase extends Rule {
   getColor(val) {
     switch (val) {
       case "1":
@@ -18,7 +19,7 @@ export class ImaginaryGroupBase extends Logic {
   RADIUS = 1;
   THRESHOLD = 0;
   FILTER_SCHEMA = (row, col) => row === 0 && col === 0;
-  GRID_SIZE = 50;
+  GRID_SIZE = 100;
 
   constructor(props) {
     super(props);
@@ -27,10 +28,6 @@ export class ImaginaryGroupBase extends Logic {
     this.threshold = this.THRESHOLD;
     this.ordering = this.ORDERING;
     this.filterSchema = this.FILTER_SCHEMA;
-
-    const initalState = this.generateStartingState();
-
-    this.initialise(initalState);
   }
 
   nextValue(row, col, state) {
@@ -42,31 +39,6 @@ export class ImaginaryGroupBase extends Logic {
     );
 
     return complexProduct;
-  }
-
-  getCountOfNeighbourValues(row_0, col_0, state) {
-    const matrix = state;
-    const l = matrix.length;
-    const radius = this.radius;
-    const results = {};
-
-    for (let row = -radius; row <= radius; row++) {
-      for (let col = -radius; col <= radius; col++) {
-        if (this.filterSchema(row, col, radius)) {
-          continue;
-        }
-
-        const neighbor = matrix[mod(row_0 + row, l)][mod(col_0 + col, l)];
-
-        if (results[neighbor]) {
-          results[neighbor]++;
-        } else {
-          results[neighbor] = 1;
-        }
-      }
-    }
-
-    return results;
   }
 
   repeatKeysByValues(input) {

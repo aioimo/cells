@@ -1,6 +1,7 @@
 import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+import { emptyMatrix } from "../utils.js";
 
-class ImaginaryGroupQuadrants extends ImaginaryGroupBase {
+export class ImaginaryGroupQuadrants extends ImaginaryGroupBase {
   GRID_SIZE = 160;
 
   getColor(val) {

@@ -1,5 +1,6 @@
 import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
-class ImaginaryGroupSingle extends ImaginaryGroupBase {
+import { randomMatrixWeighted } from "../utils.js";
+export class ImaginaryGroupSingle extends ImaginaryGroupBase {
   GRID_SIZE = 199;
 
   getColor(val) {
@@ -20,13 +21,10 @@ class ImaginaryGroupSingle extends ImaginaryGroupBase {
       this.GRID_SIZE,
       this.GRID_SIZE,
       this.ordering,
-      [0.4, 0, 0.4, 0.2]
+      [1, 0, 0.0, 0.0]
     );
 
-    m[Math.floor(this.GRID_SIZE / 3)][Math.floor(this.GRID_SIZE / 3)] = "i";
-    m[Math.floor((2 * this.GRID_SIZE) / 3)][
-      Math.floor((2 * this.GRID_SIZE) / 3)
-    ] = "1";
+    m[Math.floor(this.GRID_SIZE / 2)][Math.floor(this.GRID_SIZE / 2)] = "i";
 
     return m;
   }
