@@ -4,27 +4,32 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Cellular Automata</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
     <div class="container">
       <main>
+        <!-- Keep explicit size for identical behaviour -->
         <canvas id="canvas" width="5000" height="5000"></canvas>
       </main>
+
       <section id="display-panel-section">
         <section id="button-menu">
           <button id="start" class="button button__big">Start</button>
-          <button disabled id="pause" class="button button__big">Pause</button>
+          <button id="pause" class="button button__big" disabled>Pause</button>
           <button id="next" class="button button__small">Next</button>
           <button id="reset" class="button button__small">Reset</button>
         </section>
+
         <section id="iterations-display">
           <span id="iterations">0</span>
         </section>
+
         <fieldset id="colors"></fieldset>
       </section>
     </div>
+
     <script type="module" src="main.js"></script>
   </body>
 </html>

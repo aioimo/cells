@@ -1,8 +1,16 @@
 body {
   background-color: black;
   margin: 0;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   color: whitesmoke;
+}
+
+/* Mobile-first: stack canvas + panel vertically */
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
@@ -11,74 +19,45 @@ main {
 
 main canvas {
   width: 100%;
-  height: 100%;
+  height: auto; /* keep aspect ratio of 5000x5000 */
+  display: block;
 }
 
-.container {
-  position: relative;
-}
+/* Panel under canvas, vertical layout */
 
 #display-panel-section {
-  padding-top: 10px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: 'col1 col2 col3';
+  padding: 10px 5px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   width: 100%;
 }
 
+/* Buttons first */
+
 #button-menu {
-  padding-left: 5px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  grid-area: col1;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-#button-menu button {
-  margin-bottom: 0.5;
-}
-
-#button-menu button:hover {
-  background-color: whitesmoke;
-  color: black;
-}
-
+/* On mobile: hide disabled buttons completely (original behavior) */
 #button-menu button:disabled {
   display: none;
 }
 
-.button {
-  font-family: 'Courier New', Courier, monospace;
-  background-color: black;
-  border: none;
-  color: whitesmoke;
-  cursor: pointer;
-  transition: all 0.1s ease-in-out;
-  border-radius: 5px;
-  font-size: 2rem;
-}
-
-.button__big {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.button__small {
-  font-size: 1.2rem;
-  margin-top: 0.25rem;
-}
+/* Iterations next */
 
 #iterations-display {
-  font-size: 2rem;
-  justify-self: center;
-  grid-area: col2;
+  font-size: 1.6rem;
 }
 
+/* Colors after that */
+
 #colors {
-  padding-right: 5px;
   border: none;
-  justify-self: right;
-  grid-area: col3;
+  padding: 0;
 }
 
 #colors td {
@@ -93,34 +72,40 @@ main canvas {
   height: 25px;
 }
 
-#configs {
-  visibility: hidden;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
+/* Buttons */
+
+.button {
+  font-family: "Courier New", Courier, monospace;
   background-color: black;
-  font-size: 2.4rem;
-}
-
-#config-wrapper {
-  display: flex;
-}
-
-#configs fieldset {
-  position: flex;
   border: none;
+  color: whitesmoke;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  border-radius: 5px;
+  font-size: 2rem;
 }
 
-#config-wrapper button {
-  margin-left: 10rem;
-  top: 20px;
-  left: 50px;
+.button__big {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
-@media only screen and (min-width: 701px) {
+.button__small {
+  font-size: 1.2rem;
+  margin-top: 0.25rem;
+}
+
+.button:hover:not(:disabled) {
+  background-color: whitesmoke;
+  color: black;
+}
+
+/* Desktop: side panel on the right, restore original layout */
+
+@media only screen and (min-width: 800px) {
   .container {
     display: flex;
+    flex-direction: row;
   }
 
   main {
@@ -129,18 +114,22 @@ main canvas {
 
   main canvas {
     max-width: 1200px;
+    height: 100%;
   }
 
   #display-panel-section {
+    padding-top: 10px;
+    display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
-      'row1'
-      'row2'
-      '.'
-      '.'
-      '.'
-      'row3';
+      "row1"
+      "row2"
+      "."
+      "."
+      "."
+      "row3";
     width: 200px;
+    gap: 0;
   }
 
   #colors {
@@ -153,14 +142,19 @@ main canvas {
     padding-left: 5px;
     justify-self: left;
     grid-area: row2;
+    font-size: 2rem;
   }
 
   #button-menu {
     padding-left: 5px;
     align-self: flex-end;
     grid-area: row3;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
   }
 
+  /* On desktop: keep button slots, but hide disabled visually */
   #button-menu button:disabled {
     display: unset;
     visibility: hidden;
