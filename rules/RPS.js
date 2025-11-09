@@ -1,72 +1,104 @@
-import { Rule } from "../core/Rule.js";
-import { randomMatrix, mod } from "../utils.js";
+// RPS.js
+// ---------------------------------------------
+// Cyclic dominance with weighted influence + unique winner + threshold.
+//
+// ordering = [C0, C1, ..., C(n-1)]
+// Predator of Ci is C(i+1 mod n).
+//
+// For each cell (row, col):
+//   current = state[row][col]
+//   neighbours via getListOfNeighbourValues
+//
+//   For each neighbour color n:
+//     if n is predator(current): add influenceAdvantage
+//     else:                      add 1
+//
+//   influenceCounts[color] = total weighted influence from neighbours
+//
+//   winner = unique color with max influence
+//
+//   If winner exists AND influenceCounts[winner] > threshold:
+//       return winner
+//   Else:
+//       return null  (keep current)
 
-const GRID = () => false;
+import { Rule } from "../core/Rule.js";
+import { randomMatrix } from "../utils.js";
 
 export class RPS extends Rule {
-  constructor() {
+  constructor({
+    ordering = ["black", "white", "yellow"],
+    gridSize = 200,
+    radius = 3,
+    threshold = 0,
+    influenceAdvantage = 1.8,
+  } = {}) {
     super();
-
-    this.ordering = ["#7880b5", "#C0A9B0", "#BCC4DB"];
-    this.radius = 4;
-    this.threshold = 20;
-    this.influenceAdvantage = 2;
-    this.filterSchema = GRID;
-    this.gridSize = 200;
+    this.ordering = ordering;
+    this.gridSize = gridSize;
+    this.radius = radius;
+    this.threshold = threshold;
+    this.influenceAdvantage = influenceAdvantage;
   }
 
   nextValue(row, col, state) {
-    return this.determine(this.most(this.neighbors(row, col, state)));
-  }
+    const current = state[row][col];
 
-  neighbors(row0, col0, state) {
-    const l = state.length;
-    const radius = this.radius;
-    const results = {};
-    const current = state[row0][col0];
+    const neighbours = this.getListOfNeighbourValues(row, col, state);
+    if (!neighbours.length) return null;
 
-    for (let dr = -radius; dr <= radius; dr++) {
-      for (let dc = -radius; dc <= radius; dc++) {
-        if (dr === 0 && dc === 0) continue;
-        if (this.filterSchema(dr, dc, radius)) continue;
-
-        const neighbor = state[mod(row0 + dr, l)][mod(col0 + dc, l)];
-        const influence = this.influence(current, neighbor);
-        results[neighbor] = (results[neighbor] || 0) + influence;
-      }
+    // Weighted influence per colour
+    const influenceCounts = {};
+    for (const n of neighbours) {
+      const w = this.influence(current, n);
+      influenceCounts[n] = (influenceCounts[n] || 0) + w;
     }
-    return results;
+
+    const { winner, maxValue, isUnique } =
+      this.findUniqueWinner(influenceCounts);
+
+    if (!winner || !isUnique) return null;
+    if (maxValue <= this.threshold) return null;
+
+    return winner;
   }
 
-  influence(current, neighbor) {
-    const i = this.ordering.indexOf(current);
-    const j = this.ordering.indexOf(neighbor);
+  // Cyclic: predator is successor in ordering
+  influence(current, neighbour) {
     const len = this.ordering.length;
+    const i = this.ordering.indexOf(current);
+    const j = this.ordering.indexOf(neighbour);
+    if (i === -1 || j === -1 || len === 0) return 1;
 
-    // neighbor beats current in cyclic order
-    if ((i + 1) % len === j) return this.influenceAdvantage;
-    return 1;
+    const predatorOfCurrent = this.ordering[(i + 1) % len];
+
+    return neighbour === predatorOfCurrent ? this.influenceAdvantage : 1;
   }
 
-  most(results) {
-    let threshold = this.threshold;
-    let winners = [];
-    for (const [state, count] of Object.entries(results)) {
-      if (count > threshold) {
-        threshold = count;
-        winners = [state];
-      } else if (count === threshold) {
-        winners.push(state);
+  findUniqueWinner(counts) {
+    let winner = null;
+    let maxValue = -Infinity;
+    let isUnique = true;
+
+    for (const [color, value] of Object.entries(counts)) {
+      if (value > maxValue) {
+        winner = color;
+        maxValue = value;
+        isUnique = true;
+      } else if (value === maxValue) {
+        isUnique = false;
       }
     }
-    return winners;
-  }
 
-  determine(winners) {
-    return winners.length === 1 ? winners[0] : null;
+    if (!isUnique) return { winner: null, maxValue, isUnique: false };
+    return { winner, maxValue, isUnique: true };
   }
 
   generateStartingState(size = this.gridSize, ordering = this.ordering) {
     return randomMatrix(size, size, ordering);
   }
+
+  // Neighbourhood shape:
+  // By default: full square radius via Rule.getListOfNeighbourValues.
+  // Variants (diagonal, cross, etc.) override shouldIncludeOffset(dr, dc).
 }

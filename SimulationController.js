@@ -7,7 +7,7 @@ export class SimulationController {
     this.animationFrameId = null;
     this.running = false;
 
-    this.FRAME_INTERVAL = 1000 / 5; // 5 fps max
+    this.FRAME_INTERVAL = 1000 / 10; // 5 fps max
   }
 
   start() {
