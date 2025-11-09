@@ -42,8 +42,8 @@ export class RPS extends Rule {
     ordering = ["#15237bff", "#b64668ff", "#219b1eff"],
     gridSize = 200,
     radius = 4,
-    influenceAdvantage = 3,
-    dominanceBias = 0.3, // K-aware dominance requirement
+    influenceAdvantage = 3.9,
+    dominanceBias = 0.5, // K-aware dominance requirement
   } = {}) {
     super();
     this.ordering = ordering;
