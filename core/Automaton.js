@@ -19,7 +19,7 @@ export class Automaton {
   }
 
   reset() {
-    const initial = this.rule.generateStartingState(
+    const initial = this.rule.createInitialState(
       this.rule.gridSize,
       this.rule.ordering
     );

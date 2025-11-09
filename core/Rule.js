@@ -16,14 +16,24 @@ export class Rule {
     throw new Error("nextValue() must be implemented by subclass");
   }
 
-  generateStartingState() {
+  createInitialState() {
+    this.ensureConfigured();
+    return this.generateStartingState(this.gridSize, this.ordering);
+  }
+
+  // 🔧 Overridable hook; subclasses may already override this.
+  // Base version: random fill.
+  generateStartingState(size = this.gridSize, ordering = this.ordering) {
+    return randomMatrix(size, size, ordering);
+  }
+
+  ensureConfigured() {
     if (typeof this.gridSize !== "number" || this.gridSize <= 0) {
       throw new Error(`[Rule] ${this.constructor.name} missing valid gridSize`);
     }
-    if (!Array.isArray(this.ordering) || !this.ordering.length) {
+    if (!Array.isArray(this.ordering) || this.ordering.length === 0) {
       throw new Error(`[Rule] ${this.constructor.name} missing valid ordering`);
     }
-    return randomMatrix(this.gridSize, this.gridSize, this.ordering);
   }
 
   shouldIncludeOffset(_dr, _dc) {

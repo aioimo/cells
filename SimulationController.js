@@ -43,7 +43,7 @@ export class SimulationController {
   }
 
   reset() {
-    const initial = this.automaton.rule.generateStartingState();
+    const initial = this.automaton.rule.createInitialState();
     this.automaton.initialise(initial);
     this.drawingEngine.draw(this.automaton.state);
     this.onChange?.(this.automaton);
