@@ -1,38 +1,15 @@
 // RPS.js
-// ---------------------------------------------
-// Cyclic dominance with weighted influence and K-aware dominance threshold.
+// --------------------------------------------------
+// Classic rock-paper-scissors cyclic dominance.
+// Each color dominates exactly one other color (its successor).
 //
 // ordering = [C0, C1, ..., C(n-1)]
 // Predator of Ci is C(i+1 mod n).
 //
-// For each cell:
-//   current = state[row][col]
-//   neighbours via getListOfNeighbourValues()
-//
-//   For each neighbour colour n:
-//     if n === predator(current): +influenceAdvantage
-//     else:                       +1
-//
-//   influenceCounts[color] = total weighted influence
-//   winner = unique colour with max influence
-//
-//   Let:
-//     total      = sum(influenceCounts[*])
-//     share      = influenceCounts[winner] / total
-//     K_local    = #distinct colours in influenceCounts
-//     p_uniform  = 1 / K_local
-//
-//   dominanceBias in [0,1]:
-//     minShare = p_uniform + dominanceBias * (1 - p_uniform)
-//       - 0   => minShare = p_uniform      (just beat "random among locals")
-//       - 1   => minShare = 1.0            (near-total dominance)
-//
-//   Flip iff:
-//     - winner exists
-//     - winner is unique
-//     - share >= minShare
-//
-// Otherwise: return null (keep current).
+// Behaviour:
+//   - Only the immediate predator gets boosted influence.
+//   - Others are neutral (weight 1).
+//   - Works cleanly for 3 colours and any N>=3 where you want pure cyclic behaviour.
 
 import { Rule } from "../core/Rule.js";
 import { randomMatrix } from "../utils.js";
@@ -43,7 +20,7 @@ export class RPS extends Rule {
     gridSize = 200,
     radius = 4,
     influenceAdvantage = 3.9,
-    dominanceBias = 0.5, // K-aware dominance requirement
+    dominanceBias = 0.5,
   } = {}) {
     super();
     this.ordering = ordering;
@@ -58,7 +35,6 @@ export class RPS extends Rule {
     const neighbours = this.getListOfNeighbourValues(row, col, state);
     if (!neighbours.length) return null;
 
-    // Weighted influence by colour
     const influenceCounts = {};
     let total = 0;
 
@@ -72,7 +48,6 @@ export class RPS extends Rule {
 
     const { winner, maxValue, isUnique } =
       this.findUniqueWinner(influenceCounts);
-
     if (!winner || !isUnique) return null;
 
     const K_local = Object.keys(influenceCounts).length;
@@ -87,12 +62,13 @@ export class RPS extends Rule {
     return winner;
   }
 
-  // Predator = successor of current in the cycle
   influence(current, neighbour) {
     const len = this.ordering.length;
+    if (len === 0) return 1;
+
     const i = this.ordering.indexOf(current);
     const j = this.ordering.indexOf(neighbour);
-    if (i === -1 || j === -1 || len === 0) return 1;
+    if (i === -1 || j === -1) return 1;
 
     const predator = this.ordering[(i + 1) % len];
     return neighbour === predator ? this.influenceAdvantage : 1;
@@ -113,10 +89,9 @@ export class RPS extends Rule {
       }
     }
 
-    if (!isUnique) {
-      return { winner: null, maxValue, isUnique: false };
-    }
-    return { winner, maxValue, isUnique: true };
+    return isUnique
+      ? { winner, maxValue, isUnique: true }
+      : { winner: null, maxValue, isUnique: false };
   }
 
   generateStartingState(size = this.gridSize, ordering = this.ordering) {

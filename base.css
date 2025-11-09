@@ -1,0 +1,22 @@
+/* base.css */
+
+:root {
+  --base-font-size: 18px; /* change this one value */
+  --font-main: "Courier New", Courier, monospace;
+  --bg: #000;
+  --fg: #f5f5f5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  font-size: var(--base-font-size);
+  background-color: var(--bg);
+  color: var(--fg);
+}

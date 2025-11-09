@@ -6,26 +6,31 @@ import { Rule } from "../core/Rule.js";
 import { mod, randomWeighted } from "../utils.js";
 
 export class GeneticDriftLocalBattle extends Rule {
-  constructor() {
+  constructor({ majorityBias = 1.2 } = {}) {
     super();
     this.ordering = ["black", "orange", "white", "blue"];
-    this.gridSize = 50;
+    this.gridSize = 100;
     this.radius = 2;
     this.filterSchema = () => false;
+    this.majorityBias = majorityBias;
   }
 
   // Called once per cell by Automaton
   nextValue(row, col, state) {
     const localCounts = this.neighbors(row, col, state);
 
-    const total = Object.values(localCounts).reduce((sum, v) => sum + v, 0);
-    if (total === 0) {
-      return null; // no change; fallback to current cell
+    const biased = {};
+    for (const color of this.ordering) {
+      const c = localCounts[color] || 0;
+      if (c > 0) {
+        biased[color] = Math.pow(c, this.majorityBias);
+      }
     }
 
-    const weights = this.ordering.map(
-      (color) => (localCounts[color] || 0) / total
-    );
+    const total = Object.values(biased).reduce((sum, v) => sum + v, 0);
+    if (total === 0) return null; // no neighbours or all zero: keep current
+
+    const weights = this.ordering.map((color) => (biased[color] || 0) / total);
 
     return randomWeighted(this.ordering, weights);
   }

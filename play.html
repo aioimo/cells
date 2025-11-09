@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cellular Automata - Play</title>
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <a href="index.html" class="back-link" style="margin: 8px">
+          ← All rules
+        </a>
+      </div>
+      <main>
+        <!-- keep explicit size; CSS scales it; JS uses logical pixels -->
+        <canvas id="canvas" width="5000" height="5000"></canvas>
+      </main>
+
+      <section id="display-panel-section">
+        <section id="button-menu">
+          <button id="start" class="button button__big">Start</button>
+          <button id="pause" class="button button__big" disabled>Pause</button>
+          <button id="next" class="button button__small">Next</button>
+          <button id="reset" class="button button__small">Reset</button>
+        </section>
+
+        <section id="iterations-display">
+          <span id="iterations">0</span>
+        </section>
+
+        <fieldset id="colors"></fieldset>
+      </section>
+    </div>
+
+    <footer style="padding: 8px 0px 8px">
+      <h1 id="rule-title" style="margin: 0; font-size: 1.4rem"></h1>
+      <p
+        id="rule-description"
+        style="margin: 4px 0 0; font-size: 0.9rem; opacity: 0.8"
+      ></p>
+    </footer>
+  </body>
+
+  <script type="module">
+    import { initSimulation } from "./initSimulation.js";
+
+    const params = new URLSearchParams(window.location.search);
+    const ruleId = params.get("rule") || "majority";
+
+    initSimulation({
+      ruleId,
+      elements: {
+        canvas: document.getElementById("canvas"),
+        iterationsEl: document.getElementById("iterations"),
+        colorsEl: document.getElementById("colors"),
+        startBtn: document.getElementById("start"),
+        pauseBtn: document.getElementById("pause"),
+        nextBtn: document.getElementById("next"),
+        resetBtn: document.getElementById("reset"),
+        titleEl: document.getElementById("rule-title"),
+        descEl: document.getElementById("rule-description"),
+      },
+    });
+  </script>
+</html>

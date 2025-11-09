@@ -1,4 +1,5 @@
 import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+import { emptyMatrix } from "../utils.js";
 
 export class QuaternionGroup extends ImaginaryGroupBase {
   GRID_SIZE = 80;
@@ -27,6 +28,7 @@ export class QuaternionGroup extends ImaginaryGroupBase {
     super(props);
     this.ordering = ["-1", "i", "-i", "1", "-j", "k", "-k", "j"];
     this.radius = 1;
+    this.gridSize = this.GRID_SIZE;
   }
 
   generateStartingState() {

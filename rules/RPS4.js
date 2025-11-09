@@ -8,5 +8,6 @@ export class RPS4 extends RPS {
     this.threshold = 16;
     this.influenceAdvantage = 1.8;
     this.ordering = ["#7880b5", "#C0A9B0", "#BCC4DB", "black"];
+    this.dominanceBias = 0.5; // K-aware dominance requirement
   }
 }

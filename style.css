@@ -1,11 +1,4 @@
-body {
-  background-color: black;
-  margin: 0;
-  font-family: "Courier New", Courier, monospace;
-  color: whitesmoke;
-}
-
-/* Mobile-first: stack canvas + panel vertically */
+/* Mobile-first layout */
 
 .container {
   position: relative;
@@ -19,41 +12,41 @@ main {
 
 main canvas {
   width: 100%;
-  height: auto; /* keep aspect ratio of 5000x5000 */
+  height: auto;
   display: block;
 }
 
-/* Panel under canvas, vertical layout */
-
+/* Under-canvas panel: two sides:
+   left = buttons, right = iterations + colors
+*/
 #display-panel-section {
   padding: 10px 5px 0;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  align-items: flex-start;
   width: 100%;
 }
 
-/* Buttons first */
+/* Left side: buttons */
 
 #button-menu {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column; /* 👈 this is the key change */
   gap: 0.5rem;
-  align-items: center;
+  align-items: flex-start;
 }
 
-/* On mobile: hide disabled buttons completely (original behavior) */
-#button-menu button:disabled {
-  display: none;
-}
+/* Right side: iterations + colors stacked, aligned right */
 
-/* Iterations next */
+#iterations-display,
+#colors {
+  margin-left: auto; /* push to the right side */
+  text-align: right;
+}
 
 #iterations-display {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
 }
-
-/* Colors after that */
 
 #colors {
   border: none;
@@ -72,10 +65,10 @@ main canvas {
   height: 25px;
 }
 
-/* Buttons */
+/* Buttons styling */
 
 .button {
-  font-family: "Courier New", Courier, monospace;
+  font-family: var(--font-main, "Courier New", Courier, monospace);
   background-color: black;
   border: none;
   color: whitesmoke;
@@ -100,9 +93,14 @@ main canvas {
   color: black;
 }
 
-/* Desktop: side panel on the right, restore original layout */
+/* On mobile: hide disabled buttons completely */
+#button-menu button:disabled {
+  display: none;
+}
 
-@media only screen and (min-width: 800px) {
+/* Desktop: keep previous right-column layout unchanged */
+
+@media only screen and (min-width: 701px) {
   .container {
     display: flex;
     flex-direction: row;
@@ -136,6 +134,8 @@ main canvas {
     padding-left: 5px;
     justify-self: left;
     grid-area: row1;
+    text-align: left;
+    margin-left: 0;
   }
 
   #iterations-display {
@@ -143,6 +143,8 @@ main canvas {
     justify-self: left;
     grid-area: row2;
     font-size: 2rem;
+    text-align: left;
+    margin-left: 0;
   }
 
   #button-menu {
@@ -154,7 +156,7 @@ main canvas {
     gap: 0;
   }
 
-  /* On desktop: keep button slots, but hide disabled visually */
+  /* Desktop: retain slots for disabled buttons */
   #button-menu button:disabled {
     display: unset;
     visibility: hidden;

@@ -1,121 +1,203 @@
-// ----------------------------------------------------
-// Rule Registry — explicit imports
-// ----------------------------------------------------
+// rules/index.js
 
-// Majority family
+// 1. Import rule classes (adjust paths/names to your actual files)
 import { Majority } from "./Majority.js";
 import { MajorityDiagonal } from "./MajorityDiagonal.js";
 import { MajorityStickyBorders } from "./MajorityStickyBorders.js";
 import { MajorityStrongConsensus } from "./MajorityStrongConsensus.js";
 
-// RPS (Rock–Paper–Scissors) family
 import { RPS } from "./RPS.js";
 import { RPS4 } from "./RPS4.js";
 import { RPS5 } from "./RPS5.js";
 import { RPS6 } from "./RPS6.js";
-import { RPSDiagonal } from "./RPSDiagonal.js";
+import { RPSCascade } from "./RPSCascade.js";
 
-// Genetic Drift family
 import { GeneticDrift } from "./GeneticDrift.js";
 import { GeneticDriftLocalBattle } from "./GeneticDriftLocalBattle.js";
 import { GeneticDriftGlobalBattle } from "./GeneticDriftGlobalBattle.js";
 
-// Group theory family
-import { C4Group } from "./C4Group.js";
-import { Dihedral3Group } from "./Dihedral3Group.js";
-import { Dihedral4Group } from "./Dihedral4Group.js";
-import { Dihedral6Group } from "./Dihedral6Group.js";
-import { ElementaryAbelian_2_2_2_Group } from "./ElementaryAbelian_2_2_2_Group.js";
+import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+import { ImaginaryGroupSingle } from "./ImaginaryGroupSingle.js";
+import { ImaginaryGroupQuadrants } from "./ImaginaryGroupQuadrants.js";
+
 import { QuaternionGroup } from "./QuaternionGroup.js";
 import { QuaternionGroupPizza } from "./QuaternionGroupPizza.js";
 import { QuaternionGroupSpiral } from "./QuaternionGroupSpiral.js";
 
-// Imaginary group (complex / quaternion visualisations)
-import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
-import { ImaginaryGroupQuadrants } from "./ImaginaryGroupQuadrants.js";
-import { ImaginaryGroupSingle } from "./ImaginaryGroupSingle.js";
+import { C4Group } from "./C4Group.js";
+import { Dihedral3Group } from "./Dihedral3Group.js";
+import { Dihedral4Group } from "./Dihedral4Group.js";
+import { Dihedral6Group } from "./Dihedral6Group.js";
 
-// ----------------------------------------------------
-// Registry & Tags
-// ----------------------------------------------------
+import { ElementaryAbelian_2_2_2_Group } from "./ElementaryAbelian_2_2_2_Group.js";
 
+// 2. RULES: id -> factory
 export const RULES = {
-  // Majority
   majority: () => new Majority(),
   "majority-diagonal": () => new MajorityDiagonal(),
   "majority-sticky-borders": () => new MajorityStickyBorders(),
   "majority-strong-consensus": () => new MajorityStrongConsensus(),
 
-  // RPS
-  rps: () => new RPS(),
-  "rps-4": () => new RPS4(),
-  "rps-5": () => new RPS5(),
-  "rps-6": () => new RPS6(),
-  "rps-diagonal": () => new RPSDiagonal(),
+  rps3: () => new RPS(),
+  rps4: () => new RPS4(),
+  rps5: () => new RPS5(),
+  rps6: () => new RPS6(),
+  rpsCascade: () => new RPSCascade(),
 
-  // Genetic Drift
+  coalitionRule: () => new CoalitionRule(),
+
   "genetic-drift": () => new GeneticDrift(),
-  "genetic-drift-local-battle": () => new GeneticDriftLocalBattle(),
-  "genetic-drift-global-battle": () => new GeneticDriftGlobalBattle(),
+  "genetic-drift-local": () => new GeneticDriftLocalBattle(),
+  "genetic-drift-global": () => new GeneticDriftGlobalBattle(),
 
-  // Group Theory
-  "c4-group": () => new C4Group(),
-  "dihedral-3": () => new Dihedral3Group(),
-  "dihedral-4": () => new Dihedral4Group(),
-  "dihedral-6": () => new Dihedral6Group(),
-  "elementary-abelian-2-2-2": () => new ElementaryAbelian_2_2_2_Group(),
-  "quaternion-group": () => new QuaternionGroup(),
-  "quaternion-group-pizza": () => new QuaternionGroupPizza(),
-  "quaternion-group-spiral": () => new QuaternionGroupSpiral(),
+  "imaginary-base": () => new ImaginaryGroupBase(),
+  "imaginary-single": () => new ImaginaryGroupSingle(),
+  "imaginary-quadrants": () => new ImaginaryGroupQuadrants(),
 
-  // Imaginary Groups
-  "imaginary-group-base": () => new ImaginaryGroupBase(),
-  "imaginary-group-quadrants": () => new ImaginaryGroupQuadrants(),
-  "imaginary-group-single": () => new ImaginaryGroupSingle(),
+  quaternion: () => new QuaternionGroup(),
+  "quaternion-pizza": () => new QuaternionGroupPizza(),
+  "quaternion-spiral": () => new QuaternionGroupSpiral(),
+
+  c4: () => new C4Group(),
+  d3: () => new Dihedral3Group(),
+  d4: () => new Dihedral4Group(),
+  d6: () => new Dihedral6Group(),
+  "elem-abelian-2-2-2": () => new ElementaryAbelian_2_2_2_Group(),
 };
 
-// Optionally add metadata for UI filtering / categorisation
-export const RULE_TAGS = {
-  majority: ["local", "consensus"],
-  "majority-diagonal": ["local", "filtered", "symmetry"],
-  "majority-sticky-borders": ["local", "boundary", "stability"],
-  "majority-strong-consensus": ["local", "consensus", "robust"],
+// 3. RULE_META: id -> label/description
+export const RULE_META = {
+  majority: {
+    label: "Majority",
+    description:
+      "Cells adopt the locally dominant colour when it has a clear lead: classic clustering.",
+  },
+  "majority-diagonal": {
+    label: "Majority (Diagonal)",
+    description:
+      "Majority using only diagonal neighbours, giving X-shaped and rotated domains.",
+  },
+  "majority-sticky-borders": {
+    label: "Majority – Sticky Borders",
+    description:
+      "Interfaces resist flipping, preserving sharp boundaries between regions.",
+  },
+  "majority-strong-consensus": {
+    label: "Majority – Strong Consensus",
+    description:
+      "Requires a strong local lead to change; slower, more blocky consensus.",
+  },
 
-  rps: ["cyclic", "competitive", "3-state"],
-  "rps-4": ["cyclic", "competitive", "4-state"],
-  "rps-5": ["cyclic", "competitive", "5-state"],
-  "rps-6": ["cyclic", "competitive", "6-state"],
-  "rps-diagonal": ["cyclic", "filtered"],
+  rps3: {
+    label: "RPS (3-state)",
+    description:
+      "Classic cyclic dominance; neighbours weighted by who beats whom.",
+  },
+  rps4: {
+    label: "RPS (4-state)",
+    description: "Four-state cyclic dominance with extended interaction loop.",
+  },
+  rps5: {
+    label: "RPS (5-state)",
+    description: "Five-state cycle; dense interference and swirling domains.",
+  },
+  rps6: {
+    label: "RPS (6-state)",
+    description: "Six-state cycle; rich, slow-mixing wave structures.",
+  },
+  rpsCascade: {
+    label: "RPS Cascade",
+    description:
+      "Cyclic dominance with cascading predator influence; multi-level interactions.",
+  },
+  coalitionRule: {
+    label: "Coalition Rule",
+    description:
+      "Two-level competition: teams fight, then internal RPS dynamics decide winners.",
+  },
 
-  "genetic-drift": ["global", "stochastic"],
-  "genetic-drift-local-battle": ["local", "stochastic"],
-  "genetic-drift-global-battle": ["global", "weighted"],
+  "genetic-drift": {
+    label: "Genetic Drift (Global)",
+    description:
+      "Each cell samples from global colour frequencies: pure drift.",
+  },
+  "genetic-drift-local": {
+    label: "Genetic Drift (Local)",
+    description:
+      "Cells resample from their immediate neighbours: patchy local drift.",
+  },
+  "genetic-drift-global": {
+    label: "Genetic Drift (Local × Global)",
+    description:
+      "Local choices biased by global popularity: rich feedback dynamics.",
+  },
 
-  "c4-group": ["group", "cyclic"],
-  "dihedral-3": ["group", "symmetry"],
-  "dihedral-4": ["group", "symmetry"],
-  "dihedral-6": ["group", "symmetry"],
-  "elementary-abelian-2-2-2": ["group", "algebraic", "xor"],
-  "quaternion-group": ["group", "quaternion", "symmetry"],
-  "quaternion-group-pizza": ["group", "pattern", "visualization"],
-  "quaternion-group-spiral": ["group", "pattern", "visualization"],
+  "imaginary-base": {
+    label: "Imaginary Group Base",
+    description:
+      "Cells store ±1, ±i; updates multiply neighbours according to complex-unit rules.",
+  },
+  "imaginary-single": {
+    label: "Imaginary Group (Single Source)",
+    description: "Imaginary dynamics from a single seeded region.",
+  },
+  "imaginary-quadrants": {
+    label: "Imaginary Group (Quadrants)",
+    description:
+      "Quadrants seeded with different units; interfaces show their interactions.",
+  },
 
-  "imaginary-group-base": ["complex", "pattern", "base"],
-  "imaginary-group-quadrants": ["complex", "pattern", "structured"],
-  "imaginary-group-single": ["complex", "pattern", "minimal"],
+  quaternion: {
+    label: "Quaternion Group",
+    description:
+      "Cells multiply neighbours in Q8; non-commutative group dynamics.",
+  },
+  "quaternion-pizza": {
+    label: "Quaternion Group (Pizza)",
+    description: "Quaternion dynamics from radial sector initialisation.",
+  },
+  "quaternion-spiral": {
+    label: "Quaternion Group (Spiral)",
+    description: "Quaternion rule from spiral seed; twisting structure.",
+  },
+
+  c3: {
+    label: "C3 (Z/3)",
+    description:
+      "Additive mod 3: neighbours summed modulo 3; simple wave patterns.",
+  },
+  d3: {
+    label: "D₃ (triangle symmetries)",
+    description:
+      "Products in dihedral group of order 6; triangular symmetry themes.",
+  },
+  d4: {
+    label: "D₄ (square symmetries)",
+    description:
+      "Products in D4; grid-aligned, reflection/rotation-driven patterns.",
+  },
+  d6: {
+    label: "D₆ (hexagon symmetries)",
+    description: "Dihedral group of order 12; more complex symmetric tilings.",
+  },
+  "elem-abelian-2-2-2": {
+    label: "(Z/2)³",
+    description:
+      "XOR-based rule on 3-bit vectors; crisp, high-frequency interference.",
+  },
 };
 
-// Convenience exports
+// 4. Keys + helper
+
 export const RULE_KEYS = Object.keys(RULES);
 
-export function getRuleById(id) {
+export function getRuleById(id, config = {}) {
   const factory = RULES[id];
-  if (!factory) throw new Error(`[Rules] Unknown rule id: ${id}`);
-  return factory();
-}
+  console.log("FACTORY...", factory);
+  if (!factory) {
+    throw new Error(`[Rules] Unknown rule id: ${id}`);
+  }
 
-export function listRulesByTag(tag) {
-  return Object.entries(RULE_TAGS)
-    .filter(([_, tags]) => tags.includes(tag))
-    .map(([key]) => key);
+  console.log("factory(config)...", factory(config));
+  return factory(config);
 }

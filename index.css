@@ -1,0 +1,95 @@
+/* index.css */
+
+:root {
+  --bg: #000;
+  --fg: #f5f5f5;
+  --border-subtle: rgba(245, 245, 245, 0.18);
+  --border-strong: rgba(245, 245, 245, 0.32);
+  --radius: 8px;
+  --gap: 0.75rem;
+  --font-mono: "Courier New", Courier, monospace;
+  --base-font-size: 18px; /* tweak this one value */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--base-font-size);
+}
+
+.gallery {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2.5rem;
+}
+
+.gallery h1 {
+  margin: 0 0 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* Rule list as cards */
+
+.rule-list {
+  list-style: none; /* no bullets */
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+}
+
+.rule-item {
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.14s ease-in-out;
+}
+
+.rule-item a {
+  display: inline-block;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--fg);
+  text-decoration: none;
+  margin-bottom: 0.15rem;
+}
+
+.rule-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  opacity: 0.85;
+}
+
+/* Hover/focus */
+
+.rule-item:hover {
+  border-color: var(--border-strong);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+.rule-item a:hover,
+.rule-item a:focus-visible {
+  text-decoration: underline;
+}
+
+/* Wider screens: 2 columns */
+
+@media (min-width: 720px) {
+  .rule-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}

@@ -5,9 +5,9 @@ export class RPSDiagonal extends RPS {
     super(props);
 
     this.radius = 6;
-    this.dominanceBias = 0.0;
     this.influenceAdvantage = 2.1;
     this.ordering = ["#7C3626", "#f5853f", "#ffcdbc"];
+    this.dominanceBias = 0.0;
   }
 
   shouldIncludeOffset(dr, dc) {
