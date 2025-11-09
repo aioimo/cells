@@ -1,6 +1,7 @@
 import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+import { emptyMatrix } from "../utils.js";
 
-class QuaternionGroupPizza extends ImaginaryGroupBase {
+export class QuaternionGroupPizza extends ImaginaryGroupBase {
   GRID_SIZE = 501;
 
   getColor(val) {
