@@ -5,7 +5,7 @@ import { UIManager } from "./ui/UIManager.js";
 import { Buttons } from "./ui/Buttons.js";
 import { DrawingEngine } from "./drawing/DrawingEngine.js";
 import { Automaton } from "./core/Automaton.js";
-import { ElementaryAbelian_2_2_2_Group } from "./rules/ElementaryAbelian_2_2_2_Group.js";
+import { RPS4 } from "./rules/RPS4.js";
 import { Colors } from "./ui/Colors.js";
 import { Iteration } from "./ui/Iteration.js";
 
@@ -24,7 +24,7 @@ const $next = document.getElementById("next");
 // ----------------------------
 // CORE SIMULATION SETUP
 // ----------------------------
-const rule = new ElementaryAbelian_2_2_2_Group();
+const rule = new RPS4();
 const automaton = new Automaton({ rule });
 
 const drawingEngine = new DrawingEngine({

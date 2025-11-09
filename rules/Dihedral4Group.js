@@ -1,146 +1,134 @@
-import { Logic } from "../Logic.js";
+// Dihedral4Group.js
+// ---------------------------------------------
+// Conceptual summary:
+//
+// - State space:
+//     8 elements of D₄ (symmetries of the square):
+//       { e, r, r2, r3, s, rs, r2s, r3s }.
+//
+// - Update rule:
+//     For each cell, take all neighbours in radius 1 (excluding itself),
+//     multiply their values sequentially using the D₄ group law, and set
+//     the cell to the resulting element.
+//
+// - Initial configuration:
+//     Grid is split into 8 angular sectors around the center; each sector
+//     is assigned one of the D₄ elements from `this.ordering`.
+//
+// - Colours:
+//     Defined by getColor(); purely visual, can be changed independently.
+//
 
-class Dihedral4Group extends Logic {
+import { Rule } from "../core/Rule.js";
+
+// ---------- D4 helpers ----------
+
+function d4ToParts(x) {
+  if (x === "e") return { k: 0, ref: false };
+
+  const ref = x.includes("s");
+  const rotPart = ref ? x.replace("s", "") : x;
+
+  let k;
+  switch (rotPart) {
+    case "r":
+      k = 1;
+      break;
+    case "r2":
+      k = 2;
+      break;
+    case "r3":
+      k = 3;
+      break;
+    default:
+      k = 0;
+      break; // treat anything unexpected as identity
+  }
+
+  return { k, ref };
+}
+
+function d4FromParts({ k, ref }) {
+  k = ((k % 4) + 4) % 4; // normalize mod 4
+
+  if (!ref) {
+    if (k === 0) return "e";
+    if (k === 1) return "r";
+    return `r${k}`;
+  } else {
+    if (k === 0) return "s";
+    if (k === 1) return "rs";
+    return `r${k}s`;
+  }
+}
+
+function multiplyD4(a, b) {
+  const A = d4ToParts(a);
+  const B = d4ToParts(b);
+
+  if (!A.ref && !B.ref) {
+    // rot * rot
+    return d4FromParts({ k: A.k + B.k, ref: false });
+  }
+
+  if (!A.ref && B.ref) {
+    // rot * (rot s)
+    return d4FromParts({ k: A.k + B.k, ref: true });
+  }
+
+  if (A.ref && !B.ref) {
+    // (rot s) * rot
+    return d4FromParts({ k: A.k - B.k, ref: true });
+  }
+
+  // (rot s) * (rot s)
+  return d4FromParts({ k: A.k - B.k, ref: false });
+}
+
+// ---------- Rule implementation ----------
+
+export class Dihedral4Group extends Rule {
+  constructor() {
+    super();
+    this.ordering = ["e", "r", "r2", "r3", "s", "rs", "r2s", "r3s"];
+    this.gridSize = 300;
+    this.radius = 1;
+  }
+
   getColor(val) {
     switch (val) {
       case "e":
-        return "yellow"; // black
-      case "r":
-        return "black"; // red
+        return "black";
       case "r2":
-        return "yellow"; // green
-      case "r3":
-        return "black"; // blue
-      case "s":
-        return "white"; // cyan
-      case "rs":
-        return "white"; // orange
       case "r2s":
-        return "yellow"; // purple
+      case "r":
+      case "r3":
+        return "yellow";
+      case "s":
+      case "rs":
       case "r3s":
-        return "white"; // brown
+        return "white";
       default:
-        return "#FFFFFF"; // white (default case for any unexpected value)
+        return "#FFFFFF";
     }
   }
 
-  ORDERING = ["e", "r2", "s", "r", "rs", "r2s", "r3", "r3s"];
-  RADIUS = 1;
-  THRESHOLD = 0;
-  FILTER_SCHEMA = (row, col) => row === 0 && col === 0;
-  GRID_SIZE = 300;
-
-  constructor(props) {
-    super(props);
-
-    this.radius = this.RADIUS;
-    this.threshold = this.THRESHOLD;
-    this.ordering = this.ORDERING;
-    this.filterSchema = this.FILTER_SCHEMA;
-
-    const initalState = this.generateStartingState();
-
-    this.initialise(initalState);
-  }
-
   nextValue(row, col, state) {
-    const neighbors = this.getListOfNeighbourValues(row, col, state);
-
-    const product = neighbors.reduce(
-      (prev, curr) => this.multiplyD4(prev, curr),
-      "e"
-    );
-
-    return product;
-  }
-
-  multiplyD4(a, b) {
-    const multiplicationTableD4 = {
-      ee: "e",
-      er: "r",
-      er2: "r2",
-      er3: "r3",
-      es: "s",
-      ers: "rs",
-      er2s: "r2s",
-      er3s: "r3s",
-      re: "r",
-      rr: "r2",
-      rr2: "r3",
-      rr3: "e",
-      rs: "rs",
-      rrs: "r2s",
-      rr2s: "r3s",
-      rr3s: "s",
-      r2e: "r2",
-      r2r: "r3",
-      r2r2: "e",
-      r2r3: "r",
-      r2s: "r2s",
-      r2rs: "r3s",
-      r2r2s: "s",
-      r2r3s: "rs",
-      r3e: "r3",
-      r3r: "e",
-      r3r2: "r",
-      r3r3: "r2",
-      r3s: "r3s",
-      r3rs: "s",
-      r3r2s: "rs",
-      r3r3s: "r2s",
-      se: "s",
-      sr: "r3s",
-      sr2: "r2s",
-      sr3: "rs",
-      ss: "e",
-      srs: "r3",
-      sr2s: "r2",
-      sr3s: "r",
-      rse: "rs",
-      rsr: "s",
-      rsr2: "r3s",
-      rsr3: "r2s",
-      rss: "r",
-      rsrs: "e",
-      rsr2s: "r3",
-      rsr3s: "r2",
-      r2se: "r2s",
-      r2sr: "rs",
-      r2sr2: "s",
-      r2sr3: "r3s",
-      r2ss: "r2",
-      r2srs: "r",
-      r2sr2s: "e",
-      r2sr3s: "r3",
-      r3se: "r3s",
-      r3sr: "r2s",
-      r3sr2: "rs",
-      r3sr3: "s",
-      r3ss: "r3",
-      r3srs: "r2",
-      r3sr2s: "r",
-      r3sr3s: "e",
-    };
-    return multiplicationTableD4[a + b];
+    const neighbours = this.getListOfNeighbourValues(row, col, state);
+    return neighbours.reduce((acc, n) => multiplyD4(acc, n), "e");
   }
 
   generateStartingState() {
-    const GRID_SIZE = this.GRID_SIZE;
+    const size = this.gridSize;
+    const m = Array.from({ length: size }, () => new Array(size).fill("e"));
+
+    const center = (size - 1) / 2;
     const D4 = this.ordering;
-    const m = Array.from({ length: GRID_SIZE }, () =>
-      new Array(GRID_SIZE).fill("e")
-    );
 
-    // Center of the grid
-    const center = (GRID_SIZE - 1) / 2;
-
-    for (let row = 0; row < GRID_SIZE; row++) {
-      for (let col = 0; col < GRID_SIZE; col++) {
-        // Calculate angle from the center
-        const angle = Math.atan2(row - center, col - center) + Math.PI; // Adjusted to range [0, 2PI]
-        const sector = Math.floor((angle / (2 * Math.PI)) * 8); // Dividing the circle into 6 sectors
-
-        // Assign the corresponding element from D4 to the sector
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        const angle = Math.atan2(row - center, col - center) + Math.PI;
+        const sector = Math.floor((angle / (2 * Math.PI)) * 8);
         m[row][col] = D4[sector % D4.length];
       }
     }
