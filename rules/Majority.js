@@ -1,53 +1,90 @@
+// Majority.js
+// ---------------------------------------------
+// Local majority rule with configurable inertia.
+//
+// For each cell:
+//   neighbours -> counts[c], N = total neighbours
+//   current    = state[row][col]
+//   bestColor  = argmax_c counts[c]
+//   p_best     = bestCount / N
+//   p_current  = currentCount / N
+//   K_local    = #distinct neighbour colours
+//   p_uniform  = 1 / K_local
+//
+// Flip to bestColor iff:
+//   1) bestColor !== current
+//   2) p_best >= p_uniform + supportMargin
+//   3) p_best >= p_current + incumbentMargin
+//
+// Otherwise: stay as current (return null).
+
 import { Rule } from "../core/Rule.js";
-import { randomMatrix, mod } from "../utils.js";
+import { randomMatrix } from "../utils.js";
 
 export class Majority extends Rule {
-  constructor() {
+  constructor({
+    ordering = ["#FFB100", "#E83F6F", "#2274A5", "#32936F"],
+    gridSize = 200,
+    radius = 3,
+    supportBias = 0.0, // 0 => ≥ p_uniform, 1 => ≥ 1.0
+    leadBias = 0.0, // 0 => ≥ p_current, 1 => ≥ 1.0
+  } = {}) {
     super();
-    this.ordering = ["orange", "black", "white", "green"];
-    this.radius = 3;
-    this.threshold = 16;
-    this.gridSize = 100;
+    this.ordering = ordering;
+    this.gridSize = gridSize;
+    this.radius = radius;
+    this.supportBias = supportBias;
+    this.leadBias = leadBias;
   }
 
-  nextValue(row, col, matrix) {
-    const counts = this.countNeighbours(row, col, matrix);
-    const winners = this.most(counts);
-    return this.determine(winners);
-  }
+  nextValue(row, col, state) {
+    const neighbours = this.getListOfNeighbourValues(row, col, state);
+    const N = neighbours.length;
+    if (N === 0) return null;
 
-  countNeighbours(row0, col0, matrix) {
-    const l = matrix.length;
-    const results = {};
-    for (let dr = -this.radius; dr <= this.radius; dr++) {
-      for (let dc = -this.radius; dc <= this.radius; dc++) {
-        if (dr === 0 && dc === 0) continue;
-        const val = matrix[mod(row0 + dr, l)][mod(col0 + dc, l)];
-        results[val] = (results[val] || 0) + 1;
+    // Count neighbour colours
+    const counts = {};
+    for (const v of neighbours) {
+      counts[v] = (counts[v] || 0) + 1;
+    }
+
+    const current = state[row][col];
+    const currentCount = counts[current] || 0;
+
+    // Find bestColor (strict max over counts; ties favour staying put)
+    let bestColor = current;
+    let bestCount = currentCount;
+
+    for (const [color, count] of Object.entries(counts)) {
+      if (count > bestCount) {
+        bestColor = color;
+        bestCount = count;
       }
     }
-    return results;
+
+    // No challenger strictly better than current
+    if (bestColor === current) return null;
+
+    const K_local = Object.keys(counts).length;
+    if (K_local === 0) return null;
+
+    const p_best = bestCount / N;
+    const p_current = currentCount / N;
+    const p_uniform = 1 / K_local;
+
+    // Between p_uniform and 1.0
+    const supportThreshold = p_uniform + this.supportBias * (1 - p_uniform);
+
+    // Between p_current and 1.0
+    const incumbentThreshold = p_current + this.leadBias * (1 - p_current);
+
+    const supportOk = p_best >= supportThreshold;
+    const incumbentOk = p_best >= incumbentThreshold;
+
+    return supportOk && incumbentOk ? bestColor : null;
   }
 
-  most(counts) {
-    let threshold = this.threshold;
-    let winners = [];
-    for (const [state, count] of Object.entries(counts)) {
-      if (count > threshold) {
-        threshold = count;
-        winners = [state];
-      } else if (count === threshold) {
-        winners.push(state);
-      }
-    }
-    return winners;
-  }
-
-  determine(winners) {
-    return winners.length === 1 ? winners[0] : null;
-  }
-
-  generateStartingState(size = this.gridSize, ordering = this.ordering) {
-    return randomMatrix(size, size, ordering);
+  generateStartingState() {
+    return randomMatrix(this.gridSize, this.gridSize, this.ordering);
   }
 }
