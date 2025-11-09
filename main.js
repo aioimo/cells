@@ -5,9 +5,9 @@ import { UIManager } from "./ui/UIManager.js";
 import { Buttons } from "./ui/Buttons.js";
 import { DrawingEngine } from "./drawing/DrawingEngine.js";
 import { Automaton } from "./core/Automaton.js";
-import { QuaternionGroupPizza } from "./rules/QuaternionGroupPizza.js";
 import { Colors } from "./ui/Colors.js";
 import { Iteration } from "./ui/Iteration.js";
+import { getRuleById } from "./rules/index.js";
 
 // ----------------------------
 // DOM ELEMENTS
@@ -24,7 +24,7 @@ const $next = document.getElementById("next");
 // ----------------------------
 // CORE SIMULATION SETUP
 // ----------------------------
-const rule = new QuaternionGroupPizza();
+const rule = getRuleById("rps");
 const automaton = new Automaton({ rule });
 
 const drawingEngine = new DrawingEngine({
