@@ -193,11 +193,9 @@ export const RULE_KEYS = Object.keys(RULES);
 
 export function getRuleById(id, config = {}) {
   const factory = RULES[id];
-  console.log("FACTORY...", factory);
   if (!factory) {
     throw new Error(`[Rules] Unknown rule id: ${id}`);
   }
 
-  console.log("factory(config)...", factory(config));
   return factory(config);
 }

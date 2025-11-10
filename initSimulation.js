@@ -25,17 +25,12 @@ export function initSimulation({ ruleId, elements }) {
   } = elements;
 
   const meta = RULE_META[ruleId] || {};
-  console.log("RULE ID", ruleId);
   const rule = getRuleById(ruleId);
-
-  console.log("RULE...", rule);
 
   if (titleEl) titleEl.textContent = meta.label || ruleId;
   if (descEl) descEl.textContent = meta.description || "";
 
   const automaton = new Automaton({ rule });
-
-  console.log("AUTOMATON...", automaton);
 
   const drawingEngine = new DrawingEngine({
     canvas,
