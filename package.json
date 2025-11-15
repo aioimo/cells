@@ -1,0 +1,26 @@
+{
+  "name": "cells",
+  "version": "1.0.0",
+  "description": "an exploration of cellular automata",
+  "keywords": [
+    "cells"
+  ],
+  "homepage": "https://github.com/aioimo/cells#readme",
+  "bugs": {
+    "url": "https://github.com/aioimo/cells/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aioimo/cells.git"
+  },
+  "license": "ISC",
+  "author": "aioimo",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
