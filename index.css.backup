@@ -86,44 +86,10 @@ body {
   text-decoration: underline;
 }
 
-/* ============================================
-   RESPONSIVE BREAKPOINTS - Phase 1
-   ============================================ */
+/* Wider screens: 2 columns */
 
-/* Mobile: 1 column (default - already defined above) */
-
-/* Tablets: 2 columns */
-@media (min-width: 640px) {
+@media (min-width: 720px) {
   .rule-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Standard laptops: 3 columns */
-@media (min-width: 960px) {
-  .rule-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Large desktops: 4 columns */
-@media (min-width: 1280px) {
-  .gallery {
-    max-width: 1280px;
-  }
-  
-  .rule-list {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Ultrawide: 5 columns */
-@media (min-width: 1600px) {
-  .gallery {
-    max-width: 1600px;
-  }
-  
-  .rule-list {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 1fr 1fr;
   }
 }
