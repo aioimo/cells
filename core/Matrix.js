@@ -19,4 +19,29 @@ export class Matrix {
     }
     this.data[row * this.cols + col] = value;
   }
+
+  clone() {
+    // Create a new Matrix with the same dimensions and a copy of the data
+    const newMatrix = Object.create(Matrix.prototype);
+    newMatrix.rows = this.rows;
+    newMatrix.cols = this.cols;
+    newMatrix.data = this.data.slice(); // shallow copy of flat array
+    return newMatrix;
+  }
+
+  equals(other) {
+    if (
+      !other ||
+      typeof other.get !== "function" ||
+      this.rows !== other.rows ||
+      this.cols !== other.cols
+    ) {
+      return false;
+    }
+    // Compare flat arrays directly
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i] !== other.data[i]) return false;
+    }
+    return true;
+  }
 }
