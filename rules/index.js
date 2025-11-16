@@ -34,7 +34,7 @@ import { ElementaryAbelian_2_2_2_Group } from "./ElementaryAbelian_2_2_2_Group.j
 // 2. RULES: id -> factory
 export const RULES = {
   majority: () => new Majority(),
-  "majority-diagonal": () => new MajorityDiagonal(),
+  "majority-diagonal": () => new MajorityDiagonal({}),
   "majority-sticky-borders": () => new MajorityStickyBorders(),
   "majority-strong-consensus": () => new MajorityStrongConsensus(),
 

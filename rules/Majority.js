@@ -24,9 +24,9 @@ import { Matrix } from "../core/Matrix.js";
 
 export class Majority extends Rule {
   constructor({
-    ordering = ["#FFB100", "#E83F6F", "#2274A5", "#32936F"],
-    gridSize = 200,
-    radius = 3,
+    ordering = ["#FFB100", "#1c0221"],
+    gridSize = 500,
+    radius = 1,
     supportBias = 0.0, // 0 => ≥ p_uniform, 1 => ≥ 1.0
     leadBias = 0.0, // 0 => ≥ p_current, 1 => ≥ 1.0
   } = {}) {

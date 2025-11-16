@@ -1,15 +1,15 @@
-function downloadCanvasAsPNG($canvas, filename) {
+export function downloadCanvasAsPNG($canvas, filename) {
   // Get the canvas element using its ID
   var canvas = $canvas;
   if (!canvas) {
-    throw new Error('Canvas not found');
+    throw new Error("Canvas not found");
   }
 
   // Create a data URL for the canvas image
-  var dataURL = canvas.toDataURL('image/png');
+  var dataURL = canvas.toDataURL("image/png");
 
   // Create a temporary anchor element and trigger a download
-  var downloadLink = document.createElement('a');
+  var downloadLink = document.createElement("a");
   downloadLink.href = dataURL;
   downloadLink.download = filename;
 

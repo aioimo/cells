@@ -7,6 +7,7 @@ import { DrawingEngine } from "./drawing/DrawingEngine.js";
 import { State } from "./ui/State.js";
 import { Buttons } from "./ui/Buttons.js";
 import { UIManager } from "./ui/UIManager.js";
+import { downloadCanvasAsPNG } from "./utils/downloadCanvasAsPng.js";
 
 import { Iteration } from "./ui/Iteration.js";
 import { Colors } from "./ui/Colors.js";
@@ -20,6 +21,7 @@ export function initSimulation({ ruleId, elements }) {
     pauseBtn,
     nextBtn,
     resetBtn,
+    saveThumbnailBtn,
     titleEl,
     descEl,
   } = elements;
@@ -67,6 +69,13 @@ export function initSimulation({ ruleId, elements }) {
   ui.bindEvents();
   buttons.initialise();
   controller.reset();
+
+  // Thumbnail save button
+  if (saveThumbnailBtn) {
+    saveThumbnailBtn.addEventListener('click', () => {
+      downloadCanvasAsPNG(canvas, `${ruleId}.png`);
+    });
+  }
 
   // return handles if you ever want to poke at them from outside
   return { rule, automaton, controller, ui, state };
