@@ -53,12 +53,14 @@ export class Automaton {
     const isMatrix = typeof prevState.get === "function";
     let next;
     if (isMatrix) {
-      next = new prevState.constructor(Array.from({ length: rows }, (_, r) =>
-        Array.from({ length: cols }, (_, c) => {
-          const newVal = this.rule.nextValue(r, c, prevState);
-          return newVal != null ? newVal : prevState.get(r, c);
-        })
-      ));
+      next = new prevState.constructor(
+        Array.from({ length: rows }, (_, r) =>
+          Array.from({ length: cols }, (_, c) => {
+            const newVal = this.rule.nextValue(r, c, prevState);
+            return newVal != null ? newVal : prevState.get(r, c);
+          })
+        )
+      );
     } else {
       next = emptyMatrix(rows, cols);
       for (let r = 0; r < rows; r++) {

@@ -13,6 +13,7 @@
 
 import { Rule } from "../core/Rule.js";
 import { randomMatrix } from "../utils.js";
+import { Matrix } from "../core/Matrix.js";
 
 export class RPS extends Rule {
   constructor({
@@ -31,7 +32,8 @@ export class RPS extends Rule {
   }
 
   nextValue(row, col, state) {
-    const current = state[row][col];
+    // state is now a Matrix instance
+    const current = state.get(row, col);
     const neighbours = this.getListOfNeighbourValues(row, col, state);
     if (!neighbours.length) return null;
 
@@ -95,6 +97,7 @@ export class RPS extends Rule {
   }
 
   generateStartingState(size = this.gridSize, ordering = this.ordering) {
-    return randomMatrix(size, size, ordering);
+    const arr = randomMatrix(size, size, ordering);
+    return new Matrix(arr);
   }
 }
