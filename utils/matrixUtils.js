@@ -13,6 +13,13 @@ export function emptyMatrix(rows, cols) {
 }
 
 export function areMatricesEqual(matrix1, matrix2) {
+  // Use Matrix.equals if available
+  if (matrix1 && typeof matrix1.equals === "function") {
+    return matrix1.equals(matrix2);
+  }
+  if (matrix2 && typeof matrix2.equals === "function") {
+    return matrix2.equals(matrix1);
+  }
   try {
     for (let row = 0; row < matrix1.length; row++) {
       for (let col = 0; col < matrix1.length; col++) {

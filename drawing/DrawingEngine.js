@@ -12,14 +12,25 @@ export class DrawingEngine {
 
   draw(state) {
     const { ctx, W_100, H_100 } = this;
-    const squareSize = this.H_100 / state.length;
+    // Enforce Matrix structure
+    if (
+      !state ||
+      typeof state.get !== "function" ||
+      typeof state.rows !== "number" ||
+      typeof state.cols !== "number"
+    ) {
+      throw new Error(
+        "DrawingEngine expects state to be a Matrix instance with get, rows, and cols properties."
+      );
+    }
+    const squareSize = this.H_100 / state.rows;
 
     ctx.save();
     ctx.clearRect(0, 0, W_100, H_100);
 
-    for (let row = 0; row < state.length; row++) {
-      for (let col = 0; col < state[row].length; col++) {
-        const val = state[row][col];
+    for (let row = 0; row < state.rows; row++) {
+      for (let col = 0; col < state.cols; col++) {
+        const val = state.get(row, col);
         this.drawSquare(row, col, val, squareSize);
       }
     }
