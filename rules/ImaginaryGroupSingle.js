@@ -4,6 +4,14 @@ import { randomMatrixWeighted } from "../utils.js";
 export class ImaginaryGroupSingle extends ImaginaryGroupBase {
   GRID_SIZE = 199;
 
+  constructor(props = {}) {
+    super({
+      gridSize: 199,
+      ordering: ["-1", "i", "-i", "1"],
+      ...props,
+    });
+  }
+
   getColor(val) {
     switch (val) {
       case "1":
@@ -19,13 +27,13 @@ export class ImaginaryGroupSingle extends ImaginaryGroupBase {
 
   generateStartingState() {
     const m = randomMatrixWeighted(
-      this.GRID_SIZE,
-      this.GRID_SIZE,
+      this.gridSize,
+      this.gridSize,
       this.ordering,
       [1, 0, 0.0, 0.0]
     );
 
-    m[Math.floor(this.GRID_SIZE / 2)][Math.floor(this.GRID_SIZE / 2)] = "i";
+    m[Math.floor(this.gridSize / 2)][Math.floor(this.gridSize / 2)] = "i";
 
     return new Matrix(m);
   }
