@@ -50,23 +50,39 @@ body {
 }
 
 .rule-item {
-  padding: 0.75rem 0.9rem;
   border-radius: var(--radius);
   border: 1px solid var(--border-subtle);
   background: rgba(255, 255, 255, 0.02);
   transition: all 0.14s ease-in-out;
+  overflow: hidden;
 }
 
-.rule-item a {
-  display: inline-block;
-  font-size: 1.05rem;
-  font-weight: 600;
+.rule-card {
+  display: block;
   color: var(--fg);
   text-decoration: none;
-  margin-bottom: 0.15rem;
 }
 
-.rule-item p {
+.rule-thumbnail {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.rule-content {
+  padding: 0.75rem 0.9rem;
+}
+
+.rule-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.rule-description {
   margin: 0;
   font-size: 0.85rem;
   line-height: 1.35;
@@ -81,8 +97,8 @@ body {
   transform: translateY(-1px);
 }
 
-.rule-item a:hover,
-.rule-item a:focus-visible {
+.rule-card:hover .rule-title,
+.rule-card:focus-visible .rule-title {
   text-decoration: underline;
 }
 

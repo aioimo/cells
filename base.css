@@ -20,3 +20,17 @@ body {
   background-color: var(--bg);
   color: var(--fg);
 }
+
+.back-link {
+  color: var(--fg);
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid var(--fg);
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.back-link:hover {
+  background-color: rgba(245, 245, 245, 0.1);
+}

@@ -26,13 +26,38 @@
 
         const link = document.createElement("a");
         link.href = `play.html?rule=${encodeURIComponent(id)}`;
-        link.textContent = meta.label || id;
+        link.className = "rule-card";
+
+        // Create image element
+        const img = document.createElement("img");
+        img.className = "rule-thumbnail";
+        img.alt = meta.label || id;
+        img.loading = "lazy";
+        
+        // Try to load thumbnail, hide if it doesn't exist
+        img.src = `thumbnails/${id}.png`;
+        img.onerror = function() {
+          this.style.display = 'none';
+        };
+
+        // Create content container
+        const content = document.createElement("div");
+        content.className = "rule-content";
+
+        const title = document.createElement("h2");
+        title.className = "rule-title";
+        title.textContent = meta.label || id;
 
         const desc = document.createElement("p");
+        desc.className = "rule-description";
         desc.textContent = meta.description || "";
 
+        content.appendChild(title);
+        content.appendChild(desc);
+
+        link.appendChild(img);
+        link.appendChild(content);
         li.appendChild(link);
-        li.appendChild(desc);
         list.appendChild(li);
       });
     </script>
