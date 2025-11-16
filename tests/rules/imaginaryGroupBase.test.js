@@ -1,4 +1,5 @@
 import { ImaginaryGroupBase } from "../../rules/ImaginaryGroupBase.js";
+import { Matrix } from "../../core/Matrix.js";
 
 describe("ImaginaryGroupBase Rule", () => {
   test("complexProduct computes i * i = -1", () => {
@@ -50,11 +51,11 @@ describe("ImaginaryGroupBase Rule", () => {
   });
 
   test("nextValue returns product of neighboring cells, ignoring self", () => {
-    const inputMatrix = [
-      ["1", "1", "1"],
+    const inputMatrix = new Matrix([
+      ["1", "1", "i"],
       ["1", "i", "1"],
       ["1", "1", "1"],
-    ];
+    ]);
     const rule = new ImaginaryGroupBase({
       ordering: ["-1", "i", "-i", "1"],
       gridSize: 3,
@@ -62,9 +63,9 @@ describe("ImaginaryGroupBase Rule", () => {
     });
     // Center cell (1,1) is "i" but should be ignored
     // All 8 neighbors are "1"
-    // Product: 1 * 1 * 1 * 1 * 1 * 1 * 1 * 1 = 1
+    // Product: 1 * 1 * 1 * 1 * 1 * 1 * 1 * i = i
     const result = rule.nextValue(1, 1, inputMatrix);
-    expect(result).toBe("1");
+    expect(result).toBe("i");
   });
 
   test("getColor returns correct colors for each value", () => {
@@ -87,20 +88,20 @@ describe("ImaginaryGroupBase Rule", () => {
     const half = Math.floor(100 / 2);
 
     // Top-left quadrant should be "i"
-    expect(state[0][0]).toBe("i");
-    expect(state[half - 1][half - 1]).toBe("i");
+    expect(state.get(0, 0)).toBe("i");
+    expect(state.get(half - 1, half - 1)).toBe("i");
 
     // Top-right quadrant should be "1"
-    expect(state[0][half]).toBe("1");
-    expect(state[half - 1][99]).toBe("1");
+    expect(state.get(0, half)).toBe("1");
+    expect(state.get(half - 1, 99)).toBe("1");
 
     // Bottom-left quadrant should be "-i"
-    expect(state[half][0]).toBe("-i");
-    expect(state[99][half - 1]).toBe("-i");
+    expect(state.get(half, 0)).toBe("-i");
+    expect(state.get(99, half - 1)).toBe("-i");
 
     // Bottom-right quadrant should be "-1"
-    expect(state[half][half]).toBe("-1");
-    expect(state[99][99]).toBe("-1");
+    expect(state.get(half, half)).toBe("-1");
+    expect(state.get(99, 99)).toBe("-1");
   });
 
   test("repeatKeysByValues expands object to array", () => {

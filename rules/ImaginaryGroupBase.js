@@ -1,5 +1,6 @@
 import { Rule } from "../core/Rule.js";
-import { mod, emptyMatrix } from "../utils.js";
+import { Matrix } from "../core/Matrix.js";
+import { emptyMatrix } from "../utils.js";
 
 export class ImaginaryGroupBase extends Rule {
   getColor(val) {
@@ -176,6 +177,6 @@ export class ImaginaryGroupBase extends Rule {
       }
     }
 
-    return m;
+    return new Matrix(m);
   }
 }
