@@ -20,6 +20,7 @@
 
 import { Rule } from "../core/Rule.js";
 import { randomMatrix } from "../utils.js";
+import { Matrix } from "../core/Matrix.js";
 
 export class Majority extends Rule {
   constructor({
@@ -38,6 +39,7 @@ export class Majority extends Rule {
   }
 
   nextValue(row, col, state) {
+    // state is now a Matrix instance
     const neighbours = this.getListOfNeighbourValues(row, col, state);
     const N = neighbours.length;
     if (N === 0) return null;
@@ -48,7 +50,7 @@ export class Majority extends Rule {
       counts[v] = (counts[v] || 0) + 1;
     }
 
-    const current = state[row][col];
+    const current = state.get(row, col);
     const currentCount = counts[current] || 0;
 
     // Find bestColor (strict max over counts; ties favour staying put)
@@ -85,6 +87,7 @@ export class Majority extends Rule {
   }
 
   generateStartingState() {
-    return randomMatrix(this.gridSize, this.gridSize, this.ordering);
+    const arr = randomMatrix(this.gridSize, this.gridSize, this.ordering);
+    return new Matrix(arr);
   }
 }

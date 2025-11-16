@@ -42,8 +42,10 @@ export class Rule {
 
   // --- shared helper ---
   getListOfNeighbourValues(row, col, matrix) {
-    const numRows = matrix.length;
-    const numCols = matrix[0].length;
+    // Support both nested arrays and Matrix instances
+    const isMatrix = typeof matrix.get === "function";
+    const numRows = isMatrix ? matrix.rows : matrix.length;
+    const numCols = isMatrix ? matrix.cols : matrix[0].length;
     const r = this.radius;
     const neighbours = [];
 
@@ -53,7 +55,7 @@ export class Rule {
         if (!this.shouldIncludeOffset(dr, dc)) continue;
         const rr = (row + dr + numRows) % numRows;
         const cc = (col + dc + numCols) % numCols;
-        neighbours.push(matrix[rr][cc]);
+        neighbours.push(isMatrix ? matrix.get(rr, cc) : matrix[rr][cc]);
       }
     }
     return neighbours;

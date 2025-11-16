@@ -1,4 +1,5 @@
 import { Majority } from "../../rules/Majority.js";
+import { Matrix } from "../../core/Matrix.js";
 
 describe("Majority Rule", () => {
   test("Majority.nextValue overturns current cell when surrounded by significant majority different value", () => {
@@ -12,7 +13,8 @@ describe("Majority Rule", () => {
       ["B", "B", "B", "B", "B", "B", "B"],
     ];
     const rule = new Majority({ radius: 1 });
-    const result = rule.nextValue(3, 3, inputMatrix);
+    const matrix = new Matrix(inputMatrix);
+    const result = rule.nextValue(3, 3, matrix);
     expect(result).toEqual("B");
   });
 
@@ -27,7 +29,8 @@ describe("Majority Rule", () => {
       ["A", "A", "B", "A", "A", "A", "A"],
     ];
     const rule = new Majority({ radius: 3 });
-    const result = rule.nextValue(3, 3, inputMatrix);
+    const matrix = new Matrix(inputMatrix);
+    const result = rule.nextValue(3, 3, matrix);
     expect(result).toEqual("A");
   });
 });
