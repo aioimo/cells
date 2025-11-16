@@ -14,6 +14,12 @@ export class Automaton {
   initialise(state) {
     this.iteration = 0;
     this.stable = false;
+    // Enforce Matrix structure
+    if (!state || typeof state.get !== "function") {
+      throw new Error(
+        "Automaton expects state to be a Matrix instance. Nested arrays are not supported."
+      );
+    }
     this.state = state;
     this.history = [this._cloneState(state)];
   }
@@ -75,12 +81,16 @@ export class Automaton {
 
   // ----- Loop detection -----
   hasLoop(nextState) {
-    const index = this.history.findIndex((prev) =>
-      areMatricesEqual(
-        prev.data ? prev.data : prev,
-        nextState.data ? nextState.data : nextState
-      )
-    );
+    const index = this.history.findIndex((prev) => {
+      if (
+        prev &&
+        typeof prev.equals === "function" &&
+        typeof nextState.equals === "function"
+      ) {
+        return prev.equals(nextState);
+      }
+      return areMatricesEqual(prev, nextState);
+    });
     if (index !== -1) {
       const cycleLength = this.history.length - index;
       console.log(
@@ -96,13 +106,9 @@ export class Automaton {
     if (this.history.length > 200) this.history.shift();
   }
   _cloneState(state) {
-    // For Matrix, clone the data
-    if (state && typeof state.get === "function") {
-      return new state.constructor(
-        Array.from({ length: state.rows }, (_, r) =>
-          Array.from({ length: state.cols }, (_, c) => state.get(r, c))
-        )
-      );
+    // For Matrix, use efficient clone
+    if (state && typeof state.clone === "function") {
+      return state.clone();
     }
     // For arrays, shallow copy
     return JSON.parse(JSON.stringify(state));
