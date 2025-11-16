@@ -1,4 +1,5 @@
 import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+import { Matrix } from "../core/Matrix.js";
 import { randomMatrixWeighted } from "../utils.js";
 export class ImaginaryGroupSingle extends ImaginaryGroupBase {
   GRID_SIZE = 199;
@@ -26,6 +27,6 @@ export class ImaginaryGroupSingle extends ImaginaryGroupBase {
 
     m[Math.floor(this.GRID_SIZE / 2)][Math.floor(this.GRID_SIZE / 2)] = "i";
 
-    return m;
+    return new Matrix(m);
   }
 }
