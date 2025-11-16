@@ -1,4 +1,4 @@
-import { Dihedral4Group } from "../rules/Dihedral4Group.js";
+import { Dihedral4Group } from "../../rules/Dihedral4Group.js";
 
 describe("Dihedral4Group Rule", () => {
   test("Dihedral4Group.nextValue returns product of neighbouring cells, ignoring self", () => {

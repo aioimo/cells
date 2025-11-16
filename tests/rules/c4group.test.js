@@ -1,4 +1,4 @@
-import { C4Group } from "../rules/C4Group.js";
+import { C4Group } from "../../rules/C4Group.js";
 
 describe("C4Group Rule", () => {
   test("C4Group.nextValue returns expected output for center cell", () => {

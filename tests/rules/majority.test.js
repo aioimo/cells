@@ -1,4 +1,4 @@
-import { Majority } from "../rules/Majority.js";
+import { Majority } from "../../rules/Majority.js";
 
 describe("Majority Rule", () => {
   test("Majority.nextValue overturns current cell when surrounded by significant majority different value", () => {

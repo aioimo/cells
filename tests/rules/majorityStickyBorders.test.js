@@ -1,4 +1,4 @@
-import { MajorityStickyBorders } from "../rules/MajorityStickyBorders.js";
+import { MajorityStickyBorders } from "../../rules/MajorityStickyBorders.js";
 
 describe("MajorityStickyBorders Rule", () => {
   test("MajorityStickyBorders.nextValue overturns current cell when surrounded by significant majority different value", () => {

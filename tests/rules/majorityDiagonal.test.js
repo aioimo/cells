@@ -1,4 +1,4 @@
-import { MajorityDiagonal } from "../rules/MajorityDiagonal.js";
+import { MajorityDiagonal } from "../../rules/MajorityDiagonal.js";
 
 describe("MajorityDiagonal Rule", () => {
   test("MajorityDiagonal.nextValue returns expected output for center cell", () => {
