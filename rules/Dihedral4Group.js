@@ -20,6 +20,7 @@
 //
 
 import { Rule } from "../core/Rule.js";
+import { Matrix } from "../core/Matrix.js";
 
 // ---------- D4 helpers ----------
 
@@ -133,6 +134,6 @@ export class Dihedral4Group extends Rule {
       }
     }
 
-    return m;
+    return new Matrix(m);
   }
 }

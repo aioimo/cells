@@ -2,6 +2,7 @@
 // See conceptual summary above.
 
 import { Rule } from "../core/Rule.js";
+import { Matrix } from "../core/Matrix.js";
 
 // Dihedral6Group
 // ---------------------------------------------
@@ -163,6 +164,6 @@ export class Dihedral6Group extends Rule {
       }
     }
 
-    return m;
+    return new Matrix(m);
   }
 }
