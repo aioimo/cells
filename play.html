@@ -26,7 +26,6 @@
           <button id="pause" class="button button__big" disabled>Pause</button>
           <button id="next" class="button button__small">Next</button>
           <button id="reset" class="button button__small">Reset</button>
-          <button id="save-thumbnail" class="button button__small">Set as Thumbnail</button>
         </section>
 
         <section id="iterations-display">
@@ -50,10 +49,11 @@
     import { initSimulation } from "./initSimulation.js";
 
     const params = new URLSearchParams(window.location.search);
-    const ruleId = params.get("rule") || "majority";
+    const scenarioId = params.get("scenario");
+    const ruleId = params.get("rule");
 
-    initSimulation({
-      ruleId,
+    // Prefer scenario, fall back to rule for backwards compatibility
+    const initConfig = {
       elements: {
         canvas: document.getElementById("canvas"),
         iterationsEl: document.getElementById("iterations"),
@@ -66,6 +66,14 @@
         titleEl: document.getElementById("rule-title"),
         descEl: document.getElementById("rule-description"),
       },
-    });
+    };
+
+    if (scenarioId) {
+      initConfig.scenarioId = scenarioId;
+    } else {
+      initConfig.ruleId = ruleId || "majority";
+    }
+
+    initSimulation(initConfig);
   </script>
 </html>

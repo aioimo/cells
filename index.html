@@ -14,28 +14,26 @@
     </main>
 
     <script type="module">
-      import { RULE_KEYS, RULE_META } from "./rules/index.js";
+      import { SCENARIOS } from "./scenarios.js";
 
       const list = document.getElementById("rule-list");
 
-      RULE_KEYS.forEach((id) => {
-        const meta = RULE_META[id] || {};
-
+      SCENARIOS.forEach((scenario) => {
         const li = document.createElement("li");
         li.className = "rule-item";
 
         const link = document.createElement("a");
-        link.href = `play.html?rule=${encodeURIComponent(id)}`;
+        link.href = `play.html?scenario=${encodeURIComponent(scenario.id)}`;
         link.className = "rule-card";
 
         // Create image element
         const img = document.createElement("img");
         img.className = "rule-thumbnail";
-        img.alt = meta.label || id;
+        img.alt = scenario.label || scenario.id;
         img.loading = "lazy";
         
         // Try to load thumbnail, hide if it doesn't exist
-        img.src = `thumbnails/${id}.png`;
+        img.src = `thumbnails/${scenario.id}.png`;
         img.onerror = function() {
           this.style.display = 'none';
         };
@@ -46,14 +44,27 @@
 
         const title = document.createElement("h2");
         title.className = "rule-title";
-        title.textContent = meta.label || id;
+        title.textContent = scenario.label || scenario.id;
 
         const desc = document.createElement("p");
         desc.className = "rule-description";
-        desc.textContent = meta.description || "";
+        desc.textContent = scenario.description || "";
 
         content.appendChild(title);
         content.appendChild(desc);
+
+        // Add tags if present
+        if (scenario.tags && scenario.tags.length > 0) {
+          const tagsDiv = document.createElement("div");
+          tagsDiv.className = "rule-tags";
+          scenario.tags.forEach(tag => {
+            const tagSpan = document.createElement("span");
+            tagSpan.className = "rule-tag";
+            tagSpan.textContent = tag;
+            tagsDiv.appendChild(tagSpan);
+          });
+          content.appendChild(tagsDiv);
+        }
 
         link.appendChild(img);
         link.appendChild(content);

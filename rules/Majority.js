@@ -31,13 +31,13 @@ export class Majority extends Rule {
     leadBias = 0.0, // 0 => ≥ p_current, 1 => ≥ 1.0
   } = {}) {
     super();
+    console.log("[Majority] Constructor called with ordering:", ordering);
     this.ordering = ordering;
     this.gridSize = gridSize;
     this.radius = radius;
     this.supportBias = supportBias;
     this.leadBias = leadBias;
   }
-
   nextValue(row, col, state) {
     // state is now a Matrix instance
     const neighbours = this.getListOfNeighbourValues(row, col, state);

@@ -1,18 +1,21 @@
 // initSimulation.js
 
-import { getRuleById, RULE_META } from "./rules/index.js";
+import { RULES } from "./rules/index.js";
+import { getScenarioById } from "./scenarios.js";
+
 import { Automaton } from "./core/Automaton.js";
 import { SimulationController } from "./SimulationController.js";
 import { DrawingEngine } from "./drawing/DrawingEngine.js";
+
 import { State } from "./ui/State.js";
 import { Buttons } from "./ui/Buttons.js";
 import { UIManager } from "./ui/UIManager.js";
-import { downloadCanvasAsPNG } from "./utils/downloadCanvasAsPng.js";
-
 import { Iteration } from "./ui/Iteration.js";
 import { Colors } from "./ui/Colors.js";
 
-export function initSimulation({ ruleId, elements }) {
+import { downloadCanvasAsPNG } from "./utils/downloadCanvasAsPng.js";
+
+export function initSimulation({ scenarioId, elements }) {
   const {
     canvas,
     iterationsEl,
@@ -26,25 +29,46 @@ export function initSimulation({ ruleId, elements }) {
     descEl,
   } = elements;
 
-  const meta = RULE_META[ruleId] || {};
-  const rule = getRuleById(ruleId);
+  // ---- REQUIRE SCENARIO ID -------------------------------------------------
+  if (!scenarioId) {
+    throw new Error("[initSimulation] scenarioId is required");
+  }
 
-  if (titleEl) titleEl.textContent = meta.label || ruleId;
-  if (descEl) descEl.textContent = meta.description || "";
+  // ---- LOOK UP SCENARIO ----------------------------------------------------
+  const scenario = getScenarioById(scenarioId);
+  const { ruleId, config = {} } = scenario;
 
+  // ---- LOOK UP RULE FACTORY ------------------------------------------------
+  const ruleFactory = RULES[ruleId];
+  if (!ruleFactory) {
+    throw new Error(
+      `[initSimulation] No rule registered for ruleId '${ruleId}' (from scenario '${scenarioId}')`
+    );
+  }
+
+  // ---- INSTANTIATE RULE (factory returns instance) -------------------------
+  const rule = ruleFactory(config);
+
+  // ---- UI TEXT -------------------------------------------------------------
+  if (titleEl) titleEl.textContent = scenario.label ?? scenario.id;
+  if (descEl) descEl.textContent = scenario.description ?? "";
+
+  // ---- AUTOMATON -----------------------------------------------------------
   const automaton = new Automaton({ rule });
 
+  // ---- RENDERING ENGINE ----------------------------------------------------
   const drawingEngine = new DrawingEngine({
     canvas,
     getColor: (val) =>
       typeof rule.getColor === "function" ? rule.getColor(val) : val,
   });
 
+  // ---- UI WIDGETS ----------------------------------------------------------
   const iterations = new Iteration(iterationsEl);
   const colors = new Colors(colorsEl);
   const buttons = new Buttons(startBtn, pauseBtn, resetBtn, nextBtn);
 
-  let ui; // assigned after controller so callbacks can see it
+  let ui;
 
   const controller = new SimulationController({
     automaton,
@@ -70,13 +94,13 @@ export function initSimulation({ ruleId, elements }) {
   buttons.initialise();
   controller.reset();
 
-  // Thumbnail save button
+  // ---- SAVE THUMBNAIL BUTTON ----------------------------------------------
   if (saveThumbnailBtn) {
-    saveThumbnailBtn.addEventListener('click', () => {
-      downloadCanvasAsPNG(canvas, `${ruleId}.png`);
+    saveThumbnailBtn.addEventListener("click", () => {
+      downloadCanvasAsPNG(canvas, `${scenario.id}.png`);
     });
   }
 
-  // return handles if you ever want to poke at them from outside
-  return { rule, automaton, controller, ui, state };
+  // Expose handles for debugging
+  return { rule, automaton, controller, ui, state, scenario };
 }

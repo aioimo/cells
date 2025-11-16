@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Scenario Config</title>
+</head>
+<body>
+  <h1>Testing Scenario Config</h1>
+  <div id="output"></div>
+  
+  <script type="module">
+    import { getScenarioById } from './scenarios.js';
+    import { getRuleById } from './rules/index.js';
+    
+    const scenario = getScenarioById('majority-3-players');
+    console.log('Scenario:', scenario);
+    console.log('Config:', scenario.config);
+    
+    const rule = getRuleById(scenario.ruleId, scenario.config || {});
+    console.log('Rule created:', rule);
+    console.log('Rule ordering:', rule.ordering);
+    
+    document.getElementById('output').innerHTML = `
+      <pre>
+Scenario: ${JSON.stringify(scenario, null, 2)}
+
+Rule ordering: ${JSON.stringify(rule.ordering)}
+      </pre>
+    `;
+  </script>
+</body>
+</html>
