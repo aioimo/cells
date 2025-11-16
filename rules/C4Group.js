@@ -20,6 +20,7 @@
 //
 
 import { Rule } from "../core/Rule.js";
+import { Matrix } from "../core/Matrix.js";
 import { emptyMatrix } from "../utils.js";
 
 export class C4Group extends Rule {
@@ -69,6 +70,6 @@ export class C4Group extends Rule {
       }
     }
 
-    return m;
+    return new Matrix(m);
   }
 }

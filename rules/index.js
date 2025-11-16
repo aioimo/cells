@@ -44,8 +44,6 @@ export const RULES = {
   rps6: () => new RPS6(),
   rpsCascade: () => new RPSCascade(),
 
-  coalitionRule: () => new CoalitionRule(),
-
   "genetic-drift": () => new GeneticDrift(),
   "genetic-drift-local": () => new GeneticDriftLocalBattle(),
   "genetic-drift-global": () => new GeneticDriftGlobalBattle(),
@@ -110,12 +108,6 @@ export const RULE_META = {
     description:
       "Cyclic dominance with cascading predator influence; multi-level interactions.",
   },
-  coalitionRule: {
-    label: "Coalition Rule",
-    description:
-      "Two-level competition: teams fight, then internal RPS dynamics decide winners.",
-  },
-
   "genetic-drift": {
     label: "Genetic Drift (Global)",
     description:
