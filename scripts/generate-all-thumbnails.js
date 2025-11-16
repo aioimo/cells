@@ -13,7 +13,7 @@ import { dirname, join } from "path";
 import { Automaton } from "../core/Automaton.js";
 import { DrawingEngine } from "../drawing/DrawingEngine.js";
 import { SCENARIOS } from "../scenarios.js";
-import { RULES } from "../rules/index.js";
+import { getRuleById } from "../rules/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -35,7 +35,7 @@ async function generateThumbnail(scenarioId, iterations, canvasSize = 400) {
 
     const canvas = createCanvas(canvasSize, canvasSize);
     // NEW: look up the rule via ruleId
-    const rule = RULES[scenario.ruleId](scenario.config || {});
+    const rule = getRuleById(scenario.ruleId, scenario.config || {});
     if (!rule) {
       throw new Error(`No rule registered for ruleId '${scenario.ruleId}'`);
     }

@@ -42,11 +42,13 @@ export const RULES = {
   rps4: () => new RPS4(),
   rps5: () => new RPS5(),
   rps6: () => new RPS6(),
-  rpsCascade: () => new RPSCascade(),
+  rpsCascade: (config = {}) => {
+    return new RPSCascade(config);
+  },
 
-  "genetic-drift": () => new GeneticDrift(),
-  "genetic-drift-local": () => new GeneticDriftLocalBattle(),
-  "genetic-drift-global": () => new GeneticDriftGlobalBattle(),
+  "genetic-drift": (config = {}) => new GeneticDrift(config),
+  "genetic-drift-local": (config = {}) => new GeneticDriftLocalBattle(config),
+  "genetic-drift-global": (config = {}) => new GeneticDriftGlobalBattle(config),
 
   "imaginary-base": () => new ImaginaryGroupBase(),
   "imaginary-single": () => new ImaginaryGroupSingle(),

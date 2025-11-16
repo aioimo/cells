@@ -31,7 +31,6 @@ export class Majority extends Rule {
     leadBias = 0.0, // 0 => ≥ p_current, 1 => ≥ 1.0
   } = {}) {
     super();
-    console.log("[Majority] Constructor called with ordering:", ordering);
     this.ordering = ordering;
     this.gridSize = gridSize;
     this.radius = radius;

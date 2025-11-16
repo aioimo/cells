@@ -170,11 +170,18 @@ export const SCENARIOS = [
   },
   {
     id: "majority-strong",
-    ruleId: "majority-strong-consensus",
-    label: "Majority – Strong Consensus",
+    ruleId: "majority",
+    label: "Majority - Strong Consensus",
     description:
       "Requires a strong local lead to change; slower, more blocky consensus.",
     tags: ["majority", "voting", "consensus"],
+    config: {
+      ordering: ["red", "white", "blue"],
+      supportBias: 0.0,
+      leadBias: 0.3,
+      radius: 4,
+      gridSize: 200,
+    },
     screenshotConfig: {
       enabled: true,
       iteration: 50,
@@ -239,6 +246,25 @@ export const SCENARIOS = [
     description:
       "Cyclic dominance with cascading predator influence; multi-level interactions.",
     tags: ["rps", "cyclic", "cascade"],
+    config: {
+      gridSize: 200,
+      radius: 3,
+      influenceAdvantage: 4.1,
+      dominanceBias: 0.41,
+      cascadeDecay: 0.15,
+      ordering: [
+        "#1A2E6FFF",
+        "#B32C4FFF",
+        "#1F8A70FF",
+        "#F2BE22FF",
+        "#0FA3B1FF",
+        "#EC4E20FF",
+        "#9A6A6AFF",
+        "#6C757DFF",
+        "#17A2B8FF",
+        "#DEE2E6FF",
+      ],
+    },
     screenshotConfig: {
       enabled: true,
       iteration: 100,
@@ -267,6 +293,10 @@ export const SCENARIOS = [
     description:
       "Cells resample from their immediate neighbours: patchy local drift.",
     tags: ["genetic-drift", "stochastic", "local"],
+    config: {
+      ordering: ["black", "orange", "white", "blue", "green"],
+      gridSize: 100,
+    },
     screenshotConfig: {
       enabled: true,
       iteration: 100,

@@ -7,11 +7,17 @@ import { Matrix } from "../core/Matrix.js";
 import { mod, randomWeighted } from "../utils.js";
 
 export class GeneticDriftLocalBattle extends Rule {
-  constructor({ majorityBias = 1.2 } = {}) {
-    super();
-    this.ordering = ["black", "orange", "white", "blue"];
-    this.gridSize = 100;
-    this.radius = 2;
+  constructor({
+    ordering = ["black", "orange", "white", "blue"],
+    gridSize = 100,
+    majorityBias = 1.2,
+    radius = 2,
+    ...props
+  } = {}) {
+    super(props);
+    this.ordering = ordering;
+    this.gridSize = gridSize;
+    this.radius = radius;
     this.filterSchema = () => false;
     this.majorityBias = majorityBias;
   }

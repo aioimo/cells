@@ -1,6 +1,6 @@
 // initSimulation.js
 
-import { RULES } from "./rules/index.js";
+import { getRuleById } from "./rules/index.js";
 import { getScenarioById } from "./scenarios.js";
 
 import { Automaton } from "./core/Automaton.js";
@@ -38,16 +38,16 @@ export function initSimulation({ scenarioId, elements }) {
   const scenario = getScenarioById(scenarioId);
   const { ruleId, config = {} } = scenario;
 
+  console.log("ruleId", ruleId);
+
+  console.log("config", config);
   // ---- LOOK UP RULE FACTORY ------------------------------------------------
-  const ruleFactory = RULES[ruleId];
-  if (!ruleFactory) {
+  const rule = getRuleById(ruleId, config);
+  if (!rule) {
     throw new Error(
       `[initSimulation] No rule registered for ruleId '${ruleId}' (from scenario '${scenarioId}')`
     );
   }
-
-  // ---- INSTANTIATE RULE (factory returns instance) -------------------------
-  const rule = ruleFactory(config);
 
   // ---- UI TEXT -------------------------------------------------------------
   if (titleEl) titleEl.textContent = scenario.label ?? scenario.id;
