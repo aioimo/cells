@@ -41,12 +41,11 @@ export class GeneticDriftGlobalBattle extends Rule {
 
   countAll(state) {
     const counts = {};
-    const isMatrix = typeof state.get === "function";
-    const rows = isMatrix ? state.rows : state.length;
-    const cols = isMatrix ? state.cols : state[0].length;
+    const rows = state.rows;
+    const cols = state.cols;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        const val = isMatrix ? state.get(r, c) : state[r][c];
+        const val = state.get(r, c);
         counts[val] = (counts[val] || 0) + 1;
       }
     }
@@ -54,8 +53,7 @@ export class GeneticDriftGlobalBattle extends Rule {
   }
 
   neighbors(row0, col0, state) {
-    const isMatrix = typeof state.get === "function";
-    const l = isMatrix ? state.rows : state.length;
+    const l = state.rows;
     const radius = this.radius;
     const results = {};
 
@@ -66,7 +64,7 @@ export class GeneticDriftGlobalBattle extends Rule {
 
         const rr = mod(row0 + dr, l);
         const cc = mod(col0 + dc, l);
-        const val = isMatrix ? state.get(rr, cc) : state[rr][cc];
+        const val = state.get(rr, cc);
         results[val] = (results[val] || 0) + 1;
       }
     }

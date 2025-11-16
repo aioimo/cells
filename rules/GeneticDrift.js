@@ -33,13 +33,12 @@ export class GeneticDrift extends Rule {
     }
 
     const counts = {};
-    const isMatrix = typeof state.get === "function";
-    const rows = isMatrix ? state.rows : state.length;
-    const cols = isMatrix ? state.cols : state[0].length;
+    const rows = state.rows;
+    const cols = state.cols;
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        const val = isMatrix ? state.get(r, c) : state[r][c];
+        const val = state.get(r, c);
         counts[val] = (counts[val] || 0) + 1;
       }
     }

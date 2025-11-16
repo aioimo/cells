@@ -38,8 +38,7 @@ export class GeneticDriftLocalBattle extends Rule {
 
   // Count neighbours by color in radius
   neighbors(row0, col0, state) {
-    const isMatrix = typeof state.get === "function";
-    const size = isMatrix ? state.rows : state.length;
+    const size = state.rows;
     const r = this.radius;
     const results = {};
 
@@ -50,7 +49,7 @@ export class GeneticDriftLocalBattle extends Rule {
 
         const rr = mod(row0 + dr, size);
         const cc = mod(col0 + dc, size);
-        const val = isMatrix ? state.get(rr, cc) : state[rr][cc];
+        const val = state.get(rr, cc);
 
         results[val] = (results[val] || 0) + 1;
       }
