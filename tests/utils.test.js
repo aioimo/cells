@@ -1,4 +1,4 @@
-import { emptyMatrix, mod, random } from "../utils.js";
+import { emptyMatrix, mod, random, areMatricesEqual } from "../utils.js";
 
 describe("Utils Module", () => {
   describe("emptyMatrix", () => {
@@ -6,6 +6,36 @@ describe("Utils Module", () => {
       const m = emptyMatrix(2, 3);
       expect(m.length).toBe(2);
       expect(m[0].length).toBe(3);
+    });
+  });
+
+  describe("areMatricesEqual", () => {
+    test("areMatricesEqual returns true for equal matrices", () => {
+      const m1 = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+      const m2 = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+      expect(areMatricesEqual(m1, m2)).toBe(true);
+    });
+
+    test("areMatricesEqual returns false for different matrices", () => {
+      const m1 = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+      const m2 = [
+        [1, 2, 3],
+        [4, 5, 7],
+        [7, 8, 9],
+      ];
+      expect(areMatricesEqual(m1, m2)).toBe(false);
     });
   });
 
