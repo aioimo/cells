@@ -7,11 +7,11 @@
 import { Majority } from "./Majority.js";
 
 export class MajorityDiagonal extends Majority {
-  constructor() {
+  constructor({ radius = 10 }) {
     super({
       ordering: ["orange", "black", "white"],
       gridSize: 251,
-      radius: 10,
+      radius,
       supportBias: 0.29,
       leadBias: 0.0,
     });

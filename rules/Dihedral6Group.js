@@ -81,7 +81,7 @@ function multiplyD6(a, b) {
 }
 
 export class Dihedral6Group extends Rule {
-  constructor() {
+  constructor({ gridSize = 400 }) {
     super();
     this.ordering = [
       "e",
@@ -97,7 +97,7 @@ export class Dihedral6Group extends Rule {
       "r4s",
       "r5s",
     ];
-    this.gridSize = 400;
+    this.gridSize = gridSize;
     this.radius = 1; // Moore neighborhood
   }
 
