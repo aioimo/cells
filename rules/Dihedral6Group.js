@@ -82,7 +82,7 @@ function multiplyD6(a, b) {
 }
 
 export class Dihedral6Group extends Rule {
-  constructor({ gridSize = 400 }) {
+  constructor({ gridSize = 400 } = {}) {
     super();
     this.ordering = [
       "e",

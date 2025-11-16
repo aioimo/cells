@@ -2,6 +2,17 @@ import { Dihedral6Group } from "../../rules/Dihedral6Group.js";
 import { Matrix } from "../../core/Matrix.js";
 
 describe("Dihedral6Group Rule", () => {
+  test("constructor works without arguments", () => {
+    expect(() => new Dihedral6Group()).not.toThrow();
+    const rule = new Dihedral6Group();
+    expect(rule.gridSize).toBe(400);
+  });
+
+  test("constructor accepts gridSize parameter", () => {
+    const rule = new Dihedral6Group({ gridSize: 500 });
+    expect(rule.gridSize).toBe(500);
+  });
+
   test("Dihedral6Group.nextValue returns product of neighbouring cells, ignoring self", () => {
     const inputMatrix = [
       ["e", "e", "r2", "r3", "r4", "r5"],
