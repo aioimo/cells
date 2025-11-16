@@ -3,6 +3,7 @@
 // Each cell chooses a new color based on global frequencies (well-mixed).
 
 import { Rule } from "../core/Rule.js";
+import { Matrix } from "../core/Matrix.js";
 import { randomWeighted } from "../utils.js";
 
 export class GeneticDrift extends Rule {
@@ -32,17 +33,23 @@ export class GeneticDrift extends Rule {
     }
 
     const counts = {};
-    const rows = state.length;
-    const cols = state[0].length;
+    const isMatrix = typeof state.get === "function";
+    const rows = isMatrix ? state.rows : state.length;
+    const cols = isMatrix ? state.cols : state[0].length;
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        const val = state[r][c];
+        const val = isMatrix ? state.get(r, c) : state[r][c];
         counts[val] = (counts[val] || 0) + 1;
       }
     }
 
     this._globalCache = { state, counts };
     return counts;
+  }
+
+  generateStartingState() {
+    const matrix = super.generateStartingState(this.gridSize, this.ordering);
+    return new Matrix(matrix);
   }
 }

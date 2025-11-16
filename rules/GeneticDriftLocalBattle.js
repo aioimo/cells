@@ -3,6 +3,7 @@
 // with probability proportional to local neighbour counts.
 
 import { Rule } from "../core/Rule.js";
+import { Matrix } from "../core/Matrix.js";
 import { mod, randomWeighted } from "../utils.js";
 
 export class GeneticDriftLocalBattle extends Rule {
@@ -37,7 +38,8 @@ export class GeneticDriftLocalBattle extends Rule {
 
   // Count neighbours by color in radius
   neighbors(row0, col0, state) {
-    const size = state.length;
+    const isMatrix = typeof state.get === "function";
+    const size = isMatrix ? state.rows : state.length;
     const r = this.radius;
     const results = {};
 
@@ -48,12 +50,17 @@ export class GeneticDriftLocalBattle extends Rule {
 
         const rr = mod(row0 + dr, size);
         const cc = mod(col0 + dc, size);
-        const val = state[rr][cc];
+        const val = isMatrix ? state.get(rr, cc) : state[rr][cc];
 
         results[val] = (results[val] || 0) + 1;
       }
     }
 
     return results;
+  }
+
+  generateStartingState() {
+    const matrix = super.generateStartingState(this.gridSize, this.ordering);
+    return new Matrix(matrix);
   }
 }

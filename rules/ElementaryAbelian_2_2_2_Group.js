@@ -20,6 +20,7 @@
 //       rather than ad-hoc rules.
 
 import { Rule } from "../core/Rule.js";
+import { Matrix } from "../core/Matrix.js";
 import { emptyMatrix } from "../utils.js";
 
 export class ElementaryAbelian_2_2_2_Group extends Rule {
@@ -80,6 +81,6 @@ export class ElementaryAbelian_2_2_2_Group extends Rule {
       }
     }
 
-    return m;
+    return new Matrix(m);
   }
 }

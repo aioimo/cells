@@ -1,4 +1,5 @@
 import { Rule } from "../core/Rule.js";
+import { Matrix } from "../core/Matrix.js";
 import { mod, randomWeighted } from "../utils.js";
 
 export class GeneticDriftGlobalBattle extends Rule {
@@ -40,11 +41,12 @@ export class GeneticDriftGlobalBattle extends Rule {
 
   countAll(state) {
     const counts = {};
-    const rows = state.length;
-    const cols = state[0].length;
+    const isMatrix = typeof state.get === "function";
+    const rows = isMatrix ? state.rows : state.length;
+    const cols = isMatrix ? state.cols : state[0].length;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        const val = state[r][c];
+        const val = isMatrix ? state.get(r, c) : state[r][c];
         counts[val] = (counts[val] || 0) + 1;
       }
     }
@@ -52,7 +54,8 @@ export class GeneticDriftGlobalBattle extends Rule {
   }
 
   neighbors(row0, col0, state) {
-    const l = state.length;
+    const isMatrix = typeof state.get === "function";
+    const l = isMatrix ? state.rows : state.length;
     const radius = this.radius;
     const results = {};
 
@@ -61,7 +64,9 @@ export class GeneticDriftGlobalBattle extends Rule {
         if (dr === 0 && dc === 0) continue;
         if (this.filterSchema(dr, dc, radius)) continue;
 
-        const val = state[mod(row0 + dr, l)][mod(col0 + dc, l)];
+        const rr = mod(row0 + dr, l);
+        const cc = mod(col0 + dc, l);
+        const val = isMatrix ? state.get(rr, cc) : state[rr][cc];
         results[val] = (results[val] || 0) + 1;
       }
     }
@@ -83,5 +88,10 @@ export class GeneticDriftGlobalBattle extends Rule {
       result[color] = local * proportion;
     }
     return result;
+  }
+
+  generateStartingState() {
+    const matrix = super.generateStartingState(this.gridSize, this.ordering);
+    return new Matrix(matrix);
   }
 }
