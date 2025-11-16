@@ -1,4 +1,5 @@
-// matrixUtils.js
+import { random, randomWeighted } from "./randomUtils.js";
+
 export function emptyMatrix(rows, cols) {
   let empty = [];
   for (let row = 0; row < rows; row++) {
