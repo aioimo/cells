@@ -1,4 +1,5 @@
 import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
+import { Matrix } from "../core/Matrix.js";
 import { emptyMatrix } from "../utils.js";
 
 export class QuaternionGroup extends ImaginaryGroupBase {
@@ -58,6 +59,6 @@ export class QuaternionGroup extends ImaginaryGroupBase {
       }
     }
 
-    return m;
+    return new Matrix(m);
   }
 }
