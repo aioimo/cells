@@ -35,6 +35,7 @@
 //
 
 import { Rule } from "../core/Rule.js";
+import { Matrix } from "../core/Matrix.js";
 import { emptyMatrix } from "../utils.js";
 
 // ---------- D3 helpers (outside the class) ----------
@@ -144,6 +145,6 @@ export class Dihedral3Group extends Rule {
       }
     }
 
-    return m;
+    return new Matrix(m);
   }
 }

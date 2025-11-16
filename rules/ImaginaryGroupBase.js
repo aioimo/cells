@@ -25,10 +25,11 @@ export class ImaginaryGroupBase extends Rule {
   constructor(props) {
     super(props);
 
-    this.radius = this.RADIUS;
-    this.threshold = this.THRESHOLD;
-    this.ordering = this.ORDERING;
-    this.filterSchema = this.FILTER_SCHEMA;
+    this.radius = this.radius ?? this.RADIUS;
+    this.threshold = this.threshold ?? this.THRESHOLD;
+    this.ordering = this.ordering ?? this.ORDERING;
+    this.filterSchema = this.filterSchema ?? this.FILTER_SCHEMA;
+    this.gridSize = this.gridSize ?? this.GRID_SIZE;
   }
 
   nextValue(row, col, state) {
