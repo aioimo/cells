@@ -21,11 +21,10 @@ export class Matrix {
   }
 
   clone() {
-    // Create a new Matrix with the same dimensions and a copy of the data
     const newMatrix = Object.create(Matrix.prototype);
     newMatrix.rows = this.rows;
     newMatrix.cols = this.cols;
-    newMatrix.data = this.data.slice(); // shallow copy of flat array
+    newMatrix.data = this.data.slice();
     return newMatrix;
   }
 
