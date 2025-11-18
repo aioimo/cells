@@ -38,10 +38,10 @@ export const RULES = {
   "majority-sticky-borders": () => new MajorityStickyBorders(),
   "majority-strong-consensus": () => new MajorityStrongConsensus(),
 
-  rps3: () => new RPS(),
-  rps4: () => new RPS4(),
-  rps5: () => new RPS5(),
-  rps6: () => new RPS6(),
+  rps3: (props) => new RPS(props),
+  rps4: (props) => new RPS4(props),
+  rps5: (props) => new RPS5(props),
+  rps6: (props) => new RPS6(props),
   rpsCascade: (config = {}) => {
     return new RPSCascade(config);
   },

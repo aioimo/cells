@@ -47,7 +47,7 @@ export const SCENARIOS = [
       TAGS.LOW_RADIUS,
     ],
     config: {
-      ordering: ["#FFB100", "#1c0221"],
+      ordering: ["#1f271b", "#ffba08"],
       radius: 2,
       gridSize: 200,
     },
@@ -69,7 +69,7 @@ export const SCENARIOS = [
       TAGS.LOW_RADIUS,
     ],
     config: {
-      ordering: ["#FFB100", "#1c0221"],
+      ordering: ["#be7c4d", "#4a314d"],
       radius: 3,
       gridSize: 200,
     },
@@ -200,7 +200,7 @@ export const SCENARIOS = [
   {
     id: "majority-strong",
     ruleId: "majority",
-    label: "Majority – Strong Consensus",
+    label: "Majority - Strong Consensus",
     description:
       "A stronger threshold for flipping, yielding blocky textures and slow consensus.",
     tags: [
@@ -211,9 +211,9 @@ export const SCENARIOS = [
       TAGS.HIGH_RADIUS,
     ],
     config: {
-      ordering: ["red", "white", "blue"],
-      supportBias: 0.0,
-      leadBias: 0.3,
+      ordering: ["#01200f", "#AB2346", "#ECE4B7"],
+      supportBias: 0.275,
+      leadBias: 0.2,
       radius: 4,
       gridSize: 200,
     },
@@ -272,6 +272,9 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
+    config: {
+      ordering: ["#f3e37c", "#5BC0EB", "#8E3B46", "#E8E1EF", "#05668D"],
+    },
     screenshotConfig: { enabled: true, iteration: 100 },
     version: 1,
   },
@@ -294,18 +297,43 @@ export const SCENARIOS = [
   },
 
   {
-    id: "rps-cascade",
+    id: "rps-cascade-5",
     ruleId: "rpsCascade",
     label: "RPS Cascade",
     description:
-      "Cyclic dominance with cascading predator influence across multiple levels.",
+      "5-party Cyclic dominance with cascading predator influence across multiple levels.",
     tags: [
       TAGS.RPS,
       TAGS.CYCLIC,
       TAGS.COMPETITION,
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
-      // meaningful bespoke tag
+      "cascade",
+    ],
+    config: {
+      gridSize: 200,
+      radius: 3,
+      influenceAdvantage: 4.0,
+      dominanceBias: 0.3,
+      cascadeDecay: 0.25,
+      ordering: ["#CA054D", "#3B1C32", "#DEF4C6", "#1B512D", "#B1CF5F"],
+    },
+    screenshotConfig: { enabled: true, iteration: 100 },
+    version: 1,
+  },
+
+  {
+    id: "rps-cascade-10",
+    ruleId: "rpsCascade",
+    label: "RPS Cascade",
+    description:
+      "10 player melee, cyclic dominance with cascading predator influence across multiple levels.",
+    tags: [
+      TAGS.RPS,
+      TAGS.CYCLIC,
+      TAGS.COMPETITION,
+      TAGS.MULTI_STATE,
+      TAGS.DIVERGENT,
       "cascade",
     ],
     config: {
@@ -460,7 +488,7 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
-    screenshotConfig: { enabled: true, iteration: 50 },
+    screenshotConfig: { enabled: true, iteration: 64 },
     version: 1,
   },
 
@@ -477,7 +505,7 @@ export const SCENARIOS = [
       TAGS.SEEDED,
       TAGS.DIVERGENT,
     ],
-    screenshotConfig: { enabled: true, iteration: 50 },
+    screenshotConfig: { enabled: true, iteration: 65 },
     version: 1,
   },
 
@@ -494,7 +522,7 @@ export const SCENARIOS = [
       TAGS.SEEDED,
       TAGS.DIVERGENT,
     ],
-    screenshotConfig: { enabled: true, iteration: 50 },
+    screenshotConfig: { enabled: true, iteration: 65 },
     version: 1,
   },
 
