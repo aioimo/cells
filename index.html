@@ -3,13 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cellular Automata Gallery</title>
+    <title>Automata Playground</title>
     <link rel="stylesheet" href="base.css" />
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
     <main class="gallery">
-      <h1>Cellular Automata Gallery</h1>
+      <header class="gallery-header">
+        <p class="gallery-overline">experiments in emergent behavior</p>
+        <h1>Automata Playground</h1>
+        <p class="gallery-subhead">
+          Browse a batch of rules showing symmetry, conflict, and uneven
+          stability.
+        </p>
+        <p class="gallery-instruction">
+          Start with a scenario to follow its evolution.
+        </p>
+      </header>
       <ul id="rule-list" class="rule-list"></ul>
     </main>
 
@@ -25,39 +35,38 @@
         const link = document.createElement("a");
         link.href = `play.html?scenario=${encodeURIComponent(scenario.id)}`;
         link.className = "rule-card";
+        link.setAttribute("aria-label", scenario.label || scenario.id);
 
         // Create image element
         const img = document.createElement("img");
         img.className = "rule-thumbnail";
         img.alt = scenario.label || scenario.id;
         img.loading = "lazy";
-        
+
         // Try to load thumbnail, hide if it doesn't exist
         img.src = `thumbnails/${scenario.id}.png`;
-        img.onerror = function() {
-          this.style.display = 'none';
+        img.onerror = function () {
+          this.style.display = "none";
         };
 
         // Create content container
         const content = document.createElement("div");
         content.className = "rule-content";
 
-        const title = document.createElement("h2");
-        title.className = "rule-title";
-        title.textContent = scenario.label || scenario.id;
+        const preview = document.createElement("p");
+        preview.className = "rule-preview";
+        preview.textContent =
+          scenario.preview ||
+          scenario.description ||
+          "Minimal trace of emergent motion.";
 
-        const desc = document.createElement("p");
-        desc.className = "rule-description";
-        desc.textContent = scenario.description || "";
-
-        content.appendChild(title);
-        content.appendChild(desc);
+        content.appendChild(preview);
 
         // Add tags if present
         if (scenario.tags && scenario.tags.length > 0) {
           const tagsDiv = document.createElement("div");
           tagsDiv.className = "rule-tags";
-          scenario.tags.forEach(tag => {
+          scenario.tags.forEach((tag) => {
             const tagSpan = document.createElement("span");
             tagSpan.className = "rule-tag";
             tagSpan.textContent = tag;
