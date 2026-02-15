@@ -1,16 +1,24 @@
 /* base.css */
 
 :root {
-  --base-font-size: 18px; /* change this one value */
+  --base-font-size: 18px;
   --font-main: "Courier New", Courier, monospace;
   --bg: #000;
   --fg: #f5f5f5;
+  --border-subtle: rgba(245, 245, 245, 0.18);
+  --border-strong: rgba(245, 245, 245, 0.32);
+  --radius: 8px;
+  --transition-fast: 0.15s ease-in-out;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -21,16 +29,23 @@ body {
   color: var(--fg);
 }
 
+::selection {
+  background: rgba(90, 255, 180, 0.25);
+  color: var(--fg);
+}
+
 .back-link {
   color: var(--fg);
   text-decoration: none;
   display: inline-block;
-  padding: 8px 12px;
-  border: 1px solid var(--fg);
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  padding: 10px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  transition: all var(--transition-fast);
 }
 
 .back-link:hover {
-  background-color: rgba(245, 245, 245, 0.1);
+  background-color: rgba(245, 245, 245, 0.08);
+  border-color: var(--border-strong);
 }

@@ -1,3 +1,5 @@
+/* style.css — Play / simulation page */
+
 /* Mobile-first layout */
 
 .container {
@@ -16,11 +18,10 @@ main canvas {
   display: block;
 }
 
-/* Under-canvas panel: two sides:
-   left = buttons, right = iterations + colors
-*/
+/* Under-canvas panel: left = buttons, right = iterations + colors */
+
 #display-panel-section {
-  padding: 10px 5px 0;
+  padding: 12px 8px 0;
   display: flex;
   align-items: flex-start;
   width: 100%;
@@ -30,7 +31,7 @@ main canvas {
 
 #button-menu {
   display: flex;
-  flex-direction: column; /* 👈 this is the key change */
+  flex-direction: column;
   gap: 0.5rem;
   align-items: flex-start;
 }
@@ -39,12 +40,13 @@ main canvas {
 
 #iterations-display,
 #colors {
-  margin-left: auto; /* push to the right side */
+  margin-left: auto;
   text-align: right;
 }
 
 #iterations-display {
   font-size: 1.4rem;
+  font-variant-numeric: tabular-nums;
   margin-bottom: 0.25rem;
 }
 
@@ -59,38 +61,43 @@ main canvas {
 }
 
 #colors .small-square {
-  border: 1px solid white;
-  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
   width: 25px;
   height: 25px;
 }
 
-/* Buttons styling */
+/* Buttons */
 
 .button {
   font-family: var(--font-main, "Courier New", Courier, monospace);
-  background-color: black;
-  border: none;
-  color: whitesmoke;
+  background-color: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--fg);
   cursor: pointer;
-  transition: all 0.1s ease-in-out;
-  border-radius: 5px;
+  transition: all var(--transition-fast);
+  border-radius: 6px;
+  padding: 0.3em 0.6em;
   font-size: 2rem;
 }
 
 .button__big {
   font-size: 2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .button__small {
   font-size: 1.2rem;
-  margin-top: 0.25rem;
+  margin-top: 0.15rem;
 }
 
 .button:hover:not(:disabled) {
-  background-color: whitesmoke;
-  color: black;
+  background-color: rgba(245, 245, 245, 0.1);
+  border-color: var(--border-strong);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 /* On mobile: hide disabled buttons completely */
@@ -98,7 +105,25 @@ main canvas {
   display: none;
 }
 
-/* Desktop: keep previous right-column layout unchanged */
+/* Footer / rule info */
+
+.play-footer {
+  padding: 12px 8px 12px;
+}
+
+.play-title {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.play-description {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  line-height: 1.45;
+}
+
+/* Desktop layout */
 
 @media only screen and (min-width: 701px) {
   .container {
@@ -116,7 +141,7 @@ main canvas {
   }
 
   #display-panel-section {
-    padding-top: 10px;
+    padding: 12px 12px 12px 16px;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -126,12 +151,13 @@ main canvas {
       "."
       "."
       "row3";
-    width: 200px;
+    width: 240px;
     gap: 0;
+    border-left: 1px solid var(--border-subtle);
   }
 
   #colors {
-    padding-left: 5px;
+    padding-left: 0;
     justify-self: left;
     grid-area: row1;
     text-align: left;
@@ -139,7 +165,7 @@ main canvas {
   }
 
   #iterations-display {
-    padding-left: 5px;
+    padding-left: 0;
     justify-self: left;
     grid-area: row2;
     font-size: 2rem;
@@ -148,12 +174,12 @@ main canvas {
   }
 
   #button-menu {
-    padding-left: 5px;
+    padding-left: 0;
     align-self: flex-end;
     grid-area: row3;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0;
+    gap: 0.25rem;
   }
 
   /* Desktop: retain slots for disabled buttons */
