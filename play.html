@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cellular Automata - Play</title>
+    <script>
+      const t = localStorage.getItem("cells-theme");
+      if (t && t !== "dark") document.documentElement.dataset.theme = t;
+    </script>
     <link rel="stylesheet" href="base.css" />
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
@@ -44,6 +48,7 @@
 
   <script type="module">
     import { initSimulation } from "./initSimulation.js";
+    import { initThemeSwitcher } from "./ui/ThemeSwitcher.js";
 
     const params = new URLSearchParams(window.location.search);
     const scenarioId = params.get("scenario");
@@ -72,5 +77,6 @@
     }
 
     initSimulation(initConfig);
+    initThemeSwitcher();
   </script>
 </html>

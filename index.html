@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Automata Playground</title>
+    <script>
+      const t = localStorage.getItem("cells-theme");
+      if (t && t !== "dark") document.documentElement.dataset.theme = t;
+    </script>
     <link rel="stylesheet" href="base.css" />
     <link rel="stylesheet" href="index.css" />
   </head>
@@ -25,6 +29,7 @@
 
     <script type="module">
       import { SCENARIOS } from "./scenarios.js";
+      import { initThemeSwitcher } from "./ui/ThemeSwitcher.js";
 
       const list = document.getElementById("rule-list");
 
@@ -37,21 +42,24 @@
         link.className = "rule-card";
         link.setAttribute("aria-label", scenario.label || scenario.id);
 
-        // Create image element
+        // Thumbnail
         const img = document.createElement("img");
         img.className = "rule-thumbnail";
         img.alt = scenario.label || scenario.id;
         img.loading = "lazy";
-
-        // Try to load thumbnail, hide if it doesn't exist
         img.src = `thumbnails/${scenario.id}.png`;
         img.onerror = function () {
           this.style.display = "none";
         };
 
-        // Create content container
-        const content = document.createElement("div");
-        content.className = "rule-content";
+        // Hover overlay
+        const overlay = document.createElement("div");
+        overlay.className = "rule-overlay";
+
+        const label = document.createElement("p");
+        label.className = "rule-label";
+        label.textContent = scenario.label || scenario.id;
+        overlay.appendChild(label);
 
         const preview = document.createElement("p");
         preview.className = "rule-preview";
@@ -59,10 +67,8 @@
           scenario.preview ||
           scenario.description ||
           "Minimal trace of emergent motion.";
+        overlay.appendChild(preview);
 
-        content.appendChild(preview);
-
-        // Add tags if present
         if (scenario.tags && scenario.tags.length > 0) {
           const tagsDiv = document.createElement("div");
           tagsDiv.className = "rule-tags";
@@ -72,14 +78,16 @@
             tagSpan.textContent = tag;
             tagsDiv.appendChild(tagSpan);
           });
-          content.appendChild(tagsDiv);
+          overlay.appendChild(tagsDiv);
         }
 
         link.appendChild(img);
-        link.appendChild(content);
+        link.appendChild(overlay);
         li.appendChild(link);
         list.appendChild(li);
       });
+
+      initThemeSwitcher();
     </script>
   </body>
 </html>
