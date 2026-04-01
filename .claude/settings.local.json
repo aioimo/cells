@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"art gallery museum exhibit minimal dark curated portfolio\" --design-system -p \"Murmur\" --persist)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"dark gallery museum exhibit noir\" --domain style -n 5)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"minimal clean artistic creative\" --domain typography -n 5)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"dark mode gallery portfolio\" --domain color -n 5)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"art gallery museum exhibit minimal dark curated portfolio\" --design-system --persist -p \"Murmur\" --page \"gallery\")"
+    ]
+  }
+}
