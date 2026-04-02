@@ -13,9 +13,10 @@ import { UIManager } from "./ui/UIManager.js";
 import { Iteration } from "./ui/Iteration.js";
 import { Colors } from "./ui/Colors.js";
 
+import { ColorOverride } from "./ui/ColorOverride.js";
 import { downloadCanvasAsPNG } from "./utils/downloadCanvasAsPng.js";
 
-export function initSimulation({ scenarioId, elements }) {
+export async function initSimulation({ scenarioId, elements, playControls }) {
   const {
     canvas,
     iterationsEl,
@@ -38,9 +39,6 @@ export function initSimulation({ scenarioId, elements }) {
   const scenario = getScenarioById(scenarioId);
   const { ruleId, config = {} } = scenario;
 
-  console.log("ruleId", ruleId);
-
-  console.log("config", config);
   // ---- LOOK UP RULE FACTORY ------------------------------------------------
   const rule = getRuleById(ruleId, config);
   if (!rule) {
@@ -56,43 +54,106 @@ export function initSimulation({ scenarioId, elements }) {
   // ---- AUTOMATON -----------------------------------------------------------
   const automaton = new Automaton({ rule });
 
-  // ---- RENDERING ENGINE ----------------------------------------------------
+  // ---- COLOR OVERRIDE + RENDERING ENGINE ------------------------------------
+  const baseGetColor = (val) =>
+    typeof rule.getColor === "function" ? rule.getColor(val) : val;
+
+  const colorOverride = new ColorOverride(baseGetColor);
+
+  // Apply gallery display colors as default
+  try {
+    const resp = await fetch("palettes/display-colors.json");
+    if (resp.ok) {
+      const allMappings = await resp.json();
+      const mapping = allMappings[scenarioId];
+      if (mapping) {
+        colorOverride.applyPreset(mapping);
+      }
+    }
+  } catch {
+    // Silently fall back to rule's native colors
+  }
+
   const drawingEngine = new DrawingEngine({
     canvas,
-    getColor: (val) =>
-      typeof rule.getColor === "function" ? rule.getColor(val) : val,
+    getColor: (val) => colorOverride.getColor(val),
   });
 
-  // ---- UI WIDGETS ----------------------------------------------------------
-  const iterations = new Iteration(iterationsEl);
-  const colors = new Colors(colorsEl);
-  const buttons = new Buttons(startBtn, pauseBtn, resetBtn, nextBtn);
+  // ---- ITERATION + COLORS WIDGETS ------------------------------------------
+  const iterations = iterationsEl ? new Iteration(iterationsEl) : null;
+  const colors = colorsEl ? new Colors(colorsEl) : null;
 
+  // ---- WIRING (new PlayControls path vs legacy Buttons path) ---------------
+  let controller;
+  let state;
   let ui;
 
-  const controller = new SimulationController({
-    automaton,
-    drawingEngine,
-    onChange: (logic) => {
-      ui.updateUI(logic);
-    },
-    onEnd: () => {
-      state.dispatch({ type: "END" });
-    },
-  });
+  if (playControls) {
+    // New exhibit-style UI: PlayControls drives play/pause/step/reset
+    controller = new SimulationController({
+      automaton,
+      drawingEngine,
+      onChange: (logic) => {
+        if (iterations) iterations.update(logic.iteration);
+        if (colors) {
+          colors.displayColorTable(logic);
+          colors.updateColorStatistics(logic);
+        }
+      },
+      onEnd: () => {
+        playControls.onEnd();
+      },
+    });
 
-  const state = new State(controller, buttons);
+    playControls.$playPause.onclick = () => {
+      if (playControls.playing) {
+        playControls.setPlaying(false);
+        controller.stop();
+      } else {
+        playControls.setPlaying(true);
+        controller.start();
+      }
+    };
 
-  ui = new UIManager({
-    buttons,
-    iterations,
-    colors,
-    onAction: (type) => state.dispatch({ type }),
-  });
+    playControls.$step.onclick = () => {
+      controller.step();
+    };
 
-  ui.bindEvents();
-  buttons.initialise();
-  controller.reset();
+    playControls.$reset.onclick = () => {
+      controller.reset();
+      playControls.onReset();
+    };
+
+    playControls.initialise();
+    controller.reset();
+  } else {
+    // Legacy 4-button UI
+    const buttons = new Buttons(startBtn, pauseBtn, resetBtn, nextBtn);
+
+    controller = new SimulationController({
+      automaton,
+      drawingEngine,
+      onChange: (logic) => {
+        ui.updateUI(logic);
+      },
+      onEnd: () => {
+        state.dispatch({ type: "END" });
+      },
+    });
+
+    state = new State(controller, buttons);
+
+    ui = new UIManager({
+      buttons,
+      iterations,
+      colors,
+      onAction: (type) => state.dispatch({ type }),
+    });
+
+    ui.bindEvents();
+    buttons.initialise();
+    controller.reset();
+  }
 
   // ---- SAVE THUMBNAIL BUTTON ----------------------------------------------
   if (saveThumbnailBtn) {
@@ -101,6 +162,6 @@ export function initSimulation({ scenarioId, elements }) {
     });
   }
 
-  // Expose handles for debugging
-  return { rule, automaton, controller, ui, state, scenario };
+  // Expose handles for debugging / external access
+  return { rule, automaton, controller, drawingEngine, colorOverride, scenario };
 }

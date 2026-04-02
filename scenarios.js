@@ -30,6 +30,7 @@ export const SCENARIOS = [
       gridSize: 200,
     },
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -52,6 +53,7 @@ export const SCENARIOS = [
       gridSize: 200,
     },
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -74,6 +76,7 @@ export const SCENARIOS = [
       gridSize: 200,
     },
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -96,6 +99,7 @@ export const SCENARIOS = [
       gridSize: 200,
     },
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -118,6 +122,7 @@ export const SCENARIOS = [
       gridSize: 200,
     },
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -137,7 +142,13 @@ export const SCENARIOS = [
     config: {
       ordering: ["#FFB100", "#1c0221", "#00CED1"],
     },
+    palettes: [
+      { name: "Dusk", map: { "#FFB100": "#E8927C", "#1c0221": "#1A1A2E", "#00CED1": "#533483" } },
+      { name: "Arctic", map: { "#FFB100": "#E0F0FF", "#1c0221": "#0B1D3A", "#00CED1": "#6CB4EE" } },
+      { name: "Ember", map: { "#FFB100": "#FF6B35", "#1c0221": "#1C0A00", "#00CED1": "#FFC145" } },
+    ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: true, sortOrder: 2,
     version: 1,
   },
 
@@ -160,6 +171,7 @@ export const SCENARIOS = [
       gridSize: 250,
     },
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -177,6 +189,7 @@ export const SCENARIOS = [
       TAGS.DIAGONAL,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: true, sortOrder: 3,
     version: 1,
   },
 
@@ -194,6 +207,7 @@ export const SCENARIOS = [
       TAGS.INTERFACE,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -218,6 +232,7 @@ export const SCENARIOS = [
       gridSize: 200,
     },
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: true, sortOrder: 4,
     version: 1,
   },
 
@@ -238,7 +253,12 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
+    palettes: [
+      { name: "Pastel", map: { "#15237bff": "#A8D8EA", "#b64668ff": "#FFB6B9", "#219b1eff": "#CBFFC7" } },
+      { name: "Monochrome", map: { "#15237bff": "#1A1A1A", "#b64668ff": "#888888", "#219b1eff": "#E0E0E0" } },
+    ],
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: true, sortOrder: 5,
     version: 1,
   },
 
@@ -256,6 +276,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: false,
     version: 1,
   },
 
@@ -275,7 +296,12 @@ export const SCENARIOS = [
     config: {
       ordering: ["#f3e37c", "#5BC0EB", "#8E3B46", "#E8E1EF", "#05668D"],
     },
+    palettes: [
+      { name: "Neon", map: { "#f3e37c": "#FFFF00", "#5BC0EB": "#00FFFF", "#8E3B46": "#FF00FF", "#E8E1EF": "#FFFFFF", "#05668D": "#0000FF" } },
+      { name: "Earth", map: { "#f3e37c": "#C4A265", "#5BC0EB": "#5B7553", "#8E3B46": "#8B4513", "#E8E1EF": "#F5F0E6", "#05668D": "#2F4F4F" } },
+    ],
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: true, sortOrder: 6,
     version: 1,
   },
 
@@ -293,6 +319,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: false,
     version: 1,
   },
 
@@ -319,6 +346,7 @@ export const SCENARIOS = [
       ordering: ["#CA054D", "#3B1C32", "#DEF4C6", "#1B512D", "#B1CF5F"],
     },
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: false,
     version: 1,
   },
 
@@ -356,6 +384,7 @@ export const SCENARIOS = [
       ],
     },
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: true, sortOrder: 7,
     version: 1,
   },
 
@@ -377,6 +406,7 @@ export const SCENARIOS = [
       TAGS.CONVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: false,
     version: 1,
   },
 
@@ -398,6 +428,7 @@ export const SCENARIOS = [
       gridSize: 100,
     },
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: true, sortOrder: 8,
     version: 1,
   },
 
@@ -415,6 +446,7 @@ export const SCENARIOS = [
       TAGS.CONVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 100 },
+    curated: false,
     version: 1,
   },
 
@@ -435,6 +467,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -452,6 +485,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -469,6 +503,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: true, sortOrder: 9,
     version: 1,
   },
 
@@ -489,6 +524,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 64 },
+    curated: false,
     version: 1,
   },
 
@@ -506,6 +542,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 65 },
+    curated: true, sortOrder: 1,
     version: 1,
   },
 
@@ -523,6 +560,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 65 },
+    curated: true, sortOrder: 10,
     version: 1,
   },
 
@@ -542,6 +580,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -559,6 +598,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: true, sortOrder: 11,
     version: 1,
   },
 
@@ -576,6 +616,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: false,
     version: 1,
   },
 
@@ -593,6 +634,7 @@ export const SCENARIOS = [
       TAGS.DIVERGENT,
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
+    curated: true, sortOrder: 12,
     version: 1,
   },
 
@@ -608,9 +650,36 @@ export const SCENARIOS = [
       "An XOR-based rule on 3-bit vectors producing crisp, high-frequency interference.",
     tags: [TAGS.GROUP_THEORY, TAGS.ABELIAN, TAGS.MULTI_STATE, TAGS.DIVERGENT],
     screenshotConfig: { enabled: false, iteration: 50 },
+    curated: false,
     version: 1,
   },
 ];
+
+/**
+ * Curation
+ */
+
+export const HERO_SCENARIO_ID = "rps-cascade-10";
+
+export function getCuratedScenarios() {
+  return SCENARIOS
+    .filter((s) => s.curated)
+    .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999));
+}
+
+export function isAdminMode() {
+  const params = new URLSearchParams(location.search);
+  const urlFlag = params.get("admin");
+  if (urlFlag === "true") {
+    localStorage.setItem("murmur-admin", "true");
+    return true;
+  }
+  if (urlFlag === "false") {
+    localStorage.removeItem("murmur-admin");
+    return false;
+  }
+  return localStorage.getItem("murmur-admin") === "true";
+}
 
 /**
  * Access helpers

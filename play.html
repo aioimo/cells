@@ -2,81 +2,122 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cellular Automata - Play</title>
-    <script>
-      const t = localStorage.getItem("cells-theme");
-      if (t && t !== "dark") document.documentElement.dataset.theme = t;
-    </script>
-    <link rel="stylesheet" href="base.css" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Murmur</title>
+    <link rel="stylesheet" href="murmur-tokens.css" />
+    <link rel="stylesheet" href="murmur-play.css" />
   </head>
   <body>
-    <div class="container">
-      <div>
-        <a href="index.html" class="back-link" style="margin: 8px 8px 4px">
-          ← All rules
-        </a>
-      </div>
-      <main>
-        <!-- keep explicit size; CSS scales it; JS uses logical pixels -->
-        <canvas id="canvas" width="5000" height="5000"></canvas>
-      </main>
+    <a href="index.html" class="back-link" aria-label="Back to gallery">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
 
-      <section id="display-panel-section">
-        <section id="button-menu">
-          <button id="start" class="button button__big">Start</button>
-          <button id="pause" class="button button__big" disabled>Pause</button>
-          <button id="next" class="button button__small">Next</button>
-          <button id="reset" class="button button__small">Reset</button>
-        </section>
+    <canvas id="canvas" width="5000" height="5000"></canvas>
 
-        <section id="iterations-display">
-          <span id="iterations">0</span>
-        </section>
-
-        <fieldset id="colors"></fieldset>
-      </section>
+    <div class="controls" id="controls">
+      <button id="play-pause" aria-label="Play"></button>
+      <button id="step" aria-label="Step forward">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="4,3 16,12 4,21" fill="currentColor" stroke="none"/><rect x="18" y="4" width="2.5" height="16" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <button id="reset" aria-label="Reset">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 1 3 6.7"/><polyline points="3 22 3 16 9 16"/></svg>
+      </button>
+      <div class="controls-divider"></div>
+      <button id="info-toggle" aria-label="Info">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </button>
     </div>
 
-    <footer class="play-footer">
-      <h1 id="rule-title" class="play-title"></h1>
-      <p id="rule-description" class="play-description"></p>
-    </footer>
-  </body>
+    <div class="title-overlay" id="title-overlay"></div>
+    <span class="iteration-display" id="iterations">0</span>
 
-  <script type="module">
-    import { initSimulation } from "./initSimulation.js";
-    import { initThemeSwitcher } from "./ui/ThemeSwitcher.js";
+    <div class="info-panel" id="info-panel">
+      <div class="info-panel-header">
+        <span class="info-panel-title" id="panel-title"></span>
+        <button class="info-panel-close" id="panel-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p class="info-panel-description" id="panel-description"></p>
+      <fieldset id="colors"></fieldset>
+    </div>
 
-    const params = new URLSearchParams(window.location.search);
-    const scenarioId = params.get("scenario");
-    const ruleId = params.get("rule");
+    <script type="module">
+      import { initSimulation } from "./initSimulation.js";
+      import { PlayControls } from "./ui/PlayControls.js";
+      import { AutoHide } from "./ui/AutoHide.js";
+      import { PalettePanel } from "./ui/PalettePanel.js";
 
-    // Prefer scenario, fall back to rule for backwards compatibility
-    const initConfig = {
-      elements: {
-        canvas: document.getElementById("canvas"),
-        iterationsEl: document.getElementById("iterations"),
-        colorsEl: document.getElementById("colors"),
-        startBtn: document.getElementById("start"),
-        pauseBtn: document.getElementById("pause"),
-        nextBtn: document.getElementById("next"),
+      const params = new URLSearchParams(window.location.search);
+      const scenarioId = params.get("scenario");
+      const ruleId = params.get("rule");
+
+      if (!scenarioId && !ruleId) {
+        window.location.href = "index.html";
+      }
+
+      // --- Play controls ---
+      const playControls = new PlayControls({
+        playPauseBtn: document.getElementById("play-pause"),
+        stepBtn: document.getElementById("step"),
         resetBtn: document.getElementById("reset"),
-        saveThumbnailBtn: document.getElementById("save-thumbnail"),
-        titleEl: document.getElementById("rule-title"),
-        descEl: document.getElementById("rule-description"),
-      },
-    };
+      });
 
-    if (scenarioId) {
-      initConfig.scenarioId = scenarioId;
-    } else {
-      initConfig.ruleId = ruleId || "majority";
-    }
+      // --- Init simulation ---
+      const sim = await initSimulation({
+        scenarioId: scenarioId || ruleId,
+        playControls,
+        elements: {
+          canvas: document.getElementById("canvas"),
+          iterationsEl: document.getElementById("iterations"),
+          colorsEl: document.getElementById("colors"),
+          titleEl: document.getElementById("title-overlay"),
+          descEl: document.getElementById("panel-description"),
+        },
+      });
 
-    initSimulation(initConfig);
-    initThemeSwitcher();
-  </script>
+      // Set panel title
+      document.getElementById("panel-title").textContent =
+        sim.scenario.label || sim.scenario.id;
+
+      // Update page title
+      document.title = `${sim.scenario.label || sim.scenario.id} — Murmur`;
+
+      // --- Palette panel ---
+      const palettePanel = new PalettePanel({
+        panelEl: document.getElementById("info-panel"),
+        colorOverride: sim.colorOverride,
+        rule: sim.rule,
+        scenario: sim.scenario,
+        onColorChange: () => {
+          sim.drawingEngine.draw(sim.automaton.state);
+        },
+      });
+      palettePanel.render();
+
+      // --- Auto-hide controls + title ---
+      const controls = document.getElementById("controls");
+      const titleOverlay = document.getElementById("title-overlay");
+      new AutoHide([controls, titleOverlay]);
+
+      // --- Info panel toggle ---
+      const infoPanel = document.getElementById("info-panel");
+      const infoToggle = document.getElementById("info-toggle");
+      const panelClose = document.getElementById("panel-close");
+
+      infoToggle.addEventListener("click", () => {
+        infoPanel.classList.toggle("open");
+      });
+
+      panelClose.addEventListener("click", () => {
+        infoPanel.classList.remove("open");
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          infoPanel.classList.remove("open");
+        }
+      });
+    </script>
+  </body>
 </html>

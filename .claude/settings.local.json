@@ -5,7 +5,25 @@
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"dark gallery museum exhibit noir\" --domain style -n 5)",
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"minimal clean artistic creative\" --domain typography -n 5)",
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"dark mode gallery portfolio\" --domain color -n 5)",
-      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"art gallery museum exhibit minimal dark curated portfolio\" --design-system --persist -p \"Murmur\" --page \"gallery\")"
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"art gallery museum exhibit minimal dark curated portfolio\" --design-system --persist -p \"Murmur\" --page \"gallery\")",
+      "Bash(grep -n \"getColor\" rules/*.js)",
+      "Bash(sed:*)",
+      "Bash(sed -i '187s/curated: false/curated: true, sortOrder: 3/' scenarios.js)",
+      "Bash(sed -i '230s/curated: false/curated: true, sortOrder: 4/' scenarios.js)",
+      "Bash(sed -i '252s/curated: false/curated: true, sortOrder: 5/' scenarios.js)",
+      "Bash(sed -i '291s/curated: false/curated: true, sortOrder: 6/' scenarios.js)",
+      "Bash(sed -i '374s/curated: false/curated: true, sortOrder: 7/' scenarios.js)",
+      "Bash(npm test:*)",
+      "Bash(npm install:*)",
+      "Bash(npx jest:*)",
+      "Bash(node --experimental-vm-modules node_modules/jest/bin/jest.js)",
+      "Bash(node scripts/generate-snapshots.js)",
+      "Bash(node scripts/render-thumbnails.js)",
+      "Bash(node scripts/generate-hero-snapshot.js 800 100)",
+      "Bash(taskkill //F //FI \"WINDOWTITLE eq *generate-hero*\")",
+      "Bash(pkill -f generate-hero)",
+      "Bash(node scripts/generate-hero-snapshot.js 500 100)",
+      "Bash(node scripts/extract-color-mappings.js)"
     ]
   }
 }

@@ -20,7 +20,9 @@
   "scripts": {
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "thumbnail": "node scripts/generate-thumbnail.js",
-    "thumbnails:all": "node scripts/generate-all-thumbnails.js"
+    "thumbnails:all": "node scripts/generate-all-thumbnails.js",
+    "snapshots": "node scripts/generate-snapshots.js",
+    "render": "node scripts/render-thumbnails.js"
   },
   "devDependencies": {
     "canvas": "^3.2.0",
