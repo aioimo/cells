@@ -10,7 +10,7 @@ export class GeneticDrift extends Rule {
   constructor() {
     super();
     this.ordering = ["green", "black", "white", "orange", "blue"];
-    this.gridSize = 100;
+    this.gridSize = 200;
 
     this._globalCache = null; // { state, counts }
   }

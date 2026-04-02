@@ -425,7 +425,7 @@ export const SCENARIOS = [
     ],
     config: {
       ordering: ["black", "orange", "white", "blue", "green"],
-      gridSize: 100,
+      gridSize: 200,
     },
     screenshotConfig: { enabled: true, iteration: 100 },
     curated: true, sortOrder: 8,
@@ -561,6 +561,27 @@ export const SCENARIOS = [
     ],
     screenshotConfig: { enabled: true, iteration: 65 },
     curated: true, sortOrder: 10,
+    version: 1,
+  },
+
+  {
+    id: "quaternion-spiral-wide",
+    ruleId: "quaternion-spiral",
+    label: "Quaternion Group (Spiral Wide)",
+    description:
+      "Quaternion spiral with a wider neighbourhood radius, producing broader twisting dynamics.",
+    tags: [
+      TAGS.GROUP_THEORY,
+      TAGS.QUATERNION,
+      TAGS.MULTI_STATE,
+      TAGS.SEEDED,
+      TAGS.DIVERGENT,
+    ],
+    config: {
+      radius: 3,
+    },
+    screenshotConfig: { enabled: true, iteration: 65 },
+    curated: true, sortOrder: 13,
     version: 1,
   },
 

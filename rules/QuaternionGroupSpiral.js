@@ -26,10 +26,10 @@ export class QuaternionGroupSpiral extends ImaginaryGroupBase {
     }
   }
 
-  constructor(props) {
+  constructor(props = {}) {
     super(props);
     this.ordering = ["-1", "k", "-j", "1", "j", "-k", "i", "-i"];
-    this.radius = 2;
+    this.radius = props.radius ?? 2;
     this.gridSize = this.GRID_SIZE;
   }
 

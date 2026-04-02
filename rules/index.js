@@ -56,7 +56,7 @@ export const RULES = {
 
   quaternion: () => new QuaternionGroup(),
   "quaternion-pizza": () => new QuaternionGroupPizza(),
-  "quaternion-spiral": () => new QuaternionGroupSpiral(),
+  "quaternion-spiral": (config = {}) => new QuaternionGroupSpiral(config),
 
   c4: () => new C4Group(),
   d3: () => new Dihedral3Group(),
