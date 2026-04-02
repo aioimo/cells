@@ -8,10 +8,11 @@ export class DrawingEngine {
     this.W_100 = this.canvas.width;
     this.H_100 = this.canvas.height;
     this.getColor = getColor;
+    this.prevState = null; // previous state for dirty-region detection
   }
 
   draw(state) {
-    const { ctx, W_100, H_100 } = this;
+    const { ctx, W_100, H_100, BORDER_WIDTH } = this;
     // Enforce Matrix structure
     if (
       !state ||
@@ -24,33 +25,46 @@ export class DrawingEngine {
       );
     }
     const squareSize = this.H_100 / state.rows;
+    const prev = this.prevState;
+    const fullRedraw =
+      !prev || prev.rows !== state.rows || prev.cols !== state.cols;
 
-    ctx.save();
-    ctx.clearRect(0, 0, W_100, H_100);
+    if (fullRedraw) {
+      ctx.clearRect(0, 0, W_100, H_100);
+    }
+
+    const border = BORDER_WIDTH;
+    const innerSize = squareSize - 2 * border;
 
     for (let row = 0; row < state.rows; row++) {
       for (let col = 0; col < state.cols; col++) {
         const val = state.get(row, col);
-        this.drawSquare(row, col, val, squareSize);
+
+        // Skip unchanged cells
+        if (!fullRedraw && prev.get(row, col) === val) continue;
+
+        ctx.fillStyle = this.getColor(val);
+        ctx.fillRect(
+          squareSize * col + border,
+          squareSize * row + border,
+          innerSize,
+          innerSize
+        );
       }
     }
-    ctx.restore();
+
+    this.prevState = state;
   }
 
+  // Keep for external callers (e.g. thumbnail generation)
   drawSquare(row, col, val, squareSize) {
     const { ctx, BORDER_WIDTH } = this;
-
-    const color = this.getColor(val);
-    ctx.save();
-    ctx.fillStyle = color;
-    ctx.translate(squareSize * col, squareSize * row);
+    ctx.fillStyle = this.getColor(val);
     ctx.fillRect(
-      BORDER_WIDTH,
-      BORDER_WIDTH,
+      squareSize * col + BORDER_WIDTH,
+      squareSize * row + BORDER_WIDTH,
       squareSize - 2 * BORDER_WIDTH,
       squareSize - 2 * BORDER_WIDTH
     );
-
-    ctx.restore();
   }
 }

@@ -28,6 +28,14 @@ export class Matrix {
     return newMatrix;
   }
 
+  static fromFlat(rows, cols, data) {
+    const m = Object.create(Matrix.prototype);
+    m.rows = rows;
+    m.cols = cols;
+    m.data = data;
+    return m;
+  }
+
   equals(other) {
     if (
       !other ||
