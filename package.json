@@ -18,7 +18,7 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "thumbnail": "node scripts/generate-thumbnail.js",
     "thumbnails:all": "node scripts/generate-all-thumbnails.js",
     "snapshots": "node scripts/generate-snapshots.js",

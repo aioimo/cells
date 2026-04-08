@@ -28,6 +28,7 @@ export async function initSimulation({ scenarioId, elements, playControls }) {
     saveThumbnailBtn,
     titleEl,
     descEl,
+    settledBadgeEl,
   } = elements;
 
   // ---- REQUIRE SCENARIO ID -------------------------------------------------
@@ -102,6 +103,7 @@ export async function initSimulation({ scenarioId, elements, playControls }) {
       },
       onEnd: () => {
         playControls.onEnd();
+        if (settledBadgeEl) settledBadgeEl.classList.add("visible");
       },
     });
 
@@ -122,6 +124,7 @@ export async function initSimulation({ scenarioId, elements, playControls }) {
     playControls.$reset.onclick = () => {
       controller.reset();
       playControls.onReset();
+      if (settledBadgeEl) settledBadgeEl.classList.remove("visible");
     };
 
     playControls.initialise();

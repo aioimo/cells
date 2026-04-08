@@ -148,7 +148,7 @@ export const SCENARIOS = [
       { name: "Ember", map: { "#FFB100": "#FF6B35", "#1c0221": "#1C0A00", "#00CED1": "#FFC145" } },
     ],
     screenshotConfig: { enabled: true, iteration: 50 },
-    curated: true, sortOrder: 2,
+    curated: true, sortOrder: 1,
     version: 1,
   },
 
@@ -561,27 +561,6 @@ export const SCENARIOS = [
     ],
     screenshotConfig: { enabled: true, iteration: 65 },
     curated: true, sortOrder: 10,
-    version: 1,
-  },
-
-  {
-    id: "quaternion-spiral-wide",
-    ruleId: "quaternion-spiral",
-    label: "Quaternion Group (Spiral Wide)",
-    description:
-      "Quaternion spiral with a wider neighbourhood radius, producing broader twisting dynamics.",
-    tags: [
-      TAGS.GROUP_THEORY,
-      TAGS.QUATERNION,
-      TAGS.MULTI_STATE,
-      TAGS.SEEDED,
-      TAGS.DIVERGENT,
-    ],
-    config: {
-      radius: 3,
-    },
-    screenshotConfig: { enabled: true, iteration: 65 },
-    curated: true, sortOrder: 13,
     version: 1,
   },
 

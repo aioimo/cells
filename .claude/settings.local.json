@@ -25,7 +25,9 @@
       "Bash(node scripts/generate-hero-snapshot.js 500 100)",
       "Bash(node scripts/extract-color-mappings.js)",
       "Bash(ls -la *.js *.html)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(ls:*)",
+      "Bash(grep -E \"\\\\.\\(html|css\\)$\")"
     ]
   }
 }

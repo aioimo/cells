@@ -28,8 +28,8 @@ describe("GeneticDrift Rule", () => {
     const rule = new GeneticDrift();
     const state = rule.generateStartingState();
     
-    expect(state.rows).toBe(100);
-    expect(state.cols).toBe(100);
+    expect(state.rows).toBe(200);
+    expect(state.cols).toBe(200);
   });
 
   test("generateStartingState uses valid colors from ordering", () => {

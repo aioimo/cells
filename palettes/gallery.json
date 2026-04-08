@@ -1,21 +1,21 @@
 {
-  "name": "Murmur",
-  "background": "#09090B",
+  "name": "Botanical",
+  "background": "#0B1A0F",
   "colors": [
-    "#F0E6D3",
-    "#1B3A4B",
-    "#E07A5F",
-    "#3D8B7A",
-    "#F2CC8F",
-    "#7B8CDE",
-    "#C97C5D",
-    "#2B4C6F",
-    "#D4A276",
-    "#5B9279",
-    "#BC6C8A",
-    "#E8C547",
-    "#4A7C9B",
-    "#D68C45",
-    "#8A6FBF"
+    "#2D6A4F",
+    "#95D5B2",
+    "#D8F3DC",
+    "#1B4332",
+    "#52B788",
+    "#B7E4C7",
+    "#40916C",
+    "#74C69D",
+    "#D4A373",
+    "#E9C46A",
+    "#FAEDCD",
+    "#264653",
+    "#8AB17D",
+    "#2A9D8F",
+    "#F4A261"
   ]
 }

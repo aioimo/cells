@@ -130,6 +130,24 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* --- Settled badge --- */
+.settled-badge {
+  position: fixed;
+  bottom: calc(var(--space-6) + 1.2rem);
+  right: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.settled-badge.visible {
+  opacity: 1;
+}
+
 /* --- Info panel (slide-in) --- */
 .info-panel {
   position: fixed;
@@ -222,6 +240,11 @@ body {
 
   .iteration-display {
     bottom: calc(var(--space-16) + var(--space-4));
+    right: var(--space-4);
+  }
+
+  .settled-badge {
+    bottom: calc(var(--space-16) + var(--space-4) + 1.2rem);
     right: var(--space-4);
   }
 
