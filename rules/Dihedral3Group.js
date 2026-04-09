@@ -102,6 +102,24 @@ function multiplyD3(a, b) {
 // ---------- Rule implementation ----------
 
 export class Dihedral3Group extends Rule {
+  static COLOR_GROUPINGS = [
+    {
+      name: "Rotations vs Reflections",
+      groups: [
+        { elements: ["e", "r", "r2"], color: "#FF6B6B" },
+        { elements: ["s", "rs", "r2s"], color: "#4ECDC4" },
+      ],
+    },
+    {
+      name: "Identity Highlighted",
+      groups: [
+        { elements: ["e"], color: "#FFE66D" },
+        { elements: ["r", "r2"], color: "#2C003E" },
+        { elements: ["s", "rs", "r2s"], color: "#95E1D3" },
+      ],
+    },
+  ];
+
   constructor() {
     super();
     this.ordering = ["e", "r", "r2", "s", "rs", "r2s"];
@@ -109,18 +127,20 @@ export class Dihedral3Group extends Rule {
     this.radius = 1;
   }
 
-  // Tweak freely; purely visual.
   getColor(val) {
     switch (val) {
       case "e":
-        return "red";
+        return "#F72585";
       case "r":
+        return "#7209B7";
       case "r2":
-        return "black";
+        return "#3A0CA3";
       case "s":
+        return "#4361EE";
       case "rs":
+        return "#4CC9F0";
       case "r2s":
-        return "white";
+        return "#F7B801";
       default:
         return "#FFFFFF";
     }

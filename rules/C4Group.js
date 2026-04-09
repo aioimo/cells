@@ -24,6 +24,24 @@ import { Matrix } from "../core/Matrix.js";
 import { emptyMatrix } from "../utils.js";
 
 export class C4Group extends Rule {
+  static COLOR_GROUPINGS = [
+    {
+      name: "Subgroup \u27E82\u27E9",
+      groups: [
+        { elements: [0, 2], color: "#1982C4" },
+        { elements: [1, 3], color: "#FF595E" },
+      ],
+    },
+    {
+      name: "By Order",
+      groups: [
+        { elements: [0], color: "#F8F9FA" },
+        { elements: [2], color: "#6C757D" },
+        { elements: [1, 3], color: "#212529" },
+      ],
+    },
+  ];
+
   constructor() {
     super();
     this.ordering = [0, 1, 2, 3];

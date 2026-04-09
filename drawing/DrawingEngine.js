@@ -56,6 +56,10 @@ export class DrawingEngine {
     this.prevState = state;
   }
 
+  invalidate() {
+    this.prevState = null;
+  }
+
   // Keep for external callers (e.g. thumbnail generation)
   drawSquare(row, col, val, squareSize) {
     const { ctx, BORDER_WIDTH } = this;

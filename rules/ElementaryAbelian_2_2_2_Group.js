@@ -24,6 +24,32 @@ import { Matrix } from "../core/Matrix.js";
 import { emptyMatrix } from "../utils.js";
 
 export class ElementaryAbelian_2_2_2_Group extends Rule {
+  static COLOR_GROUPINGS = [
+    {
+      name: "Hamming Weight",
+      groups: [
+        { elements: [0], color: "#FFFFFF" },
+        { elements: [1, 2, 4], color: "#00B4D8" },
+        { elements: [3, 5, 6], color: "#7B2CBF" },
+        { elements: [7], color: "#0B090A" },
+      ],
+    },
+    {
+      name: "First Bit",
+      groups: [
+        { elements: [0, 2, 4, 6], color: "#E63946" },
+        { elements: [1, 3, 5, 7], color: "#A8DADC" },
+      ],
+    },
+    {
+      name: "Parity (XOR bits)",
+      groups: [
+        { elements: [0, 3, 5, 6], color: "#000814" },
+        { elements: [1, 2, 4, 7], color: "#FFD60A" },
+      ],
+    },
+  ];
+
   constructor() {
     super();
     this.ordering = [0, 4, 2, 6, 1, 5, 3, 7];

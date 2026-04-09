@@ -9,9 +9,146 @@ export class PalettePanel {
     // Capture the gallery palette defaults so reset restores to them
     this.defaultOverrides = new Map(this.colorOverride.overrides);
     this.sectionEl = null;
+    this.activeLens = null;
   }
 
   render() {
+    const groupings = this.rule.constructor.COLOR_GROUPINGS;
+
+    if (groupings && groupings.length > 0) {
+      this._renderLensMode(groupings);
+    } else {
+      this._renderClassicMode();
+    }
+  }
+
+  // --- Lens mode: unified section for group-theory rules ---
+
+  _renderLensMode(groupings) {
+    this.sectionEl = document.createElement("div");
+    this.sectionEl.className = "palette-section";
+
+    const title = document.createElement("div");
+    title.textContent = "Lens";
+    title.style.cssText =
+      "font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-3); font-weight: 500;";
+    this.sectionEl.appendChild(title);
+
+    // Default to "All Distinct" (no overrides — matches load state)
+    this.activeLens = "All Distinct";
+
+    // "All Distinct" lens — each algebraic element gets its own colour
+    const distinctColors = this._getNativeColors();
+    this._addLensButton(this.sectionEl, {
+      name: "All Distinct",
+      nativeColors: distinctColors,
+      previewColors: distinctColors,
+    });
+
+    groupings.forEach((grouping) => {
+      const previewColors = grouping.groups.map((g) => g.color);
+      this._addLensButton(this.sectionEl, {
+        name: grouping.name,
+        grouping,
+        previewColors,
+      });
+    });
+
+    this._updateLensButtons();
+    this.panelEl.appendChild(this.sectionEl);
+  }
+
+  _addLensButton(container, { name, grouping, nativeColors, previewColors }) {
+    const btn = document.createElement("button");
+    btn.dataset.lens = name;
+    btn.style.cssText = `
+      display: flex; align-items: center; gap: var(--space-2);
+      width: 100%; padding: var(--space-2); margin-bottom: var(--space-1);
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 6px; cursor: pointer; color: var(--text-muted);
+      font-size: var(--text-sm); font-family: var(--font-body);
+      transition: border-color 0.15s, background 0.15s;
+    `;
+
+    // Preview swatches
+    const swatches = document.createElement("span");
+    swatches.style.cssText = "display: flex; gap: 2px;";
+    previewColors.forEach((c) => {
+      const dot = document.createElement("span");
+      dot.style.cssText = `width: 12px; height: 12px; border-radius: 3px; background: ${c}; border: 1px solid rgba(128,128,128,0.2);`;
+      swatches.appendChild(dot);
+    });
+
+    const label = document.createElement("span");
+    label.textContent = name;
+
+    btn.appendChild(swatches);
+    btn.appendChild(label);
+
+    btn.addEventListener("click", () => {
+      if (nativeColors) {
+        // Clear all overrides — show each element's own colour
+        this.colorOverride.applyPreset(null);
+      } else {
+        const map = {};
+        for (const group of grouping.groups) {
+          for (const el of group.elements) {
+            const baseColor = this.colorOverride.originalGetColor(el);
+            map[baseColor] = group.color;
+          }
+        }
+        this.colorOverride.applyPreset(map);
+      }
+      this.activeLens = name;
+      this._updateLensButtons();
+      this.onColorChange();
+    });
+
+    btn.addEventListener("mouseenter", () => {
+      if (name !== this.activeLens) {
+        btn.style.borderColor = "var(--text-faint)";
+      }
+    });
+    btn.addEventListener("mouseleave", () => {
+      if (name !== this.activeLens) {
+        btn.style.borderColor = "var(--border)";
+      }
+    });
+
+    container.appendChild(btn);
+  }
+
+  _updateLensButtons() {
+    if (!this.sectionEl) return;
+    const buttons = this.sectionEl.querySelectorAll("button[data-lens]");
+    buttons.forEach((btn) => {
+      if (btn.dataset.lens === this.activeLens) {
+        btn.style.borderColor = "var(--text-faint)";
+        btn.style.background = "var(--surface-raised, rgba(255,255,255,0.08))";
+      } else {
+        btn.style.borderColor = "var(--border)";
+        btn.style.background = "transparent";
+      }
+    });
+  }
+
+  _getNativeColors() {
+    const ordering = this.rule.ordering || [];
+    const seen = new Set();
+    const colors = [];
+    for (const val of ordering) {
+      const color = this.colorOverride.originalGetColor(val);
+      if (!seen.has(color)) {
+        seen.add(color);
+        colors.push(color);
+      }
+    }
+    return colors;
+  }
+
+  // --- Classic mode: color swatches + preset palettes (non-group-theory rules) ---
+
+  _renderClassicMode() {
     this.sectionEl = document.createElement("div");
     this.sectionEl.className = "palette-section";
 

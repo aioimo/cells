@@ -61,19 +61,24 @@ export async function initSimulation({ scenarioId, elements, playControls }) {
 
   const colorOverride = new ColorOverride(baseGetColor);
 
-  // Apply gallery display colors as default
-  try {
-    const resp = await fetch("palettes/display-colors.json");
-    if (resp.ok) {
-      const allMappings = await resp.json();
-      const mapping = allMappings[scenarioId];
-      if (mapping) {
-        colorOverride.applyPreset(mapping);
+  // Apply default colours
+  const hasLens = !!(rule.constructor.COLOR_GROUPINGS?.length);
+  if (!hasLens) {
+    // Gallery display colors for non-lens scenarios
+    try {
+      const resp = await fetch("palettes/display-colors.json");
+      if (resp.ok) {
+        const allMappings = await resp.json();
+        const mapping = allMappings[scenarioId];
+        if (mapping) {
+          colorOverride.applyPreset(mapping);
+        }
       }
+    } catch {
+      // Silently fall back to rule's native colors
     }
-  } catch {
-    // Silently fall back to rule's native colors
   }
+  // Lens scenarios: no overrides on load — getColor() already gives all-distinct
 
   const drawingEngine = new DrawingEngine({
     canvas,

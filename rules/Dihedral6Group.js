@@ -82,6 +82,32 @@ function multiplyD6(a, b) {
 }
 
 export class Dihedral6Group extends Rule {
+  static COLOR_GROUPINGS = [
+    {
+      name: "Rotations vs Reflections",
+      groups: [
+        { elements: ["e", "r", "r2", "r3", "r4", "r5"], color: "#00B4D8" },
+        { elements: ["s", "rs", "r2s", "r3s", "r4s", "r5s"], color: "#FF006E" },
+      ],
+    },
+    {
+      name: "Subgroup \u27E8r\u00B2\u27E9",
+      groups: [
+        { elements: ["e", "r2", "r4"], color: "#FFBE0B" },
+        { elements: ["r", "r3", "r5"], color: "#3A86FF" },
+        { elements: ["s", "rs", "r2s", "r3s", "r4s", "r5s"], color: "#FB5607" },
+      ],
+    },
+    {
+      name: "Identity Highlighted",
+      groups: [
+        { elements: ["e"], color: "#FFFFFF" },
+        { elements: ["r", "r2", "r3", "r4", "r5"], color: "#023047" },
+        { elements: ["s", "rs", "r2s", "r3s", "r4s", "r5s"], color: "#FFB703" },
+      ],
+    },
+  ];
+
   constructor({ gridSize = 400 } = {}) {
     super();
     this.ordering = [
@@ -105,23 +131,29 @@ export class Dihedral6Group extends Rule {
   getColor(val) {
     switch (val) {
       case "e":
-        return "white";
+        return "#FFFFFF";
       case "r":
+        return "#FF0054";
       case "r2":
+        return "#BB0A21";
       case "r3":
+        return "#7B2D8E";
       case "r4":
+        return "#3F37C9";
       case "r5":
-        return "magenta";
-
+        return "#4895EF";
       case "s":
+        return "#F72585";
       case "rs":
+        return "#FFBE0B";
       case "r2s":
+        return "#FB5607";
       case "r3s":
+        return "#06D6A0";
       case "r4s":
-        return "cyan";
+        return "#118AB2";
       case "r5s":
-        return "black";
-
+        return "#073B4C";
       default:
         return "#FFFFFF";
     }

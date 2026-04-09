@@ -17,12 +17,8 @@ import { GeneticDriftLocalBattle } from "./GeneticDriftLocalBattle.js";
 import { GeneticDriftGlobalBattle } from "./GeneticDriftGlobalBattle.js";
 
 import { ImaginaryGroupBase } from "./ImaginaryGroupBase.js";
-import { ImaginaryGroupSingle } from "./ImaginaryGroupSingle.js";
-import { ImaginaryGroupQuadrants } from "./ImaginaryGroupQuadrants.js";
 
 import { QuaternionGroup } from "./QuaternionGroup.js";
-import { QuaternionGroupPizza } from "./QuaternionGroupPizza.js";
-import { QuaternionGroupSpiral } from "./QuaternionGroupSpiral.js";
 
 import { C4Group } from "./C4Group.js";
 import { Dihedral3Group } from "./Dihedral3Group.js";
@@ -50,13 +46,11 @@ export const RULES = {
   "genetic-drift-local": (config = {}) => new GeneticDriftLocalBattle(config),
   "genetic-drift-global": (config = {}) => new GeneticDriftGlobalBattle(config),
 
-  "imaginary-base": () => new ImaginaryGroupBase(),
-  "imaginary-single": () => new ImaginaryGroupSingle(),
-  "imaginary-quadrants": () => new ImaginaryGroupQuadrants(),
+  "imaginary-base": (config = {}) => new ImaginaryGroupBase(config),
 
-  quaternion: () => new QuaternionGroup(),
-  "quaternion-pizza": () => new QuaternionGroupPizza(),
-  "quaternion-spiral": (config = {}) => new QuaternionGroupSpiral(config),
+  quaternion: (config = {}) => new QuaternionGroup(config),
+  "quaternion-spiral": (config = {}) =>
+    new QuaternionGroup({ gridSize: 301, radius: 2, initPreset: "spiral", ...config }),
 
   c4: () => new C4Group(),
   d3: () => new Dihedral3Group(),
@@ -127,32 +121,19 @@ export const RULE_META = {
   },
 
   "imaginary-base": {
-    label: "Imaginary Group Base",
+    label: "Imaginary",
     description:
       "Cells store ±1, ±i; updates multiply neighbours according to complex-unit rules.",
   },
-  "imaginary-single": {
-    label: "Imaginary Group (Single Source)",
-    description: "Imaginary dynamics from a single seeded region.",
-  },
-  "imaginary-quadrants": {
-    label: "Imaginary Group (Quadrants)",
-    description:
-      "Quadrants seeded with different units; interfaces show their interactions.",
-  },
 
   quaternion: {
-    label: "Quaternion Group",
+    label: "Q₈",
     description:
       "Cells multiply neighbours in Q8; non-commutative group dynamics.",
   },
-  "quaternion-pizza": {
-    label: "Quaternion Group (Pizza)",
-    description: "Quaternion dynamics from radial sector initialisation.",
-  },
   "quaternion-spiral": {
-    label: "Quaternion Group (Spiral)",
-    description: "Quaternion rule from spiral seed; twisting structure.",
+    label: "Q₈ Wide",
+    description: "Quaternion dynamics with wider neighborhoods (radius 2).",
   },
 
   c3: {

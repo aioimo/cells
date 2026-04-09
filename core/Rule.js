@@ -18,6 +18,10 @@ export class Rule {
 
   createInitialState() {
     this.ensureConfigured();
+    const presets = this.constructor.INIT_PRESETS;
+    if (this.initPreset && presets?.[this.initPreset]) {
+      return presets[this.initPreset].generate(this);
+    }
     return this.generateStartingState(this.gridSize, this.ordering);
   }
 

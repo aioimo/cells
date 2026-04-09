@@ -48,6 +48,7 @@
       import { PlayControls } from "./ui/PlayControls.js";
       import { AutoHide } from "./ui/AutoHide.js";
       import { PalettePanel } from "./ui/PalettePanel.js";
+      import { InitPresetPanel } from "./ui/InitPresetPanel.js";
 
       const params = new URLSearchParams(window.location.search);
       const scenarioId = params.get("scenario");
@@ -92,10 +93,26 @@
         rule: sim.rule,
         scenario: sim.scenario,
         onColorChange: () => {
+          sim.drawingEngine.invalidate();
           sim.drawingEngine.draw(sim.automaton.state);
         },
       });
       palettePanel.render();
+
+      // --- Init preset panel (starting pattern selector) ---
+      const initPresetPanel = new InitPresetPanel({
+        panelEl: document.getElementById("info-panel"),
+        rule: sim.rule,
+        controller: sim.controller,
+        playControls,
+        settledBadgeEl: document.getElementById("settled-badge"),
+      });
+      initPresetPanel.render();
+
+      // --- Kaleidoscope mode: hide play button ---
+      if (sim.scenario.mode === "kaleidoscope") {
+        document.getElementById("play-pause").style.display = "none";
+      }
 
       // --- Auto-hide controls + title ---
       const controls = document.getElementById("controls");

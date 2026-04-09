@@ -1,8 +1,76 @@
 import { Rule } from "../core/Rule.js";
 import { Matrix } from "../core/Matrix.js";
-import { emptyMatrix } from "../utils.js";
+import { emptyMatrix, randomMatrixWeighted } from "../utils.js";
 
 export class ImaginaryGroupBase extends Rule {
+  static COLOR_GROUPINGS = [
+    {
+      name: "Conjugate Pairs",
+      groups: [
+        { elements: ["1", "-1"], color: "#0D1B2A" },
+        { elements: ["i", "-i"], color: "#E0FBFC" },
+      ],
+    },
+    {
+      name: "Sign",
+      groups: [
+        { elements: ["1", "i"], color: "#F7FFF7" },
+        { elements: ["-1", "-i"], color: "#1A535C" },
+      ],
+    },
+  ];
+
+  static INIT_PRESETS = {
+    quadrants: {
+      label: "Quadrants",
+      generate(rule) {
+        const size = rule.gridSize;
+        const m = emptyMatrix(size, size);
+        const half = Math.floor(size / 2);
+
+        for (let row = 0; row < size; row++) {
+          for (let col = 0; col < size; col++) {
+            if (row < half && col < half) m[row][col] = "i";
+            else if (row < half && col >= half) m[row][col] = "1";
+            else if (row >= half && col < half) m[row][col] = "-i";
+            else m[row][col] = "-1";
+          }
+        }
+
+        return new Matrix(m);
+      },
+    },
+    single: {
+      label: "Single Source",
+      generate(rule) {
+        const size = rule.gridSize;
+        const ordering = ["-1", "i", "-i", "1"];
+        const m = randomMatrixWeighted(size, size, ordering, [1, 0, 0, 0]);
+        m[Math.floor(size / 2)][Math.floor(size / 2)] = "i";
+        return new Matrix(m);
+      },
+    },
+    "split-quadrants": {
+      label: "Split Quadrants",
+      generate(rule) {
+        const size = rule.gridSize;
+        const m = emptyMatrix(size, size);
+        const half = Math.floor(size / 2);
+
+        for (let row = 0; row < size; row++) {
+          for (let col = 0; col < size; col++) {
+            if (row < half && col < half) m[row][col] = "-i";
+            else if (row < half && col >= half) m[row][col] = "1";
+            else if (row >= half && col < half) m[row][col] = "-1";
+            else m[row][col] = "i";
+          }
+        }
+
+        return m;
+      },
+    },
+  };
+
   getColor(val) {
     switch (val) {
       case "1":
@@ -30,6 +98,7 @@ export class ImaginaryGroupBase extends Rule {
     this.ordering = this.ordering ?? this.ORDERING;
     this.filterSchema = this.filterSchema ?? this.FILTER_SCHEMA;
     this.gridSize = this.gridSize ?? this.GRID_SIZE;
+    this.initPreset = this.initPreset ?? null;
   }
 
   nextValue(row, col, state) {
@@ -142,42 +211,7 @@ export class ImaginaryGroupBase extends Rule {
   }
 
   generateStartingState() {
-    const m = emptyMatrix(this.GRID_SIZE, this.GRID_SIZE);
-    for (let row = 0; row < m.length; row++) {
-      for (let col = 0; col < m.length; col++) {
-        if (
-          row < Math.floor(this.GRID_SIZE / 2) &&
-          col < Math.floor(this.GRID_SIZE / 2)
-        ) {
-          m[row][col] = "i";
-          continue;
-        }
-        if (
-          row < Math.floor(this.GRID_SIZE / 2) &&
-          col >= Math.floor(this.GRID_SIZE / 2)
-        ) {
-          m[row][col] = "1";
-          continue;
-        }
-
-        if (
-          row >= Math.floor(this.GRID_SIZE / 2) &&
-          col < Math.floor(this.GRID_SIZE / 2)
-        ) {
-          m[row][col] = "-i";
-          continue;
-        }
-
-        if (
-          row >= Math.floor(this.GRID_SIZE / 2) &&
-          col >= Math.floor(this.GRID_SIZE / 2)
-        ) {
-          m[row][col] = "-1";
-          continue;
-        }
-      }
-    }
-
-    return new Matrix(m);
+    // Default: quadrants layout
+    return ImaginaryGroupBase.INIT_PRESETS.quadrants.generate(this);
   }
 }

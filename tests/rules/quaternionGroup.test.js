@@ -70,9 +70,8 @@ describe("QuaternionGroup Rule", () => {
     expect(rule.getColor("-k")).toBe("grey");
   });
 
-  test("uses GRID_SIZE of 80", () => {
+  test("uses default gridSize of 80", () => {
     const rule = new QuaternionGroup();
-    expect(rule.GRID_SIZE).toBe(80);
     expect(rule.gridSize).toBe(80);
   });
 });

@@ -89,6 +89,35 @@ function multiplyD4(a, b) {
 // ---------- Rule implementation ----------
 
 export class Dihedral4Group extends Rule {
+  static COLOR_GROUPINGS = [
+    {
+      name: "Rotations vs Reflections",
+      groups: [
+        { elements: ["e", "r", "r2", "r3"], color: "#2D00F7" },
+        { elements: ["s", "rs", "r2s", "r3s"], color: "#F20089" },
+      ],
+    },
+    {
+      name: "By Order",
+      groups: [
+        { elements: ["e"], color: "#FFFFFF" },
+        { elements: ["r2"], color: "#BC4749" },
+        { elements: ["r", "r3"], color: "#386641" },
+        { elements: ["s", "rs", "r2s", "r3s"], color: "#1A1A2E" },
+      ],
+    },
+    {
+      name: "Conjugacy Classes",
+      groups: [
+        { elements: ["e"], color: "#FFFFFF" },
+        { elements: ["r2"], color: "#3A86FF" },
+        { elements: ["r", "r3"], color: "#FF006E" },
+        { elements: ["s", "r2s"], color: "#FFBE0B" },
+        { elements: ["rs", "r3s"], color: "#8338EC" },
+      ],
+    },
+  ];
+
   constructor() {
     super();
     this.ordering = ["e", "r", "r2", "r3", "s", "rs", "r2s", "r3s"];
@@ -99,16 +128,21 @@ export class Dihedral4Group extends Rule {
   getColor(val) {
     switch (val) {
       case "e":
-        return "black";
-      case "r2":
-      case "r2s":
+        return "#03071E";
       case "r":
+        return "#D00000";
+      case "r2":
+        return "#DC2F02";
       case "r3":
-        return "yellow";
+        return "#E85D04";
       case "s":
+        return "#FAA307";
       case "rs":
+        return "#FFBA08";
+      case "r2s":
+        return "#6A040F";
       case "r3s":
-        return "white";
+        return "#9D0208";
       default:
         return "#FFFFFF";
     }

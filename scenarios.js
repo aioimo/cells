@@ -457,7 +457,7 @@ export const SCENARIOS = [
   {
     id: "imaginary-base",
     ruleId: "imaginary-base",
-    label: "Imaginary Group Base",
+    label: "Imaginary",
     description:
       "Cells carry ±1 and ±i; neighborhood products give complex-unit dynamics.",
     tags: [
@@ -466,42 +466,10 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
-    screenshotConfig: { enabled: true, iteration: 50 },
-    curated: false,
-    version: 1,
-  },
-
-  {
-    id: "imaginary-single",
-    ruleId: "imaginary-single",
-    label: "Imaginary Group (Single Source)",
-    description:
-      "Complex-unit dynamics seeded from a single region, revealing interaction fronts.",
-    tags: [
-      TAGS.GROUP_THEORY,
-      TAGS.COMPLEX_UNITS,
-      TAGS.MULTI_STATE,
-      TAGS.SEEDED,
-      TAGS.DIVERGENT,
-    ],
-    screenshotConfig: { enabled: true, iteration: 50 },
-    curated: false,
-    version: 1,
-  },
-
-  {
-    id: "imaginary-quadrants",
-    ruleId: "imaginary-quadrants",
-    label: "Imaginary Group (Quadrants)",
-    description:
-      "Quadrants seeded with different complex units; boundaries reveal their interactions.",
-    tags: [
-      TAGS.GROUP_THEORY,
-      TAGS.COMPLEX_UNITS,
-      TAGS.MULTI_STATE,
-      TAGS.SEEDED,
-      TAGS.DIVERGENT,
-    ],
+    config: {
+      gridSize: 160,
+    },
+    mode: "kaleidoscope",
     screenshotConfig: { enabled: true, iteration: 50 },
     curated: true, sortOrder: 9,
     version: 1,
@@ -514,7 +482,7 @@ export const SCENARIOS = [
   {
     id: "quaternion-default",
     ruleId: "quaternion",
-    label: "Quaternion Group",
+    label: "Q₈",
     description:
       "Cells multiply neighbors in Q8, producing non-commutative group dynamics.",
     tags: [
@@ -523,25 +491,11 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
+    config: {
+      gridSize: 300,
+    },
+    mode: "kaleidoscope",
     screenshotConfig: { enabled: true, iteration: 64 },
-    curated: false,
-    version: 1,
-  },
-
-  {
-    id: "quaternion-pizza",
-    ruleId: "quaternion-pizza",
-    label: "Quaternion Group (Pizza)",
-    description:
-      "Radially seeded quaternion dynamics producing rotational interfaces.",
-    tags: [
-      TAGS.GROUP_THEORY,
-      TAGS.QUATERNION,
-      TAGS.MULTI_STATE,
-      TAGS.SEEDED,
-      TAGS.DIVERGENT,
-    ],
-    screenshotConfig: { enabled: true, iteration: 65 },
     curated: true, sortOrder: 1,
     version: 1,
   },
@@ -549,16 +503,16 @@ export const SCENARIOS = [
   {
     id: "quaternion-spiral",
     ruleId: "quaternion-spiral",
-    label: "Quaternion Group (Spiral)",
+    label: "Q₈ Wide",
     description:
-      "Quaternion rule seeded with a spiral pattern, yielding twisting dynamics.",
+      "Quaternion dynamics with wider neighborhoods (radius 2), producing richer interference.",
     tags: [
       TAGS.GROUP_THEORY,
       TAGS.QUATERNION,
       TAGS.MULTI_STATE,
-      TAGS.SEEDED,
       TAGS.DIVERGENT,
     ],
+    mode: "kaleidoscope",
     screenshotConfig: { enabled: true, iteration: 65 },
     curated: true, sortOrder: 10,
     version: 1,
@@ -571,7 +525,7 @@ export const SCENARIOS = [
   {
     id: "c4-default",
     ruleId: "c4",
-    label: "C4 (Z/4)",
+    label: "C₄",
     description: "Cyclic group of order 4 with additive dynamics modulo 4.",
     tags: [
       TAGS.GROUP_THEORY,
@@ -579,15 +533,16 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
+    mode: "kaleidoscope",
     screenshotConfig: { enabled: true, iteration: 50 },
-    curated: false,
+    curated: true, sortOrder: 16,
     version: 1,
   },
 
   {
     id: "d3-default",
     ruleId: "d3",
-    label: "D₃ (Triangle Symmetries)",
+    label: "D₃",
     description:
       "A dihedral group rule expressing triangular rotational and reflection symmetries.",
     tags: [
@@ -597,6 +552,7 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
+    mode: "kaleidoscope",
     screenshotConfig: { enabled: true, iteration: 50 },
     curated: true, sortOrder: 11,
     version: 1,
@@ -605,7 +561,7 @@ export const SCENARIOS = [
   {
     id: "d4-default",
     ruleId: "d4",
-    label: "D₄ (Square Symmetries)",
+    label: "D₄",
     description:
       "Dihedral group of order 8 with strong grid-aligned symmetry structures.",
     tags: [
@@ -615,15 +571,16 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
+    mode: "kaleidoscope",
     screenshotConfig: { enabled: true, iteration: 50 },
-    curated: false,
+    curated: true, sortOrder: 17,
     version: 1,
   },
 
   {
     id: "d6-default",
     ruleId: "d6",
-    label: "D₆ (Hexagon Symmetries)",
+    label: "D₆",
     description:
       "Hexagonal dihedral group with rich symmetric tilings and non-convergent behavior.",
     tags: [
@@ -633,6 +590,7 @@ export const SCENARIOS = [
       TAGS.MULTI_STATE,
       TAGS.DIVERGENT,
     ],
+    mode: "kaleidoscope",
     screenshotConfig: { enabled: true, iteration: 50 },
     curated: true, sortOrder: 12,
     version: 1,
@@ -649,8 +607,9 @@ export const SCENARIOS = [
     description:
       "An XOR-based rule on 3-bit vectors producing crisp, high-frequency interference.",
     tags: [TAGS.GROUP_THEORY, TAGS.ABELIAN, TAGS.MULTI_STATE, TAGS.DIVERGENT],
-    screenshotConfig: { enabled: false, iteration: 50 },
-    curated: false,
+    mode: "kaleidoscope",
+    screenshotConfig: { enabled: true, iteration: 50 },
+    curated: true, sortOrder: 18,
     version: 1,
   },
 ];
