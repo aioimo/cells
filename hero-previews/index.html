@@ -3,806 +3,896 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Hero Palette Previews</title>
+<title>Palette Catalogue</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #09090B; color: #F4F4F5; font-family: 'Inter', system-ui, sans-serif; padding: 48px 24px; }
-  h1 { text-align: center; font-size: 1.5rem; font-weight: 500; margin-bottom: 48px; color: #A1A1AA; }
-  .concepts { display: flex; flex-direction: column; gap: 72px; max-width: 1400px; margin: 0 auto; }
-  .concept { display: flex; flex-direction: column; gap: 20px; }
-  .concept-header { display: flex; align-items: baseline; gap: 12px; }
-  .concept-number { font-size: 0.75rem; color: #52525B; font-family: ui-monospace, monospace; }
-  .concept-name { font-size: 1.3rem; font-weight: 500; }
-  .concept-desc { font-size: 0.85rem; color: #71717A; line-height: 1.5; max-width: 600px; }
-  .concept-images { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; align-items: start; }
-  .concept-images img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; display: block; }
-  .concept-images img.hero { border-radius: 8px; }
-  .swatches { display: flex; gap: 3px; }
-  .swatch { flex: 1; height: 24px; border-radius: 3px; }
+  h1 { text-align: center; font-size: 1.5rem; font-weight: 500; margin-bottom: 12px; color: #A1A1AA; }
+  .subtitle { text-align: center; font-size: 0.85rem; color: #52525B; margin-bottom: 48px; }
+  .catalogue { display: flex; flex-direction: column; gap: 64px; max-width: 1600px; margin: 0 auto; }
+
+  .section { display: flex; flex-direction: column; gap: 20px; }
+  .section-header { display: flex; align-items: baseline; gap: 12px; border-bottom: 1px solid #27272A; padding-bottom: 12px; }
+  .section-count { font-size: 1.8rem; font-weight: 600; color: #F4F4F5; font-family: ui-monospace, monospace; min-width: 2ch; }
+  .section-label { font-size: 0.85rem; color: #71717A; }
+  .section-scenario { font-size: 0.75rem; color: #3F3F46; font-family: ui-monospace, monospace; }
+
+  .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+  .palette-card { display: flex; flex-direction: column; gap: 8px; }
+  .palette-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; display: block; }
+  .palette-name { font-size: 0.85rem; font-weight: 500; color: #D4D4D8; }
+  .swatches { display: flex; gap: 2px; height: 20px; }
+  .swatch { flex: 1; border-radius: 3px; }
   .swatch:first-child { border-radius: 5px 3px 3px 5px; }
   .swatch:last-child { border-radius: 3px 5px 5px 3px; }
-  .bg-bar { height: 5px; border-radius: 3px; max-width: 200px; }
-  .section-title { font-size: 1rem; font-weight: 500; color: #71717A; margin-top: 24px; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.7rem; }
-  .timeline { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; align-items: start; }
-  .timeline-frame { display: flex; flex-direction: column; gap: 4px; }
-  .timeline-frame img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; display: block; }
-  .timeline-label { font-size: 0.65rem; color: #52525B; font-family: ui-monospace, monospace; text-align: center; }
-  @media (max-width: 900px) {
-    .concept-images { grid-template-columns: 1fr 1fr; }
-    .timeline { grid-template-columns: repeat(4, 1fr); }
+  .bg-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-left: 6px; border: 1px solid #3F3F46; }
+
+  .swatch-only { padding: 16px; background: #18181B; border-radius: 8px; }
+  .swatch-only .swatches { height: 32px; }
+
+  @media (max-width: 700px) {
+    .palette-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
   }
 </style>
 </head>
 <body>
-<h1>Palette Concepts</h1>
-<div class="concepts">
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">01</span>
-      <span class="concept-name">Neon Bloom</span>
+<h1>Palette Catalogue</h1>
+<p class="subtitle">Colour schemes organized by number of colours, each shown against a representative scenario</p>
+<div class="catalogue">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">2</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">majority-2-players-radius-1</span>
     </div>
-    <div class="concept-desc">Electric brights on void black — arcade glow, high contrast, synthetic flora.</div>
-    <div class="concept-images">
-      <img src="01-neon-bloom-rps-cascade-10.png" alt="Neon Bloom — rps-cascade-10" class="hero" />
-      <img src="01-neon-bloom-quaternion-pizza.png" alt="Neon Bloom — quaternion-pizza" />
-      <img src="01-neon-bloom-majority-strong.png" alt="Neon Bloom — majority-strong" />
-      <img src="01-neon-bloom-d6-default.png" alt="Neon Bloom — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#FF2D6B" title="#FF2D6B"></div>
-      <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
-      <div class="swatch" style="background:#FFE53B" title="#FFE53B"></div>
-      <div class="swatch" style="background:#7B61FF" title="#7B61FF"></div>
-      <div class="swatch" style="background:#00BBFF" title="#00BBFF"></div>
-      <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
-      <div class="swatch" style="background:#39FF14" title="#39FF14"></div>
-      <div class="swatch" style="background:#FF85A1" title="#FF85A1"></div>
-      <div class="swatch" style="background:#18E4FF" title="#18E4FF"></div>
-      <div class="swatch" style="background:#C77DFF" title="#C77DFF"></div>
-    </div>
-    <div class="bg-bar" style="background:#050510" title="bg: #050510"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card">
+        <img src="count-2-01-ember-void.png" alt="Ember & Void" />
+        <span class="palette-name">Ember & Void<span class="bg-dot" style="background:#0A0604"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF4D00" title="#FF4D00"></div>
+          <div class="swatch" style="background:#1A1A2E" title="#1A1A2E"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card">
+        <img src="count-2-02-ink-parchment.png" alt="Ink & Parchment" />
+        <span class="palette-name">Ink & Parchment<span class="bg-dot" style="background:#0C0A09"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F5F0EB" title="#F5F0EB"></div>
+          <div class="swatch" style="background:#1C1917" title="#1C1917"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card">
+        <img src="count-2-03-lagoon.png" alt="Lagoon" />
+        <span class="palette-name">Lagoon<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#0A1628" title="#0A1628"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card">
+        <img src="count-2-04-bruise.png" alt="Bruise" />
+        <span class="palette-name">Bruise<span class="bg-dot" style="background:#0D001A"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#B5179E" title="#B5179E"></div>
+          <div class="swatch" style="background:#1B0A2E" title="#1B0A2E"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
+      <div class="palette-card">
+        <img src="count-2-05-moss-clay.png" alt="Moss & Clay" />
+        <span class="palette-name">Moss & Clay<span class="bg-dot" style="background:#0B1A0F"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#52B788" title="#52B788"></div>
+          <div class="swatch" style="background:#D4A373" title="#D4A373"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="01-neon-bloom-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card">
+        <img src="count-2-06-neon-pulse.png" alt="Neon Pulse" />
+        <span class="palette-name">Neon Pulse<span class="bg-dot" style="background:#050510"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#39FF14" title="#39FF14"></div>
+          <div class="swatch" style="background:#FF2D6B" title="#FF2D6B"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">02</span>
-      <span class="concept-name">Deep Ocean</span>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">3</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">majority-strong</span>
     </div>
-    <div class="concept-desc">Abyssal blues through bioluminescent teals — pressure, depth, cold light.</div>
-    <div class="concept-images">
-      <img src="02-deep-ocean-rps-cascade-10.png" alt="Deep Ocean — rps-cascade-10" class="hero" />
-      <img src="02-deep-ocean-quaternion-pizza.png" alt="Deep Ocean — quaternion-pizza" />
-      <img src="02-deep-ocean-majority-strong.png" alt="Deep Ocean — majority-strong" />
-      <img src="02-deep-ocean-d6-default.png" alt="Deep Ocean — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
-      <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
-      <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
-      <div class="swatch" style="background:#023E8A" title="#023E8A"></div>
-      <div class="swatch" style="background:#48CAE4" title="#48CAE4"></div>
-      <div class="swatch" style="background:#90E0EF" title="#90E0EF"></div>
-      <div class="swatch" style="background:#0096C7" title="#0096C7"></div>
-      <div class="swatch" style="background:#ADE8F4" title="#ADE8F4"></div>
-      <div class="swatch" style="background:#03045E" title="#03045E"></div>
-      <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
-    </div>
-    <div class="bg-bar" style="background:#020B18" title="bg: #020B18"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card">
+        <img src="count-3-01-traffic.png" alt="Traffic" />
+        <span class="palette-name">Traffic<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#EF4444" title="#EF4444"></div>
+          <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card">
+        <img src="count-3-02-nautical.png" alt="Nautical" />
+        <span class="palette-name">Nautical<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FFFBEB" title="#FFFBEB"></div>
+          <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
+          <div class="swatch" style="background:#DC2626" title="#DC2626"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card">
+        <img src="count-3-03-sherbet.png" alt="Sherbet" />
+        <span class="palette-name">Sherbet<span class="bg-dot" style="background:#1A1025"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF6B9D" title="#FF6B9D"></div>
+          <div class="swatch" style="background:#67E8F9" title="#67E8F9"></div>
+          <div class="swatch" style="background:#FDE047" title="#FDE047"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card">
+        <img src="count-3-04-forest-floor.png" alt="Forest Floor" />
+        <span class="palette-name">Forest Floor<span class="bg-dot" style="background:#0B1A0F"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#2D6A4F" title="#2D6A4F"></div>
+          <div class="swatch" style="background:#D4A373" title="#D4A373"></div>
+          <div class="swatch" style="background:#D8F3DC" title="#D8F3DC"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
+      <div class="palette-card">
+        <img src="count-3-05-ultraviolet.png" alt="Ultraviolet" />
+        <span class="palette-name">Ultraviolet<span class="bg-dot" style="background:#0D001A"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F72585" title="#F72585"></div>
+          <div class="swatch" style="background:#7209B7" title="#7209B7"></div>
+          <div class="swatch" style="background:#4CC9F0" title="#4CC9F0"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="02-deep-ocean-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card">
+        <img src="count-3-06-campfire.png" alt="Campfire" />
+        <span class="palette-name">Campfire<span class="bg-dot" style="background:#0A0604"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF8800" title="#FF8800"></div>
+          <div class="swatch" style="background:#1C1917" title="#1C1917"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">03</span>
-      <span class="concept-name">Ember & Ash</span>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">4</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">rps4-default</span>
     </div>
-    <div class="concept-desc">Smouldering fire through charcoal — warmth buried in dark, volcanic heat.</div>
-    <div class="concept-images">
-      <img src="03-ember-&-ash-rps-cascade-10.png" alt="Ember & Ash — rps-cascade-10" class="hero" />
-      <img src="03-ember-&-ash-quaternion-pizza.png" alt="Ember & Ash — quaternion-pizza" />
-      <img src="03-ember-&-ash-majority-strong.png" alt="Ember & Ash — majority-strong" />
-      <img src="03-ember-&-ash-d6-default.png" alt="Ember & Ash — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#FF4D00" title="#FF4D00"></div>
-      <div class="swatch" style="background:#FF8800" title="#FF8800"></div>
-      <div class="swatch" style="background:#FFAA00" title="#FFAA00"></div>
-      <div class="swatch" style="background:#CC3700" title="#CC3700"></div>
-      <div class="swatch" style="background:#FFD60A" title="#FFD60A"></div>
-      <div class="swatch" style="background:#9D0208" title="#9D0208"></div>
-      <div class="swatch" style="background:#E85D04" title="#E85D04"></div>
-      <div class="swatch" style="background:#FFBA08" title="#FFBA08"></div>
-      <div class="swatch" style="background:#DC2F02" title="#DC2F02"></div>
-      <div class="swatch" style="background:#F48C06" title="#F48C06"></div>
-    </div>
-    <div class="bg-bar" style="background:#0A0604" title="bg: #0A0604"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card">
+        <img src="count-4-01-cardinal.png" alt="Cardinal" />
+        <span class="palette-name">Cardinal<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#DC2626" title="#DC2626"></div>
+          <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
+          <div class="swatch" style="background:#1D4ED8" title="#1D4ED8"></div>
+          <div class="swatch" style="background:#F5F0EB" title="#F5F0EB"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card">
+        <img src="count-4-02-tide-pool.png" alt="Tide Pool" />
+        <span class="palette-name">Tide Pool<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+          <div class="swatch" style="background:#023E8A" title="#023E8A"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card">
+        <img src="count-4-03-candy-box.png" alt="Candy Box" />
+        <span class="palette-name">Candy Box<span class="bg-dot" style="background:#1A1025"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF6B9D" title="#FF6B9D"></div>
+          <div class="swatch" style="background:#C084FC" title="#C084FC"></div>
+          <div class="swatch" style="background:#67E8F9" title="#67E8F9"></div>
+          <div class="swatch" style="background:#FDE047" title="#FDE047"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card">
+        <img src="count-4-04-terracotta.png" alt="Terracotta" />
+        <span class="palette-name">Terracotta<span class="bg-dot" style="background:#0A0604"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#B45309" title="#B45309"></div>
+          <div class="swatch" style="background:#059669" title="#059669"></div>
+          <div class="swatch" style="background:#D97706" title="#D97706"></div>
+          <div class="swatch" style="background:#F5F0EB" title="#F5F0EB"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
+      <div class="palette-card">
+        <img src="count-4-05-neon-grid.png" alt="Neon Grid" />
+        <span class="palette-name">Neon Grid<span class="bg-dot" style="background:#050510"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF2D6B" title="#FF2D6B"></div>
+          <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
+          <div class="swatch" style="background:#FFE53B" title="#FFE53B"></div>
+          <div class="swatch" style="background:#7B61FF" title="#7B61FF"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="03-ember-&-ash-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card">
+        <img src="count-4-06-sumi.png" alt="Sumi" />
+        <span class="palette-name">Sumi<span class="bg-dot" style="background:#0C0A09"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F5F0EB" title="#F5F0EB"></div>
+          <div class="swatch" style="background:#1C1917" title="#1C1917"></div>
+          <div class="swatch" style="background:#A8A29E" title="#A8A29E"></div>
+          <div class="swatch" style="background:#57534E" title="#57534E"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">04</span>
-      <span class="concept-name">Botanical</span>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">5</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">rps5-default</span>
     </div>
-    <div class="concept-desc">Lush greens, soil browns, petal accents — a living canopy seen from above.</div>
-    <div class="concept-images">
-      <img src="04-botanical-rps-cascade-10.png" alt="Botanical — rps-cascade-10" class="hero" />
-      <img src="04-botanical-quaternion-pizza.png" alt="Botanical — quaternion-pizza" />
-      <img src="04-botanical-majority-strong.png" alt="Botanical — majority-strong" />
-      <img src="04-botanical-d6-default.png" alt="Botanical — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#2D6A4F" title="#2D6A4F"></div>
-      <div class="swatch" style="background:#95D5B2" title="#95D5B2"></div>
-      <div class="swatch" style="background:#D8F3DC" title="#D8F3DC"></div>
-      <div class="swatch" style="background:#1B4332" title="#1B4332"></div>
-      <div class="swatch" style="background:#52B788" title="#52B788"></div>
-      <div class="swatch" style="background:#B7E4C7" title="#B7E4C7"></div>
-      <div class="swatch" style="background:#40916C" title="#40916C"></div>
-      <div class="swatch" style="background:#74C69D" title="#74C69D"></div>
-      <div class="swatch" style="background:#D4A373" title="#D4A373"></div>
-      <div class="swatch" style="background:#E9C46A" title="#E9C46A"></div>
-    </div>
-    <div class="bg-bar" style="background:#0B1A0F" title="bg: #0B1A0F"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card">
+        <img src="count-5-01-spectrum.png" alt="Spectrum" />
+        <span class="palette-name">Spectrum<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#EF4444" title="#EF4444"></div>
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#A855F7" title="#A855F7"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card">
+        <img src="count-5-02-coral-reef.png" alt="Coral Reef" />
+        <span class="palette-name">Coral Reef<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+          <div class="swatch" style="background:#06D6A0" title="#06D6A0"></div>
+          <div class="swatch" style="background:#E040FB" title="#E040FB"></div>
+          <div class="swatch" style="background:#FFFBEB" title="#FFFBEB"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card">
+        <img src="count-5-03-jewel-box.png" alt="Jewel Box" />
+        <span class="palette-name">Jewel Box<span class="bg-dot" style="background:#0F0A1E"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#10B981" title="#10B981"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card">
+        <img src="count-5-04-patina.png" alt="Patina" />
+        <span class="palette-name">Patina<span class="bg-dot" style="background:#0C0A09"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#059669" title="#059669"></div>
+          <div class="swatch" style="background:#B45309" title="#B45309"></div>
+          <div class="swatch" style="background:#78716C" title="#78716C"></div>
+          <div class="swatch" style="background:#D97706" title="#D97706"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="04-botanical-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card">
+        <img src="count-5-05-playground.png" alt="Playground" />
+        <span class="palette-name">Playground<span class="bg-dot" style="background:#1A1025"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF6B9D" title="#FF6B9D"></div>
+          <div class="swatch" style="background:#FDE047" title="#FDE047"></div>
+          <div class="swatch" style="background:#67E8F9" title="#67E8F9"></div>
+          <div class="swatch" style="background:#A3E635" title="#A3E635"></div>
+          <div class="swatch" style="background:#F0ABFC" title="#F0ABFC"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">05</span>
-      <span class="concept-name">Ultraviolet</span>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">6</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">d3-default</span>
     </div>
-    <div class="concept-desc">UV purples through hot pinks — blacklight party, fluorescent intensity.</div>
-    <div class="concept-images">
-      <img src="05-ultraviolet-rps-cascade-10.png" alt="Ultraviolet — rps-cascade-10" class="hero" />
-      <img src="05-ultraviolet-quaternion-pizza.png" alt="Ultraviolet — quaternion-pizza" />
-      <img src="05-ultraviolet-majority-strong.png" alt="Ultraviolet — majority-strong" />
-      <img src="05-ultraviolet-d6-default.png" alt="Ultraviolet — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#B5179E" title="#B5179E"></div>
-      <div class="swatch" style="background:#7209B7" title="#7209B7"></div>
-      <div class="swatch" style="background:#F72585" title="#F72585"></div>
-      <div class="swatch" style="background:#560BAD" title="#560BAD"></div>
-      <div class="swatch" style="background:#480CA8" title="#480CA8"></div>
-      <div class="swatch" style="background:#3A0CA3" title="#3A0CA3"></div>
-      <div class="swatch" style="background:#3F37C9" title="#3F37C9"></div>
-      <div class="swatch" style="background:#4361EE" title="#4361EE"></div>
-      <div class="swatch" style="background:#4895EF" title="#4895EF"></div>
-      <div class="swatch" style="background:#4CC9F0" title="#4CC9F0"></div>
-    </div>
-    <div class="bg-bar" style="background:#0D001A" title="bg: #0D001A"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card">
+        <img src="count-6-01-stained-glass.png" alt="Stained Glass" />
+        <span class="palette-name">Stained Glass<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#DC2626" title="#DC2626"></div>
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#A855F7" title="#A855F7"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card">
+        <img src="count-6-02-deep-sea.png" alt="Deep Sea" />
+        <span class="palette-name">Deep Sea<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+          <div class="swatch" style="background:#023E8A" title="#023E8A"></div>
+          <div class="swatch" style="background:#48CAE4" title="#48CAE4"></div>
+          <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card">
+        <img src="count-6-03-carnival.png" alt="Carnival" />
+        <span class="palette-name">Carnival<span class="bg-dot" style="background:#0F0A1E"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#10B981" title="#10B981"></div>
+          <div class="swatch" style="background:#F43F5E" title="#F43F5E"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card">
+        <img src="count-6-04-earth-sky.png" alt="Earth & Sky" />
+        <span class="palette-name">Earth & Sky<span class="bg-dot" style="background:#0B1A0F"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#2D6A4F" title="#2D6A4F"></div>
+          <div class="swatch" style="background:#95D5B2" title="#95D5B2"></div>
+          <div class="swatch" style="background:#D4A373" title="#D4A373"></div>
+          <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
+          <div class="swatch" style="background:#F4A261" title="#F4A261"></div>
+          <div class="swatch" style="background:#D8F3DC" title="#D8F3DC"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="05-ultraviolet-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card">
+        <img src="count-6-05-neon-nights.png" alt="Neon Nights" />
+        <span class="palette-name">Neon Nights<span class="bg-dot" style="background:#050510"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF2D6B" title="#FF2D6B"></div>
+          <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
+          <div class="swatch" style="background:#FFE53B" title="#FFE53B"></div>
+          <div class="swatch" style="background:#7B61FF" title="#7B61FF"></div>
+          <div class="swatch" style="background:#00BBFF" title="#00BBFF"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">06</span>
-      <span class="concept-name">Sumi Ink</span>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">7</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">swatches only</span>
     </div>
-    <div class="concept-desc">Japanese ink wash — near-black through warm whites, subtle warmth in restraint.</div>
-    <div class="concept-images">
-      <img src="06-sumi-ink-rps-cascade-10.png" alt="Sumi Ink — rps-cascade-10" class="hero" />
-      <img src="06-sumi-ink-quaternion-pizza.png" alt="Sumi Ink — quaternion-pizza" />
-      <img src="06-sumi-ink-majority-strong.png" alt="Sumi Ink — majority-strong" />
-      <img src="06-sumi-ink-d6-default.png" alt="Sumi Ink — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#F5F0EB" title="#F5F0EB"></div>
-      <div class="swatch" style="background:#1C1917" title="#1C1917"></div>
-      <div class="swatch" style="background:#A8A29E" title="#A8A29E"></div>
-      <div class="swatch" style="background:#57534E" title="#57534E"></div>
-      <div class="swatch" style="background:#D6D3D1" title="#D6D3D1"></div>
-      <div class="swatch" style="background:#78716C" title="#78716C"></div>
-      <div class="swatch" style="background:#E7E5E4" title="#E7E5E4"></div>
-      <div class="swatch" style="background:#44403C" title="#44403C"></div>
-      <div class="swatch" style="background:#292524" title="#292524"></div>
-      <div class="swatch" style="background:#FAFAF9" title="#FAFAF9"></div>
-    </div>
-    <div class="bg-bar" style="background:#0C0A09" title="bg: #0C0A09"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Rainbow<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#EF4444" title="#EF4444"></div>
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Mineral<span class="bg-dot" style="background:#0C0A09"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#059669" title="#059669"></div>
+          <div class="swatch" style="background:#B45309" title="#B45309"></div>
+          <div class="swatch" style="background:#78716C" title="#78716C"></div>
+          <div class="swatch" style="background:#D97706" title="#D97706"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+          <div class="swatch" style="background:#6A040F" title="#6A040F"></div>
+          <div class="swatch" style="background:#4ADE80" title="#4ADE80"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Candy Store<span class="bg-dot" style="background:#1A1025"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF6B9D" title="#FF6B9D"></div>
+          <div class="swatch" style="background:#C084FC" title="#C084FC"></div>
+          <div class="swatch" style="background:#67E8F9" title="#67E8F9"></div>
+          <div class="swatch" style="background:#FDE047" title="#FDE047"></div>
+          <div class="swatch" style="background:#A3E635" title="#A3E635"></div>
+          <div class="swatch" style="background:#FB923C" title="#FB923C"></div>
+          <div class="swatch" style="background:#F0ABFC" title="#F0ABFC"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Dusk Harbor<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#F72585" title="#F72585"></div>
+          <div class="swatch" style="background:#48CAE4" title="#48CAE4"></div>
+          <div class="swatch" style="background:#FFFBEB" title="#FFFBEB"></div>
+          <div class="swatch" style="background:#023E8A" title="#023E8A"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="06-sumi-ink-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Volcanic<span class="bg-dot" style="background:#0A0604"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF4D00" title="#FF4D00"></div>
+          <div class="swatch" style="background:#FF8800" title="#FF8800"></div>
+          <div class="swatch" style="background:#FFAA00" title="#FFAA00"></div>
+          <div class="swatch" style="background:#9D0208" title="#9D0208"></div>
+          <div class="swatch" style="background:#FFD60A" title="#FFD60A"></div>
+          <div class="swatch" style="background:#1C1917" title="#1C1917"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">07</span>
-      <span class="concept-name">Candy Pop</span>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">8</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">quaternion-default</span>
     </div>
-    <div class="concept-desc">Saturated pastels — playful, loud, bubblegum palette with punchy contrast.</div>
-    <div class="concept-images">
-      <img src="07-candy-pop-rps-cascade-10.png" alt="Candy Pop — rps-cascade-10" class="hero" />
-      <img src="07-candy-pop-quaternion-pizza.png" alt="Candy Pop — quaternion-pizza" />
-      <img src="07-candy-pop-majority-strong.png" alt="Candy Pop — majority-strong" />
-      <img src="07-candy-pop-d6-default.png" alt="Candy Pop — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#FF6B9D" title="#FF6B9D"></div>
-      <div class="swatch" style="background:#C084FC" title="#C084FC"></div>
-      <div class="swatch" style="background:#67E8F9" title="#67E8F9"></div>
-      <div class="swatch" style="background:#FDE047" title="#FDE047"></div>
-      <div class="swatch" style="background:#F0ABFC" title="#F0ABFC"></div>
-      <div class="swatch" style="background:#A3E635" title="#A3E635"></div>
-      <div class="swatch" style="background:#FB923C" title="#FB923C"></div>
-      <div class="swatch" style="background:#38BDF8" title="#38BDF8"></div>
-      <div class="swatch" style="background:#F472B6" title="#F472B6"></div>
-      <div class="swatch" style="background:#34D399" title="#34D399"></div>
-    </div>
-    <div class="bg-bar" style="background:#1A1025" title="bg: #1A1025"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card">
+        <img src="count-8-01-kaleidoscope.png" alt="Kaleidoscope" />
+        <span class="palette-name">Kaleidoscope<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#EF4444" title="#EF4444"></div>
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#A855F7" title="#A855F7"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card">
+        <img src="count-8-02-bioluminescent.png" alt="Bioluminescent" />
+        <span class="palette-name">Bioluminescent<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+          <div class="swatch" style="background:#023E8A" title="#023E8A"></div>
+          <div class="swatch" style="background:#48CAE4" title="#48CAE4"></div>
+          <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
+          <div class="swatch" style="background:#90E0EF" title="#90E0EF"></div>
+          <div class="swatch" style="background:#0A9396" title="#0A9396"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card">
+        <img src="count-8-03-bazaar.png" alt="Bazaar" />
+        <span class="palette-name">Bazaar<span class="bg-dot" style="background:#0F0A1E"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#10B981" title="#10B981"></div>
+          <div class="swatch" style="background:#F43F5E" title="#F43F5E"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#FBBF24" title="#FBBF24"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card">
+        <img src="count-8-04-autumn.png" alt="Autumn" />
+        <span class="palette-name">Autumn<span class="bg-dot" style="background:#0A0604"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF4D00" title="#FF4D00"></div>
+          <div class="swatch" style="background:#FF8800" title="#FF8800"></div>
+          <div class="swatch" style="background:#FFAA00" title="#FFAA00"></div>
+          <div class="swatch" style="background:#9D0208" title="#9D0208"></div>
+          <div class="swatch" style="background:#B45309" title="#B45309"></div>
+          <div class="swatch" style="background:#059669" title="#059669"></div>
+          <div class="swatch" style="background:#D97706" title="#D97706"></div>
+          <div class="swatch" style="background:#FFD60A" title="#FFD60A"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="07-candy-pop-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
-      </div>
-    </div>
-  </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">08</span>
-      <span class="concept-name">Rust Belt</span>
-    </div>
-    <div class="concept-desc">Industrial decay — oxidized metals, concrete, verdigris, found beauty in corrosion.</div>
-    <div class="concept-images">
-      <img src="08-rust-belt-rps-cascade-10.png" alt="Rust Belt — rps-cascade-10" class="hero" />
-      <img src="08-rust-belt-quaternion-pizza.png" alt="Rust Belt — quaternion-pizza" />
-      <img src="08-rust-belt-majority-strong.png" alt="Rust Belt — majority-strong" />
-      <img src="08-rust-belt-d6-default.png" alt="Rust Belt — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#B45309" title="#B45309"></div>
-      <div class="swatch" style="background:#78716C" title="#78716C"></div>
-      <div class="swatch" style="background:#92400E" title="#92400E"></div>
-      <div class="swatch" style="background:#D97706" title="#D97706"></div>
-      <div class="swatch" style="background:#57534E" title="#57534E"></div>
-      <div class="swatch" style="background:#A16207" title="#A16207"></div>
-      <div class="swatch" style="background:#059669" title="#059669"></div>
-      <div class="swatch" style="background:#44403C" title="#44403C"></div>
-      <div class="swatch" style="background:#CA8A04" title="#CA8A04"></div>
-      <div class="swatch" style="background:#6B7280" title="#6B7280"></div>
-    </div>
-    <div class="bg-bar" style="background:#121210" title="bg: #121210"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="08-rust-belt-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card">
+        <img src="count-8-05-pastel-dream.png" alt="Pastel Dream" />
+        <span class="palette-name">Pastel Dream<span class="bg-dot" style="background:#1A1025"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF6B9D" title="#FF6B9D"></div>
+          <div class="swatch" style="background:#C084FC" title="#C084FC"></div>
+          <div class="swatch" style="background:#67E8F9" title="#67E8F9"></div>
+          <div class="swatch" style="background:#FDE047" title="#FDE047"></div>
+          <div class="swatch" style="background:#F0ABFC" title="#F0ABFC"></div>
+          <div class="swatch" style="background:#A3E635" title="#A3E635"></div>
+          <div class="swatch" style="background:#FB923C" title="#FB923C"></div>
+          <div class="swatch" style="background:#38BDF8" title="#38BDF8"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">09</span>
-      <span class="concept-name">Midnight Carnival</span>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">9</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">swatches only</span>
     </div>
-    <div class="concept-desc">Jewel tones on deep indigo — rich, theatrical, velvet richness.</div>
-    <div class="concept-images">
-      <img src="09-midnight-carnival-rps-cascade-10.png" alt="Midnight Carnival — rps-cascade-10" class="hero" />
-      <img src="09-midnight-carnival-quaternion-pizza.png" alt="Midnight Carnival — quaternion-pizza" />
-      <img src="09-midnight-carnival-majority-strong.png" alt="Midnight Carnival — majority-strong" />
-      <img src="09-midnight-carnival-d6-default.png" alt="Midnight Carnival — d6-default" />
-    </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
-      <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
-      <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
-      <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
-      <div class="swatch" style="background:#10B981" title="#10B981"></div>
-      <div class="swatch" style="background:#F43F5E" title="#F43F5E"></div>
-      <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
-      <div class="swatch" style="background:#FBBF24" title="#FBBF24"></div>
-      <div class="swatch" style="background:#A855F7" title="#A855F7"></div>
-      <div class="swatch" style="background:#14B8A6" title="#14B8A6"></div>
-    </div>
-    <div class="bg-bar" style="background:#0F0A1E" title="bg: #0F0A1E"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Prism<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#EF4444" title="#EF4444"></div>
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#F5F0EB" title="#F5F0EB"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Tropics<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#F72585" title="#F72585"></div>
+          <div class="swatch" style="background:#06D6A0" title="#06D6A0"></div>
+          <div class="swatch" style="background:#FFFBEB" title="#FFFBEB"></div>
+          <div class="swatch" style="background:#48CAE4" title="#48CAE4"></div>
+          <div class="swatch" style="background:#E040FB" title="#E040FB"></div>
+          <div class="swatch" style="background:#023E8A" title="#023E8A"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Market Spice<span class="bg-dot" style="background:#0A0604"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF4D00" title="#FF4D00"></div>
+          <div class="swatch" style="background:#FFAA00" title="#FFAA00"></div>
+          <div class="swatch" style="background:#9D0208" title="#9D0208"></div>
+          <div class="swatch" style="background:#059669" title="#059669"></div>
+          <div class="swatch" style="background:#D97706" title="#D97706"></div>
+          <div class="swatch" style="background:#B45309" title="#B45309"></div>
+          <div class="swatch" style="background:#FFD60A" title="#FFD60A"></div>
+          <div class="swatch" style="background:#78716C" title="#78716C"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Synthwave<span class="bg-dot" style="background:#050510"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF2D6B" title="#FF2D6B"></div>
+          <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
+          <div class="swatch" style="background:#FFE53B" title="#FFE53B"></div>
+          <div class="swatch" style="background:#7B61FF" title="#7B61FF"></div>
+          <div class="swatch" style="background:#00BBFF" title="#00BBFF"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+          <div class="swatch" style="background:#39FF14" title="#39FF14"></div>
+          <div class="swatch" style="background:#FF85A1" title="#FF85A1"></div>
+          <div class="swatch" style="background:#C77DFF" title="#C77DFF"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="09-midnight-carnival-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Garden Party<span class="bg-dot" style="background:#0B1A0F"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#2D6A4F" title="#2D6A4F"></div>
+          <div class="swatch" style="background:#95D5B2" title="#95D5B2"></div>
+          <div class="swatch" style="background:#D4A373" title="#D4A373"></div>
+          <div class="swatch" style="background:#E9C46A" title="#E9C46A"></div>
+          <div class="swatch" style="background:#52B788" title="#52B788"></div>
+          <div class="swatch" style="background:#F4A261" title="#F4A261"></div>
+          <div class="swatch" style="background:#D8F3DC" title="#D8F3DC"></div>
+          <div class="swatch" style="background:#264653" title="#264653"></div>
+          <div class="swatch" style="background:#74C69D" title="#74C69D"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="concept">
-    <div class="concept-header">
-      <span class="concept-number">10</span>
-      <span class="concept-name">Solar Flare</span>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">10</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">rps-cascade-10</span>
     </div>
-    <div class="concept-desc">White-hot core fading through gold to deep space — stellar plasma, radiant energy.</div>
-    <div class="concept-images">
-      <img src="10-solar-flare-rps-cascade-10.png" alt="Solar Flare — rps-cascade-10" class="hero" />
-      <img src="10-solar-flare-quaternion-pizza.png" alt="Solar Flare — quaternion-pizza" />
-      <img src="10-solar-flare-majority-strong.png" alt="Solar Flare — majority-strong" />
-      <img src="10-solar-flare-d6-default.png" alt="Solar Flare — d6-default" />
+    <div class="palette-grid">
+      <div class="palette-card">
+        <img src="count-10-01-neon-bloom.png" alt="Neon Bloom" />
+        <span class="palette-name">Neon Bloom<span class="bg-dot" style="background:#050510"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF2D6B" title="#FF2D6B"></div>
+          <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
+          <div class="swatch" style="background:#FFE53B" title="#FFE53B"></div>
+          <div class="swatch" style="background:#7B61FF" title="#7B61FF"></div>
+          <div class="swatch" style="background:#00BBFF" title="#00BBFF"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+          <div class="swatch" style="background:#39FF14" title="#39FF14"></div>
+          <div class="swatch" style="background:#FF85A1" title="#FF85A1"></div>
+          <div class="swatch" style="background:#18E4FF" title="#18E4FF"></div>
+          <div class="swatch" style="background:#C77DFF" title="#C77DFF"></div>
+        </div>
+      </div>
+      <div class="palette-card">
+        <img src="count-10-02-midnight-carnival.png" alt="Midnight Carnival" />
+        <span class="palette-name">Midnight Carnival<span class="bg-dot" style="background:#0F0A1E"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#10B981" title="#10B981"></div>
+          <div class="swatch" style="background:#F43F5E" title="#F43F5E"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#FBBF24" title="#FBBF24"></div>
+          <div class="swatch" style="background:#A855F7" title="#A855F7"></div>
+          <div class="swatch" style="background:#14B8A6" title="#14B8A6"></div>
+        </div>
+      </div>
+      <div class="palette-card">
+        <img src="count-10-03-ember-spectrum.png" alt="Ember Spectrum" />
+        <span class="palette-name">Ember Spectrum<span class="bg-dot" style="background:#0A0604"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF4D00" title="#FF4D00"></div>
+          <div class="swatch" style="background:#FF8800" title="#FF8800"></div>
+          <div class="swatch" style="background:#FFAA00" title="#FFAA00"></div>
+          <div class="swatch" style="background:#CC3700" title="#CC3700"></div>
+          <div class="swatch" style="background:#FFD60A" title="#FFD60A"></div>
+          <div class="swatch" style="background:#9D0208" title="#9D0208"></div>
+          <div class="swatch" style="background:#E85D04" title="#E85D04"></div>
+          <div class="swatch" style="background:#FFBA08" title="#FFBA08"></div>
+          <div class="swatch" style="background:#DC2F02" title="#DC2F02"></div>
+          <div class="swatch" style="background:#F48C06" title="#F48C06"></div>
+        </div>
+      </div>
+      <div class="palette-card">
+        <img src="count-10-04-ocean-floor.png" alt="Ocean Floor" />
+        <span class="palette-name">Ocean Floor<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+          <div class="swatch" style="background:#023E8A" title="#023E8A"></div>
+          <div class="swatch" style="background:#48CAE4" title="#48CAE4"></div>
+          <div class="swatch" style="background:#90E0EF" title="#90E0EF"></div>
+          <div class="swatch" style="background:#0096C7" title="#0096C7"></div>
+          <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
+          <div class="swatch" style="background:#0A9396" title="#0A9396"></div>
+          <div class="swatch" style="background:#005F73" title="#005F73"></div>
+        </div>
+      </div>
+      <div class="palette-card">
+        <img src="count-10-05-candy-pop.png" alt="Candy Pop" />
+        <span class="palette-name">Candy Pop<span class="bg-dot" style="background:#1A1025"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF6B9D" title="#FF6B9D"></div>
+          <div class="swatch" style="background:#C084FC" title="#C084FC"></div>
+          <div class="swatch" style="background:#67E8F9" title="#67E8F9"></div>
+          <div class="swatch" style="background:#FDE047" title="#FDE047"></div>
+          <div class="swatch" style="background:#F0ABFC" title="#F0ABFC"></div>
+          <div class="swatch" style="background:#A3E635" title="#A3E635"></div>
+          <div class="swatch" style="background:#FB923C" title="#FB923C"></div>
+          <div class="swatch" style="background:#38BDF8" title="#38BDF8"></div>
+          <div class="swatch" style="background:#F472B6" title="#F472B6"></div>
+          <div class="swatch" style="background:#34D399" title="#34D399"></div>
+        </div>
+      </div>
+      <div class="palette-card">
+        <img src="count-10-06-botanical.png" alt="Botanical" />
+        <span class="palette-name">Botanical<span class="bg-dot" style="background:#0B1A0F"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#2D6A4F" title="#2D6A4F"></div>
+          <div class="swatch" style="background:#95D5B2" title="#95D5B2"></div>
+          <div class="swatch" style="background:#D8F3DC" title="#D8F3DC"></div>
+          <div class="swatch" style="background:#1B4332" title="#1B4332"></div>
+          <div class="swatch" style="background:#52B788" title="#52B788"></div>
+          <div class="swatch" style="background:#B7E4C7" title="#B7E4C7"></div>
+          <div class="swatch" style="background:#40916C" title="#40916C"></div>
+          <div class="swatch" style="background:#D4A373" title="#D4A373"></div>
+          <div class="swatch" style="background:#E9C46A" title="#E9C46A"></div>
+          <div class="swatch" style="background:#F4A261" title="#F4A261"></div>
+        </div>
+      </div>
     </div>
-    <div class="swatches">
-      <div class="swatch" style="background:#FFFBEB" title="#FFFBEB"></div>
-      <div class="swatch" style="background:#FEF08A" title="#FEF08A"></div>
-      <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
-      <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
-      <div class="swatch" style="background:#F97316" title="#F97316"></div>
-      <div class="swatch" style="background:#EF4444" title="#EF4444"></div>
-      <div class="swatch" style="background:#DC2626" title="#DC2626"></div>
-      <div class="swatch" style="background:#B91C1C" title="#B91C1C"></div>
-      <div class="swatch" style="background:#991B1B" title="#991B1B"></div>
-      <div class="swatch" style="background:#7F1D1D" title="#7F1D1D"></div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">11</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">swatches only</span>
     </div>
-    <div class="bg-bar" style="background:#060208" title="bg: #060208"></div>
-    <div class="section-title">quaternion-pizza — evolution</div>
-    <div class="timeline">
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-0.png" alt="iteration 0" />
-        <span class="timeline-label">init</span>
+    <div class="palette-grid">
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Full Spectrum<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#EF4444" title="#EF4444"></div>
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
+          <div class="swatch" style="background:#84CC16" title="#84CC16"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#6366F1" title="#6366F1"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#F5F0EB" title="#F5F0EB"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-4.png" alt="iteration 4" />
-        <span class="timeline-label">4</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Jewel Tones<span class="bg-dot" style="background:#0F0A1E"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#10B981" title="#10B981"></div>
+          <div class="swatch" style="background:#F43F5E" title="#F43F5E"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#FBBF24" title="#FBBF24"></div>
+          <div class="swatch" style="background:#A855F7" title="#A855F7"></div>
+          <div class="swatch" style="background:#14B8A6" title="#14B8A6"></div>
+          <div class="swatch" style="background:#E11D48" title="#E11D48"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-7.png" alt="iteration 7" />
-        <span class="timeline-label">7</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Geological<span class="bg-dot" style="background:#0C0A09"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#B45309" title="#B45309"></div>
+          <div class="swatch" style="background:#78716C" title="#78716C"></div>
+          <div class="swatch" style="background:#92400E" title="#92400E"></div>
+          <div class="swatch" style="background:#D97706" title="#D97706"></div>
+          <div class="swatch" style="background:#059669" title="#059669"></div>
+          <div class="swatch" style="background:#A16207" title="#A16207"></div>
+          <div class="swatch" style="background:#44403C" title="#44403C"></div>
+          <div class="swatch" style="background:#CA8A04" title="#CA8A04"></div>
+          <div class="swatch" style="background:#166534" title="#166534"></div>
+          <div class="swatch" style="background:#4ADE80" title="#4ADE80"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-8.png" alt="iteration 8" />
-        <span class="timeline-label">8</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Arcade<span class="bg-dot" style="background:#050510"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FF2D6B" title="#FF2D6B"></div>
+          <div class="swatch" style="background:#00F5D4" title="#00F5D4"></div>
+          <div class="swatch" style="background:#FFE53B" title="#FFE53B"></div>
+          <div class="swatch" style="background:#7B61FF" title="#7B61FF"></div>
+          <div class="swatch" style="background:#00BBFF" title="#00BBFF"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+          <div class="swatch" style="background:#39FF14" title="#39FF14"></div>
+          <div class="swatch" style="background:#FF85A1" title="#FF85A1"></div>
+          <div class="swatch" style="background:#18E4FF" title="#18E4FF"></div>
+          <div class="swatch" style="background:#C77DFF" title="#C77DFF"></div>
+          <div class="swatch" style="background:#FFD166" title="#FFD166"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-15.png" alt="iteration 15" />
-        <span class="timeline-label">15</span>
+      <div class="palette-card swatch-only">
+        
+        <span class="palette-name">Botanical<span class="bg-dot" style="background:#0B1A0F"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#2D6A4F" title="#2D6A4F"></div>
+          <div class="swatch" style="background:#95D5B2" title="#95D5B2"></div>
+          <div class="swatch" style="background:#D8F3DC" title="#D8F3DC"></div>
+          <div class="swatch" style="background:#1B4332" title="#1B4332"></div>
+          <div class="swatch" style="background:#52B788" title="#52B788"></div>
+          <div class="swatch" style="background:#B7E4C7" title="#B7E4C7"></div>
+          <div class="swatch" style="background:#40916C" title="#40916C"></div>
+          <div class="swatch" style="background:#74C69D" title="#74C69D"></div>
+          <div class="swatch" style="background:#D4A373" title="#D4A373"></div>
+          <div class="swatch" style="background:#E9C46A" title="#E9C46A"></div>
+          <div class="swatch" style="background:#F4A261" title="#F4A261"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-16.png" alt="iteration 16" />
-        <span class="timeline-label">16</span>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-count">12</span>
+      <span class="section-label">colours</span>
+      <span class="section-scenario">d6-default</span>
+    </div>
+    <div class="palette-grid">
+      <div class="palette-card">
+        <img src="count-12-01-solar-system.png" alt="Solar System" />
+        <span class="palette-name">Solar System<span class="bg-dot" style="background:#060208"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#FFFBEB" title="#FFFBEB"></div>
+          <div class="swatch" style="background:#FEF08A" title="#FEF08A"></div>
+          <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#F97316" title="#F97316"></div>
+          <div class="swatch" style="background:#EF4444" title="#EF4444"></div>
+          <div class="swatch" style="background:#DC2626" title="#DC2626"></div>
+          <div class="swatch" style="background:#B91C1C" title="#B91C1C"></div>
+          <div class="swatch" style="background:#A855F7" title="#A855F7"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-17.png" alt="iteration 17" />
-        <span class="timeline-label">17</span>
+      <div class="palette-card">
+        <img src="count-12-02-stained-cathedral.png" alt="Stained Cathedral" />
+        <span class="palette-name">Stained Cathedral<span class="bg-dot" style="background:#09090B"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#DC2626" title="#DC2626"></div>
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#FACC15" title="#FACC15"></div>
+          <div class="swatch" style="background:#84CC16" title="#84CC16"></div>
+          <div class="swatch" style="background:#22C55E" title="#22C55E"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#6366F1" title="#6366F1"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#F5F0EB" title="#F5F0EB"></div>
+          <div class="swatch" style="background:#1C1917" title="#1C1917"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-60.png" alt="iteration 60" />
-        <span class="timeline-label">60</span>
+      <div class="palette-card">
+        <img src="count-12-03-reef-ecosystem.png" alt="Reef Ecosystem" />
+        <span class="palette-name">Reef Ecosystem<span class="bg-dot" style="background:#020B18"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#0077B6" title="#0077B6"></div>
+          <div class="swatch" style="background:#00B4D8" title="#00B4D8"></div>
+          <div class="swatch" style="background:#CAF0F8" title="#CAF0F8"></div>
+          <div class="swatch" style="background:#023E8A" title="#023E8A"></div>
+          <div class="swatch" style="background:#48CAE4" title="#48CAE4"></div>
+          <div class="swatch" style="background:#FF6B35" title="#FF6B35"></div>
+          <div class="swatch" style="background:#06D6A0" title="#06D6A0"></div>
+          <div class="swatch" style="background:#F72585" title="#F72585"></div>
+          <div class="swatch" style="background:#90E0EF" title="#90E0EF"></div>
+          <div class="swatch" style="background:#0A9396" title="#0A9396"></div>
+          <div class="swatch" style="background:#FFFBEB" title="#FFFBEB"></div>
+          <div class="swatch" style="background:#E040FB" title="#E040FB"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-72.png" alt="iteration 72" />
-        <span class="timeline-label">72</span>
+      <div class="palette-card">
+        <img src="count-12-04-night-market.png" alt="Night Market" />
+        <span class="palette-name">Night Market<span class="bg-dot" style="background:#0F0A1E"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#F59E0B" title="#F59E0B"></div>
+          <div class="swatch" style="background:#EC4899" title="#EC4899"></div>
+          <div class="swatch" style="background:#06B6D4" title="#06B6D4"></div>
+          <div class="swatch" style="background:#8B5CF6" title="#8B5CF6"></div>
+          <div class="swatch" style="background:#10B981" title="#10B981"></div>
+          <div class="swatch" style="background:#F43F5E" title="#F43F5E"></div>
+          <div class="swatch" style="background:#3B82F6" title="#3B82F6"></div>
+          <div class="swatch" style="background:#FBBF24" title="#FBBF24"></div>
+          <div class="swatch" style="background:#A855F7" title="#A855F7"></div>
+          <div class="swatch" style="background:#14B8A6" title="#14B8A6"></div>
+          <div class="swatch" style="background:#E11D48" title="#E11D48"></div>
+          <div class="swatch" style="background:#22D3EE" title="#22D3EE"></div>
+        </div>
       </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-76.png" alt="iteration 76" />
-        <span class="timeline-label">76</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-83.png" alt="iteration 83" />
-        <span class="timeline-label">83</span>
-      </div>
-      <div class="timeline-frame">
-        <img src="10-solar-flare-timeline-84.png" alt="iteration 84" />
-        <span class="timeline-label">84</span>
+      <div class="palette-card">
+        <img src="count-12-05-rust-verdigris.png" alt="Rust & Verdigris" />
+        <span class="palette-name">Rust & Verdigris<span class="bg-dot" style="background:#121210"></span></span>
+        <div class="swatches">
+          <div class="swatch" style="background:#B45309" title="#B45309"></div>
+          <div class="swatch" style="background:#78716C" title="#78716C"></div>
+          <div class="swatch" style="background:#92400E" title="#92400E"></div>
+          <div class="swatch" style="background:#D97706" title="#D97706"></div>
+          <div class="swatch" style="background:#57534E" title="#57534E"></div>
+          <div class="swatch" style="background:#A16207" title="#A16207"></div>
+          <div class="swatch" style="background:#059669" title="#059669"></div>
+          <div class="swatch" style="background:#44403C" title="#44403C"></div>
+          <div class="swatch" style="background:#CA8A04" title="#CA8A04"></div>
+          <div class="swatch" style="background:#6B7280" title="#6B7280"></div>
+          <div class="swatch" style="background:#166534" title="#166534"></div>
+          <div class="swatch" style="background:#4ADE80" title="#4ADE80"></div>
+        </div>
       </div>
     </div>
   </div>
