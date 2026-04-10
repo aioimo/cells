@@ -28,7 +28,8 @@
       "Bash(node:*)",
       "Bash(ls:*)",
       "Bash(grep -E \"\\\\.\\(html|css\\)$\")",
-      "Bash(grep -E \"\\\\.js$|^d\")"
+      "Bash(grep -E \"\\\\.js$|^d\")",
+      "Bash(npm run:*)"
     ]
   }
 }

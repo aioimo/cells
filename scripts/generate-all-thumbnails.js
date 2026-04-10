@@ -6,7 +6,7 @@
  */
 
 import { createCanvas } from "canvas";
-import { writeFileSync, existsSync, mkdirSync } from "fs";
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
@@ -14,6 +14,10 @@ import { Automaton } from "../core/Automaton.js";
 import { DrawingEngine } from "../drawing/DrawingEngine.js";
 import { SCENARIOS } from "../scenarios.js";
 import { getRuleById } from "../rules/index.js";
+
+const __displayColors = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "palettes", "display-colors.json"), "utf-8")
+);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,12 +44,39 @@ async function generateThumbnail(scenarioId, iterations, canvasSize = 400) {
       throw new Error(`No rule registered for ruleId '${scenario.ruleId}'`);
     }
 
+    // Build getColor: lens > display-colors > native
+    const baseGetColor = (val) =>
+      typeof rule.getColor === "function"
+        ? rule.getColor(val)
+        : getColorForValue(val);
+
+    let getColor = baseGetColor;
+
+    const lensName = scenario.screenshotConfig?.lens;
+    if (lensName && rule.constructor.COLOR_GROUPINGS) {
+      const grouping = rule.constructor.COLOR_GROUPINGS.find(
+        (g) => g.name === lensName
+      );
+      if (grouping) {
+        const lensMap = new Map();
+        for (const group of grouping.groups) {
+          for (const element of group.elements) {
+            lensMap.set(element, group.color);
+          }
+        }
+        getColor = (val) => lensMap.get(val) ?? baseGetColor(val);
+      }
+    } else if (__displayColors[scenarioId]) {
+      const colorMap = __displayColors[scenarioId];
+      getColor = (val) => {
+        const native = baseGetColor(val);
+        return colorMap[native] ?? native;
+      };
+    }
+
     const drawingEngine = new DrawingEngine({
       canvas,
-      getColor: (val) =>
-        typeof rule.getColor === "function"
-          ? rule.getColor(val)
-          : getColorForValue(val),
+      getColor,
     });
     const automaton = new Automaton({ rule });
 

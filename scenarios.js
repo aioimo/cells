@@ -141,6 +141,7 @@ export const SCENARIOS = [
     ],
     config: {
       ordering: ["#FFB100", "#1c0221", "#00CED1"],
+      gridSize: 200
     },
     palettes: [
       { name: "Dusk", map: { "#FFB100": "#E8927C", "#1c0221": "#1A1A2E", "#00CED1": "#533483" } },
@@ -493,10 +494,11 @@ export const SCENARIOS = [
     ],
     config: {
       gridSize: 300,
+      initPreset: "spiral",
     },
     mode: "kaleidoscope",
-    screenshotConfig: { enabled: true, iteration: 64 },
-    curated: true, sortOrder: 1,
+    screenshotConfig: { enabled: true, iteration: 16, lens: "Conjugacy Classes" },
+    curated: true, sortOrder: 13,
     version: 1,
   },
 
